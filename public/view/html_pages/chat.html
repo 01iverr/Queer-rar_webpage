@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../view/css_code/chat.css">
+        <link rel="stylesheet" href="../../view/css_code/main.css">
+        <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+        <title> Queer-rar Chat </title>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script src="../../client/main.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../../client/chat.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- ========================== HEADER ========================== -->
+            <div id="header" >
+                {{> header}}
+            </div>
+                
+            <!-- ========================== Main ========================== -->
+            
+            <main id="index-page-components">
+                <br><br><br>
+                <div class="welcome-screen">
+                    <h1>Please choose your name</h1>
+                    <div>
+                        <input type="text" />
+                    </div>
+                    <div>
+                        <button>Login</button>
+                    </div>
+                </div>
+                <div class="chat hidden">
+                    <div class="users-list"></div>
+                    <div class="messages">
+                        <div class="current-user"></div>
+                        <div class="messages-list"></div>
+                        <input type="text" placeholder="Type your message" class="hidden" />
+                    </div>
+                </div>
+            </main>
+            
+            <!-- ========================== FOOTER ========================== -->
+            
+            <div id="footer">
+                {{> footer}}
+            </div>
+        </div>
+    </body>
+</html>
