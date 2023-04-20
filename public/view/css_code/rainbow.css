@@ -1,0 +1,235 @@
+@media screen and (min-width: 1312px) {
+  .playground>div{
+    border-radius:400px 400px 0 0;
+  }
+  .playground{
+    width:calc(50px * 18);
+    height:calc(50px * 9);
+  }
+  #red{
+    width: calc(50px * 18);
+    height: calc(50px * 9);
+    transform-origin: calc(50px * 9) calc(50px * 9);
+  }
+  #orange{
+    width: calc(50px * 16);
+    height: calc(50px * 8);
+    transform-origin: calc(50px * 8) calc(50px * 8);
+  }
+  #yellow{
+    width: calc(50px * 14);
+    height: calc(50px * 7);
+    transform-origin: calc(50px * 7) calc(50px * 7);
+    left: calc(50px * 2);
+    top: calc(50px * 2);
+  }
+  #green{
+    width: calc(50px * 12);
+    height: calc(50px * 6);
+    transform-origin: calc(50px * 6) calc(50px * 6);
+    left: calc(50px * 3);
+    top: calc(50px * 3);
+  }
+  #indigo{
+    width: calc(50px * 10);
+    height: calc(50px * 5);
+    transform-origin: calc(50px * 5) calc(50px * 5);
+    left: calc(50px * 4);
+    top: calc(50px * 4);
+  }
+  #violet{
+    width: calc(50px * 8);
+    height: calc(50px * 4);
+    transform-origin: calc(50px * 4) calc(50px * 4);
+    left: calc(50px * 5);
+    top: calc(50px * 5);
+  }
+  #middle{
+    width: calc(50px * 4);
+    height: calc(50px * 2);
+    left: calc(50px * 7);
+    top: calc(50px * 7);
+  }
+}
+
+@media screen and (min-width: 1132px) and (max-width:1312px) {
+  .playground>div{
+    border-radius:400px 400px 0 0;
+  }
+  .playground{
+    width:calc(40px * 18);
+    height:calc(40px * 9);
+  }
+  #red{
+    width: calc(40px * 18);
+    height: calc(40px * 9);
+    transform-origin: calc(40px * 9) calc(40px * 9);
+  }
+  #orange{
+    width: calc(40px * 16);
+    height: calc(40px * 8);
+    transform-origin: calc(40px * 8) calc(40px * 8);
+  }
+  #yellow{
+    width: calc(40px * 14);
+    height: calc(40px * 7);
+    transform-origin: calc(40px * 7) calc(40px * 7);
+    left: calc(40px * 2);
+    top: calc(40px * 2);
+  }
+  #green{
+    width: calc(40px * 12);
+    height: calc(40px * 6);
+    transform-origin: calc(40px * 6) calc(40px * 6);
+    left: calc(40px * 3);
+    top: calc(40px * 3);
+  }
+  #indigo{
+    width: calc(40px * 10);
+    height: calc(40px * 5);
+    transform-origin: calc(40px * 5) calc(40px * 5);
+    left: calc(40px * 4);
+    top: calc(40px * 4);
+  }
+  #violet{
+    width: calc(40px * 8);
+    height: calc(40px * 4);
+    transform-origin: calc(40px * 4) calc(40px * 4);
+    left: calc(40px * 5);
+    top: calc(40px * 5);
+  }
+  #middle{
+    width: calc(40px * 4);
+    height: calc(40px * 2);
+    left: calc(40px * 7);
+    top: calc(40px * 7);
+  }
+}
+
+@media screen and (min-width: 1100px) and (max-width:1132px) {
+  .playground>div{
+    margin-left: 50px;
+    border-radius:300px 300px 0 0;
+  }
+  .playground{
+    width:calc(40px * 14);
+    height:calc(40px * 7);
+  }
+  #red{
+    width: calc(40px * 14);
+    height: calc(40px * 7);
+    transform-origin: calc(40px * 9) calc(40px * 9);
+  }
+  #orange{
+    width: calc(40px * 12);
+    height: calc(40px * 6);
+    transform-origin: calc(40px * 8) calc(40px * 8);
+  }
+  #yellow{
+    width: calc(40px * 10);
+    height: calc(40px * 5);
+    transform-origin: calc(40px * 7) calc(40px * 7);
+    left: calc(40px * 2);
+    top: calc(40px * 2);
+  }
+  #green{
+    width: calc(40px * 8);
+    height: calc(40px * 4);
+    transform-origin: calc(40px * 6) calc(40px * 6);
+    left: calc(40px * 3);
+    top: calc(40px * 3);
+  }
+  #indigo{
+    width: calc(40px * 6);
+    height: calc(40px * 3);
+    transform-origin: calc(40px * 5) calc(40px * 5);
+    left: calc(40px * 4);
+    top: calc(40px * 4);
+  }
+  #violet{
+    width: calc(40px * 4);
+    height: calc(40px * 2);
+    transform-origin: calc(40px * 4) calc(40px * 4);
+    left: calc(40px * 5);
+    top: calc(40px * 5);
+  }
+  #middle{
+    width: calc(40px * 2);
+    height: calc(40px * 1);
+    left: calc(40px * 7);
+    top: calc(40px * 7);
+  }
+}
+
+.playground{
+  border: none;
+  position:relative;
+  overflow:hidden;
+}
+.playground>div{
+  transform: rotate(-180deg);
+}
+
+#red{
+  position:absolute;
+  background-color:#E40303;
+  animation-name: moving;
+  animation-duration: 4s;
+  animation-delay: calc(2s * 2.75);
+  animation-fill-mode: forwards;
+}
+#orange{
+  position:absolute;
+  background-color: #FF8C00;
+  left: 50px;
+  top: 50px;
+  animation-name: moving;
+  animation-duration: 4s;
+  animation-delay: calc(2s * 2.5);
+  animation-fill-mode: forwards;
+}
+#yellow{
+  position:absolute;
+  background-color:#FFED00;
+  animation-name: moving;
+  animation-duration: 4s;
+  animation-delay: calc(2s * 2.25);
+  animation-fill-mode: forwards;
+}
+#green{
+  position:absolute;
+  background-color:#008026;
+  animation-name: moving;
+  animation-duration: 4s;
+  animation-delay: calc(2s * 2);
+  animation-fill-mode: forwards;
+}
+#indigo{
+  position:absolute;
+  background-color:#24408E;
+  animation-name: moving;
+  animation-duration: 4s;
+  animation-delay: calc(2s * 1.75);
+  animation-fill-mode: forwards;
+}
+#violet{
+  position:absolute;
+  background-color: #732982;
+  animation-name: moving;
+  animation-duration: 4s;
+  animation-delay: calc(2s * 1.5);
+  animation-fill-mode: forwards;
+}
+#middle{
+  position:absolute;
+  background-color:white;
+  transform: rotate(0);
+}
+
+
+
+@keyframes moving{
+  0% {transform: rotate(-180deg);}
+  50% {transform: rotate(90deg);}
+  100% {transform: rotate(0deg);}
+}

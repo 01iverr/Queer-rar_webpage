@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css_code/rainbow.css">
+  <link rel="stylesheet" href="../css_code/login.css">
+  <link rel="stylesheet" href="../css_code/main.css">
+  <link rel="stylesheet" href="../css_code/forms.css">
+  <script src="../js_code/checkTheForm.js"></script>
+  <title> Queer-rar </title>
+  <link rel="icon" type="image/x-icon" href="../media/header-footer/queerrar.ico">
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- ========================== HEADER ========================== -->
+    <header class="wrapper header-wrapper">
+      <div class="header-wrapper header-group">
+        <!-- Logo -->
+        <button id="home-button-image" onclick="window.location.href='index.html';">
+        </button>
+      </div>
+    </header>
+    <!-- ========================== Main ========================== -->
+
+    <main id="index-page-components">
+
+      <figure id="animated_rainbow">
+
+        <div class="playground">
+          <div id="red"></div>
+          <div id="orange"></div>
+          <div id="yellow"></div>
+          <div id="green"></div>
+          <div id="indigo"></div>
+          <div id="violet"></div>
+          <div id="middle"></div>
+        </div>
+
+        <figcaption>
+          <form action="/check-login" method="POST" id="signin-form" class="custom_forms" novalidate>
+            <fieldset id="signin-registration-form" class="custom_forms">
+              <legend id="welcomeBack">Welcome back!</legend>
+              <div class="input-username" id="username-input">
+                <label for="profile-username" class="custom_forms">
+                  Username:
+                </label>
+                <input class="custom_forms" type="text" id="profile-username" name="signin_Username" placeholder="Username" pattern="^[A-Za-z0-9_]{3,15}$" required>
+              </div>
+
+              <div class="input-password" id="password-input">
+                <label for="profile-password" class="custom_forms">
+                  Password:
+                </label>
+                <input placeholder="Secret code" class="custom_forms" type="password" autocomplete="current-password" id="profile-password" name="signin_Password" required>
+                <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('profile-password'))">
+
+              </div>
+              <div id="login-message"></div>
+            </fieldset>
+            <div id="signin-buttons">
+              <input class="buttonsressub" type="button" value="Sign up?" id="button-signup_redirect" name="signup_button" onclick="window.location.href='/signup-user';">
+              <input class="buttonsressub" type="submit" value="Sign in»" id="button-login-submit" name="submit">
+            </div>
+          </form>
+        </figcaption>
+      </figure>
+
+
+
+      </main>
+
+      <!-- ========================== FOOTER ========================== -->
+      <footer class="footer-wrapper flex-column">
+        <div class="footer-wrapper footer-main">
+          <div class="footer-wrapper flex-column">
+            <div id="footer-company-info">
+              <p class="footerletters">
+                <a href="index.html"> Our company</a><br>
+                <a href=""> Become a member </a> <br>
+                <a href=""> Report a problem</a> <br>
+              </p>
+            </div>
+            <!-- Social Media (they currently lead to the main page of each social media) -->
+            <div id="footer-social">
+              <button id="twitter-button-image" onclick=" window.open('http://twitter.com','_blank')" aria-label="Twitter icon created by Bogdan Rosu - Flaticon">
+              </button>
+
+              <button id="instagram-button-image" onclick=" window.open('http://instagram.com','_blank')" aria-label="Instagram icon created by Hight Quality Icons - Flaticon">
+              </button>
+
+              <button id="facebook-button-image" onclick=" window.open('http://facebook.com','_blank')" aria-label="Facebook icon created by Freepik - Flaticon">
+              </button>
+
+              <button id="youtube-button-image" onclick=" window.open('http://youtube.com','_blank')" aria-label="Youtube icon created by Freepik - Flaticon">
+              </button>
+            </div>
+          </div>
+          <div class="footer-wrapper footer-logo-social">
+            <!-- Logo -->
+            <img id="footer-logo" src="../media/header-footer/queer-rar-footer.png" alt="Queer-rar logo">
+          </div>
+        </div>
+      </footer>
+  </div>
+</body>
+</html>

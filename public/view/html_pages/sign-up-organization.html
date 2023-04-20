@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css_code/main.css">
+  <link rel="stylesheet" href="../css_code/forms.css">
+  <script src="../js_code/checkTheForm.js"></script>
+
+  <title> Queer-rar </title>
+  <link rel="icon" type="image/x-icon" href="../media/header-footer/queerrar.ico">
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- ========================== HEADER ========================== -->
+    <header class="wrapper header-wrapper">
+      <div class="header-wrapper header-group">
+        <!-- Logo -->
+        <button id="home-button-image" onclick="window.location.href='index.html';">
+        </button>
+      </div>
+
+      <div class="header-wrapper header-group">
+        <!-- User Login -->
+        <button id="login-button-image" aria-label="Login button including a login icon created by Sebastian Belalcazar - Flaticon" onclick="window.location.href='signup.html';">
+        </button>
+      </div>
+
+    </header>
+    <!-- ========================== Main ========================== -->
+
+    <main>
+
+      <datalist id="countries">
+        <option value="Afghanistan">
+        <option value="Åland Islands">
+        <option value="Albania">
+        <option value="Algeria">
+        <option value="American Samoa">
+        <option value="Andorra">
+        <option value="Angola">
+        <option value="Anguilla">
+        <option value="Antarctica">
+        <option value="Antigua and Barbuda">
+        <option value="Argentina">
+        <option value="Armenia">
+        <option value="Aruba">
+        <option value="Australia">
+        <option value="Austria">
+        <option value="Azerbaijan">
+        <option value="Bahamas">
+        <option value="Bahrain">
+        <option value="Bangladesh">
+        <option value="Barbados">
+        <option value="Belarus">
+        <option value="Belgium">
+        <option value="Belize">
+        <option value="Benin">
+        <option value="Bermuda">
+        <option value="Bhutan">
+        <option value="Bolivia, Plurinational State of">
+        <option value="Bonaire, Sint Eustatius and Saba">
+        <option value="Bosnia and Herzegovina">
+        <option value="Botswana">
+        <option value="Bouvet Island">
+        <option value="Brazil">
+        <option value="British Indian Ocean Territory">
+        <option value="Brunei Darussalam">
+        <option value="Bulgaria">
+        <option value="Burkina Faso">
+        <option value="Burundi">
+        <option value="Cambodia">
+        <option value="Cameroon">
+        <option value="Canada">
+        <option value="Cabo Verde">
+        <option value="Cayman Islands">
+        <option value="Central African Republic">
+        <option value="Chad">
+        <option value="Chile">
+        <option value="China">
+        <option value="Christmas Island">
+        <option value="Cocos (Keeling) Islands">
+        <option value="Colombia">
+        <option value="Comoros">
+        <option value="Congo">
+        <option value="Congo, Democratic Republic of the">
+        <option value="Cook Islands">
+        <option value="Costa Rica">
+        <option value="Côte d'Ivoire">
+        <option value="Croatia">
+        <option value="Cuba">
+        <option value="Curaçao">
+        <option value="Cyprus">
+        <option value="Czechia">
+        <option value="Denmark">
+        <option value="Djibouti">
+        <option value="Dominica">
+        <option value="Dominican Republic">
+        <option value="Ecuador">
+        <option value="Egypt">
+        <option value="El Salvador">
+        <option value="Equatorial Guinea">
+        <option value="Eritrea">
+        <option value="Estonia">
+        <option value="Ethiopia">
+        <option value="Falkland Islands (Malvinas)">
+        <option value="Faroe Islands">
+        <option value="Fiji">
+        <option value="Finland">
+        <option value="France">
+        <option value="French Guiana">
+        <option value="French Polynesia">
+        <option value="French Southern Territories">
+        <option value="Gabon">
+        <option value="Gambia">
+        <option value="Georgia">
+        <option value="Germany">
+        <option value="Ghana">
+        <option value="Gibraltar">
+        <option value="Greece">
+        <option value="Greenland">
+        <option value="Grenada">
+        <option value="Guadeloupe">
+        <option value="Guam">
+        <option value="Guatemala">
+        <option value="Guernsey">
+        <option value="Guinea">
+        <option value="Guinea-Bissau">
+        <option value="Guyana">
+        <option value="Haiti">
+        <option value="Heard Island and McDonald Islands">
+        <option value="Holy See">
+        <option value="Honduras">
+        <option value="Hong Kong">
+        <option value="Hungary">
+        <option value="Iceland">
+        <option value="India">
+        <option value="Indonesia">
+        <option value="Iran, Islamic Republic of">
+        <option value="Iraq">
+        <option value="Ireland">
+        <option value="Isle of Man">
+        <option value="Israel">
+        <option value="Italy">
+        <option value="Jamaica">
+        <option value="Japan">
+        <option value="Jersey">
+        <option value="Jordan">
+        <option value="Kazakhstan">
+        <option value="Kenya">
+        <option value="Kiribati">
+        <option value="Korea, Democratic People's Republic of">
+        <option value="Korea, Republic of">
+        <option value="Kosovo">
+        <option value="Kuwait">
+        <option value="Kyrgyzstan">
+        <option value="Lao People's Democratic Republic">
+        <option value="Latvia">
+        <option value="Lebanon">
+        <option value="Lesotho">
+        <option value="Liberia">
+        <option value="Libya">
+        <option value="Liechtenstein">
+        <option value="Lithuania">
+        <option value="Luxembourg">
+        <option value="Macao">
+        <option value="North Macedonia">
+        <option value="Madagascar">
+        <option value="Malawi">
+        <option value="Malaysia">
+        <option value="Maldives">
+        <option value="Mali">
+        <option value="Malta">
+        <option value="Marshall Islands">
+        <option value="Martinique">
+        <option value="Mauritania">
+        <option value="Mauritius">
+        <option value="Mayotte">
+        <option value="Mexico">
+        <option value="Micronesia, Federated States of">
+        <option value="Moldova, Republic of">
+        <option value="Monaco">
+        <option value="Mongolia">
+        <option value="Montenegro">
+        <option value="Montserrat">
+        <option value="Morocco">
+        <option value="Mozambique">
+        <option value="Myanmar">
+        <option value="Namibia">
+        <option value="Nauru">
+        <option value="Nepal">
+        <option value="Netherlands">
+        <option value="New Caledonia">
+        <option value="New Zealand">
+        <option value="Nicaragua">
+        <option value="Niger">
+        <option value="Nigeria">
+        <option value="Niue">
+        <option value="Norfolk Island">
+        <option value="Northern Mariana Islands">
+        <option value="Norway">
+        <option value="Oman">
+        <option value="Pakistan">
+        <option value="Palau">
+        <option value="Palestine, State of">
+        <option value="Panama">
+        <option value="Papua New Guinea">
+        <option value="Paraguay">
+        <option value="Peru">
+        <option value="Philippines">
+        <option value="Pitcairn">
+        <option value="Poland">
+        <option value="Portugal">
+        <option value="Puerto Rico">
+        <option value="Qatar">
+        <option value="Réunion">
+        <option value="Romania">
+        <option value="Russian Federation">
+        <option value="Rwanda">
+        <option value="Saint Barthélemy">
+        <option value="Saint Helena, Ascension and Tristan da Cunha">
+        <option value="Saint Kitts and Nevis">
+        <option value="Saint Lucia">
+        <option value="Saint Martin (French part)">
+        <option value="Saint Pierre and Miquelon">
+        <option value="Saint Vincent and the Grenadines">
+        <option value="Samoa">
+        <option value="San Marino">
+        <option value="Sao Tome and Principe">
+        <option value="Saudi Arabia">
+        <option value="Senegal">
+        <option value="Serbia">
+        <option value="Seychelles">
+        <option value="Sierra Leone">
+        <option value="Singapore">
+        <option value="Sint Maarten (Dutch part)">
+        <option value="Slovakia">
+        <option value="Slovenia">
+        <option value="Solomon Islands">
+        <option value="Somalia">
+        <option value="South Africa">
+        <option value="South Georgia and the South Sandwich Islands">
+        <option value="South Sudan">
+        <option value="Spain">
+        <option value="Sri Lanka">
+        <option value="Sudan">
+        <option value="Suriname">
+        <option value="Svalbard and Jan Mayen">
+        <option value="Eswatini">
+        <option value="Sweden">
+        <option value="Switzerland">
+        <option value="Syrian Arab Republic">
+        <option value="Taiwan, Province of China">
+        <option value="Tajikistan">
+        <option value="Tanzania, United Republic of">
+        <option value="Thailand">
+        <option value="Timor-Leste">
+        <option value="Togo">
+        <option value="Tokelau">
+        <option value="Tonga">
+        <option value="Trinidad and Tobago">
+        <option value="Tunisia">
+        <option value="Türkiye">
+        <option value="Turkmenistan">
+        <option value="Turks and Caicos Islands">
+        <option value="Tuvalu">
+        <option value="Uganda">
+        <option value="Ukraine">
+        <option value="United Arab Emirates">
+        <option value="United Kingdom of Great Britain and Northern Ireland">
+        <option value="United States of America">
+        <option value="United States Minor Outlying Islands">
+        <option value="Uruguay">
+        <option value="Uzbekistan">
+        <option value="Vanuatu">
+        <option value="Venezuela, Bolivarian Republic of">
+        <option value="Viet Nam">
+        <option value="Virgin Islands, British">
+        <option value="Virgin Islands, U.S.">
+        <option value="Wallis and Futuna">
+        <option value="Western Sahara">
+        <option value="Yemen">
+        <option value="Zambia">
+        <option value="Zimbabwe">
+      </datalist>
+
+      <datalist id="cities">
+        <option value="Peraeus">
+        <option value="Cholargos">
+        <option value="Agia Marina">
+        <option value="Keratsini">
+        <option value="Nikaia">
+        <option value="Athens">
+        <option value="Petroupoli">
+        <option value="Chania">
+        <option value="Heraklion">
+        <option value="Kalamata">
+      </datalist>
+
+      <datalist id="pronouns">
+        <option value="he/him">
+        <option value="he/she">
+        <option value="he/they">
+        <option value="she/her">
+        <option value="she/they">
+        <option value="they/them">
+        <option value="ve">
+        <option value="xe">
+        <option value="ze/zie">
+        <option value="ve/they">
+        <option value="ze/they">
+        <option value="xe/they">
+      </datalist>
+
+      <h1> Sign up! </h1>
+      <img class="formimage" id="handimg" src="../media/signup/pen.png" alt="an image of a hand that holds a pen">
+      <form name="signupform" class="custom_forms" id="formsignup" action="/sendData" method="POST">
+        <div class="goleftorright">
+          <div class="gl">
+            <fieldset class="custom_forms" id="personalinfopart">
+              <legend class="custom_forms">Personal Informations:</legend>
+              <label for="org_Name">
+                Organisation*:
+              </label>
+              <input class="custom_forms" autocomplete="on" type="text" id="org_Name" name="firstNameSu" required placeholder="Dimitris" pattern="[A-Za-z ]{3,20}" title="Please write your organisations name here. It is a required field"
+                aria-label="Please write your name (or names with using space between of them) here.Its required field">
+              <br>
+              <label for="org_Email">
+                E-mail*:
+              </label>
+              <input class="custom_forms" type="email" id="org_Email" name="emailSu" required minlength="11" placeholder="techonomy@yahoo.gr" title="Please write your email here.Its required field"
+                aria-label="Please write your email here. It is a required field">
+              <br>
+              <label for="org_Country">
+                Country*:
+              </label>
+              <input class="custom_forms" list="countries" type="text" id="org_Country" name="txtCountrySU" required pattern="[A-Za-z ]{3,30}" placeholder="Greece" title="Please write your Country here.Its not required field"
+                aria-label="Please write your Country here. It is a required field"> <br>
+              <label for="org_City">
+                City*:
+              </label>
+              <input class="custom_forms" list="cities" type="text" id="org_City" name="txtCitySU" required pattern="[A-Za-z ]{3,30}" placeholder="Peraeus" title="Please write your City here.Its required field"
+                aria-label="Please write your City here. It is arequired field"> <br>
+              <label for="0rg_Postcode">
+                Postcode*:
+              </label>
+              <input class="custom_forms" type="text" id="0rg_Postcode" name="Postcodeinputus" required placeholder="10210" title="Please write your Postcode here.Its not required field"
+                aria-label="Please write your Postcode here. It is a required field"><br>
+              <label for="org_Phone">
+                Phone*:
+              </label>
+              <input class="custom_forms" type="tel" id="org_Phone" name="phoneSU" placeholder="6900000000" required title="Please write your phone here without country code.Its required field"
+                aria-label="Please write your number phone here without country code. It is a required field"> <br>
+              <label for="Statute">
+                Statute*:
+              </label>
+              <input id="Statute" class="uploadfile" onchange="FileSizeValidation()" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" name="id" type="file" onblur="sizeValidation()" required
+                title="Please share with us the statute of your Organisation .Its required field" aria-label="Please share with us the statute of your Organisation"> <br>
+              <label for="org_created_date">
+                Created*:
+              </label>
+              <input class="custom_forms dateinp" type="date" id="org_created_date" name="Birth_dateSU" required title="Please let us know when your Organisation created.It is a required field"
+                aria-label="Please let us know when your Organisation created.It is a required field"> <br>
+
+
+
+            </fieldset>
+
+          </div>
+          <div class="gri">
+            <fieldset class="custom_forms" id="userinfopart">
+              <legend class="custom_forms">User identification informations:</legend>
+              <label for="Username">
+                <!-- letters (upper or lowercase) and/or numbers (0-9) and /or underscore (_) -->
+                Username*:
+              </label>
+              <input class="custom_forms" type="text" id="Username" name="Username" required pattern="^[A-Za-z0-9_]{3,15}$" placeholder="user2001" title="Username must contain only letter and underscore minlength 3 characters and max 15"> <br>
+              <label for="Password1">
+                Password*:
+              </label>
+              <input class="custom_forms" type="password" id="Password1" name="Password" autocomplete="current-password"
+                title=" Password must contain at least one uppercase and one lowercase letter and one number.The password must contains at least 8 characters and max 12" placeholder="topsecret123" onchange="checkPasswords();" onkeyup="PassValid()"
+                oncopy="return false" onpaste="return false" required>
+              <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('Password1'))">
+              <br>
+              <label for="PasswordVer">
+                Password*:
+              </label>
+              <input class="custom_forms " type="password" id="PasswordVer" name="PasswordVeri" autocomplete="current-password" required placeholder="topsecret123" onkeyup="checkPasswords()" oncopy="return false" onpaste="return false"
+                title=" Password validator. Write again your chosen password">
+              <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('PasswordVer'))">
+              <br>
+              <br>
+
+              <fieldset class="custom_forms" id="learnedaboutusinfo">
+                <legend class="radiochoices custom_forms">Learned about us by*:</legend>
+                <ul class="custom_forms ">
+                  <li>
+                    <label class="radiochoices" for="FB">
+                      <input type="radio" id="FB" name="wayoflearnedaboutus" value="Facebook" required>
+                      Facebook
+                    </label>
+                  </li>
+                  <li>
+                    <label class="radiochoices" for="IG">
+                      <input type="radio" id="IG" name="wayoflearnedaboutus" value="Instagram" required>
+                      Instagram
+                    </label>
+                  </li>
+                  <li>
+                    <label class="radiochoices" for="GA">
+                      <input type="radio" id="GA" name="wayoflearnedaboutus" value="GoogleAds" required>
+                      Google ads
+                    </label>
+                  </li>
+                  <li>
+                    <label class="radiochoices" for="BF">
+                      <input type="radio" id="BF" name="wayoflearnedaboutus" value="Friend" required>
+                      Friend
+                    </label>
+                  </li>
+                  <li>
+                    <label class="radiochoices" for="fam">
+                      <input type="radio" id="fam" name="wayoflearnedaboutus" value="family" required>
+                      Family
+                    </label>
+                  </li>
+                  <li>
+                    <label class="radiochoices" for="ot">
+                      <input type="radio" id="ot" name="wayoflearnedaboutus" value="other" required>
+                      Other
+                    </label>
+                  </li>
+                </ul>
+              </fieldset>
+          </div>
+        </div>
+        <div class="twobuttons" id="buttonsresetandsubmit">
+          <input class="buttonsressub" type="button" onclick="return wannareset();" aria-label="reset the form" value="Clear all">
+          <input class="buttonsressub submitt" type="submit" aria-label="send the form" id="submitSUform" value="Submit"><br>
+        </div>
+      </form>
+
+      <p class="importantmess">Please have in mind that you have to fullfill all the areas with star (*) </p>
+
+
+    </main>
+
+
+
+
+
+
+
+
+
+
+    <!-- ========================== FOOTER ========================== -->
+    <footer class="footer-wrapper flex-column">
+      <div class="footer-wrapper footer-main">
+        <div class="footer-wrapper flex-column">
+          <div id="footer-company-info">
+            <p class="footerletters">
+              <a href="index.html"> Our company</a><br>
+              <a href=""> Become a member </a> <br>
+              <a href=""> Report a problem</a> <br>
+            </p>
+          </div>
+          <!-- Social Media (they currently lead to the main page of each social media) -->
+          <div id="footer-social">
+            <button id="twitter-button-image" onclick=" window.open('http://twitter.com','_blank')" aria-label="Twitter icon created by Bogdan Rosu - Flaticon">
+            </button>
+
+            <button id="instagram-button-image" onclick=" window.open('http://instagram.com','_blank')" aria-label="Instagram icon created by Hight Quality Icons - Flaticon">
+            </button>
+
+            <button id="facebook-button-image" onclick=" window.open('http://facebook.com','_blank')" aria-label="Facebook icon created by Freepik - Flaticon">
+            </button>
+
+            <button id="youtube-button-image" onclick=" window.open('http://youtube.com','_blank')" aria-label="Youtube icon created by Freepik - Flaticon">
+            </button>
+          </div>
+        </div>
+
+
+        <div class="footer-wrapper footer-logo-social">
+          <!-- Logo -->
+          <img id="footer-logo" src="../media/header-footer/queer-rar-footer.png" alt="Queer-rar logo">
+
+
+
+        </div>
+
+      </div>
+
+
+    </footer>
+  </div>
+</body>
+
+</html>

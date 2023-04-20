@@ -1,0 +1,480 @@
+@font-face {
+  font-family: "LibreBaskerville";
+  src: url("../fonts/LibreBaskerville-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("../fonts/Aileron-Regular.otf");
+}
+
+@font-face {
+  font-family: "EkMukta";
+  src: url("../fonts/EkMukta-Regular.ttf");
+}
+
+/* ########## MEDIA QUERIES ########## */
+
+@media screen and (min-width: 1100px) {
+  /*sign-up form image*/
+  #handimg.formimage {
+    visibility:visible;
+    margin-top: 0px;
+    width: 20vw;
+    left:1vw;
+  }
+
+  #signin-form{
+    width: 400px;
+    height: 200px;
+    margin-top: 50px;
+  }
+
+  #formsignup{
+    width: 65vw;
+    height: 400px;
+  }
+      .gl {
+        width: 50%;
+        margin-top: 1vw;
+      }
+
+      .gri {
+        width: 50%;
+        text-align:left;
+        margin-top: 3vw;
+      }
+    .twobuttons{
+      margin-left: -7vw;
+      height:20%;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+}
+
+@media screen and (min-width:800px) and (max-width:1100px){
+  /*sign-up form image*/
+  #handimg.formimage {
+    visibility: hidden;
+    margin-top: 0px;
+    width: 0%;
+  }
+
+  #signin-form{
+    width: 400px;
+    height: 200px;
+    margin-top: 50px;
+  }
+
+
+  /* sign up page*/
+  #formsignup{
+    width: 90vw;
+    height: 400px;
+  }
+      .gl {
+        width: 50%;
+        margin-top: 1vw;
+      }
+
+      .gri {
+        width: 50%;
+        text-align:left;
+        margin-top: 4vw;
+      }
+    .twobuttons{
+      height:10%;
+      margin-left: -7vw;
+    }
+}
+
+@media screen and (min-width: 800px) {
+
+}
+
+/* Tablet */
+@media screen and (max-width: 800px) {
+
+  /* ---------- forms ---------- */
+  img.formimage {
+    visibility: hidden;
+    margin-top: 0px;
+    width: 0px;
+    height:0px;
+  }
+
+  /* ---------- signup ---------- */
+  #formsignup{
+    width: 90vw;
+    height: 650px;
+  }
+  .goleftorright {
+    flex-direction:column;
+  }
+      .gl {
+        width: 100%;
+      }
+      .gri {
+        width: 100%;
+        text-align:center;
+        margin-top: 4vw;
+      }
+    .twobuttons{
+      height:3%;
+    }
+}
+
+@media screen and (min-width: 650px) {
+
+}
+
+@media screen and (max-width: 650px) {
+  /* ---------- forms ---------- */
+  img.formimage {
+    visibility: hidden;
+    margin-top: 0px;
+    width: 0px;
+    height:0px;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  form.custom_forms{
+  width: 350px;
+  height: 340px;
+  left: 50%;
+  margin-left: -175px;
+  border-radius: 8px;
+  box-shadow: 15px 10px #888888;
+  text-align: left;
+  border: 9px solid #ffff99;
+  }
+  input.custom_forms{
+    margin-left:-50px;
+  }
+
+  label {
+    font-size: 13px;
+    text-align: left;
+
+  }
+  textarea.custom_forms{
+    height: 35px;
+    margin-left: +10px;
+  }
+  input.uploadfile {
+    margin-left: -50px;
+  }
+  input.buttonsressub {
+    margin-left: 60px;
+  }
+}
+
+/* Smartphone */
+@media screen and (max-width: 450px) {
+  /* ---------- forms ---------- */
+  img.formimage {
+    visibility:hidden;
+  }
+
+
+  form.custom_forms{
+    width: 80%;
+    text-align: center;
+    left:8%;
+    border: 0.2em solid #fff980;
+    border-radius: 20px;
+  }
+  input.custom_forms{
+    left:50%;
+  }
+
+  label {
+    font-size:1em;
+    text-align: center;
+  }
+  textarea.custom_forms{
+    height: 50px;
+  }
+
+/* signup */
+  #formsignup{
+    width: 90vw;
+    height: 110vh;
+  }
+    .goleftorright {
+        flex-direction:column;
+      }
+      .gl {
+        /* height: 120vh; */
+        margin-top: 10px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .gri {
+        width: 90%;
+        text-align:center;
+        margin-top: 3vw;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    .twobuttons{
+      height:3%;
+    }
+
+
+}
+
+@media screen and (max-width: 415px) {
+  /* signup */
+    #formsignup{
+      width: 90vw;
+      height: 120vh;
+    }
+      .goleftorright {
+          flex-direction:column;
+        }
+        .gl {
+          /* height: 120vh; */
+          margin-top: 10px;
+          width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .gri {
+          width: 90%;
+          text-align:center;
+          margin-top: 3vw;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      .twobuttons{
+        height:3%;
+      }
+}
+
+@font-face {
+  font-family: "CookieRegular";
+  src: url("../fonts/Cookie-Regular.ttf");
+}
+
+
+/* ################################### */
+/* ########## forms########## */
+form.custom_forms {
+  background-color: #ffff99;
+  box-sizing:border-box;
+  display: block;
+  position:relative;
+}
+
+p.importantmess {
+  text-align: right;
+  font-style: italic;
+}
+
+input.custom_forms, #Birth_date:invalid #org_created_date:invalid {
+  font-family: "EkMukta";
+  font-weight: lighter;
+  box-sizing: border-box;
+  border: 8px;
+  border-radius: 6px;
+}
+
+input.custom_forms:focus {
+  border: 2px solid #00cccc;
+  outline: none;
+}
+
+textarea.custom_forms {
+  border: 0px hidden;
+  display: inline-block;
+  border-radius: 4px;
+  transform: translateX(3px);
+  text-align: center;
+  resize: none;  /*user cannot resize the text area*/
+  width: 90%;
+  left: 50%;
+}
+
+textarea.custom_forms:focus {
+  border: 1px solid #00cccc;
+  outline: none;
+}
+
+label {
+  font-family: "Aileron";
+  display: inline-block;
+  margin: 7px;
+  width: 120px;
+  margin-left:30px;
+  cursor:pointer;
+}
+
+/*force placeholder appear in center*/
+::placeholder {
+   text-align: center;
+}
+
+/*//////////////////////////*/
+
+img.formimage {
+  text-align: justify;
+  position: absolute;
+}
+
+input.buttonsressub  {
+  background: transparent;
+  border: none;
+  color: Darkred;
+  font-family: Cookie;
+  font-style: oblique;
+  font-size: 30px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+input.uploadfile {
+  width:200px;
+}
+
+input.submitt {
+  margin-right: 0px;
+  color: green;
+}
+
+
+input.dateinp {
+  width: 198px;
+  text-align:center;
+}
+
+
+input.custom_forms:not(:focus):not(:placeholder-shown):invalid {
+  background-color: #ffdddd;
+  border: 2px solid #cc0000;
+}
+
+
+input.custom_forms:not(:placeholder-shown):valid {
+  background-color: #98FB98;
+  border: 2px solid #00FF7F;
+}
+
+
+
+/*  for signup page // */
+
+#handimg {
+  transform: rotate(-45deg);
+  margin-left: -10vw;
+}
+
+fieldset.custom_forms {
+  display: block;
+  border: none;
+}
+
+ul.custom_forms {
+  list-style-type: none;
+  text-align: left;
+}
+
+legend.custom_forms {
+  display: block;
+  text-align: left;
+  font-family: "LibreBaskerville";
+  font-size: 15px;
+  color:#081f37;
+}
+
+label.radiochoices {
+  display: block;
+  float: left;
+  clear: right;
+  text-align: left;
+  margin-left: -10px;
+  margin-top: auto;
+}
+
+input[type='radio']:checked:after {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: lightgreen;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+}
+
+input[type='checkbox'].showmypass {
+  -webkit-appearance: none;
+  display: inline-block;
+  position: absolute;
+  height:40px;
+  width:40px;
+  background-image: url("../media/signup/closeeye.png");
+  background-repeat: no-repeat;
+  background-size: 50%;
+}
+
+input[type='checkbox'].showmypass:checked {
+  background-image: url("../media/signup/openeye.png");
+}
+
+input[type='checkbox'].showmypass:hover {
+  cursor:pointer;
+}
+
+select {
+  border: none;
+  border-radius: 2px;
+  background-color: #dbecec;
+  width: 100px;
+  text-align: center;
+}
+
+
+#formsignup {
+    display: flex;
+    flex-direction:column;
+    left:auto;
+    margin-left:auto;
+    margin-right: auto;
+    }
+
+    .goleftorright {
+    			display: flex;
+    		}
+
+    		.gl {
+    			text-align: center;
+    		}
+
+    		.gri {
+    		}
+      .twobuttons{
+        text-align:center;
+      }
+
+
+
+
+/* ########## end of forms ########## */
+
+/*force placeholder appear in center*/
+::placeholder {
+   text-align: center;
+}
+
+#welcomeBack{
+  font-family: Cookie;
+  font-size: 40px
+}

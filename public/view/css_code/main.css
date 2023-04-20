@@ -1,0 +1,406 @@
+
+@font-face {
+  font-family: "Cookie";
+  src: url("../fonts/Cookie-Regular.ttf");
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Allows a smooth animated "scroll effect" between elements within the scrolling box. */
+}
+
+body {
+  margin: 0;
+}
+
+
+.wrapper {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+}
+
+main {
+  grid-area: main;
+}
+
+/* ########## MEDIA QUERIES ########## */
+
+
+@media screen and (min-width: 1100px) {
+
+}
+
+@media screen and (max-width: 1100px) {
+
+}
+
+@media screen and (max-width: 950px) {
+  /* ----------- HEADER ----------- */
+  div.header-group:last-child {
+    margin-right: 0;
+  }
+
+}
+
+
+@media screen and (min-width:800px) and (max-width:1100px){
+}
+
+@media screen and (min-width: 800px) {
+  /* ----- Dropdown Menu ----- */
+  .dropdown-submenu {
+    position: relative;
+  }
+  .dropdown-submenu .dropdown-menu {
+    top: 1px;
+    left: 100%;
+    margin-top: -1px;
+    border-radius: 10px;
+  }
+  .dropdown-menu {
+    display: none; /* menu not appear on page load */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 50px;
+    background-color: #f4e7f7;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 10px;
+  }
+  ul.dropdown-menu a {
+    color: black;
+    font-family: Cookie;
+    font-size: 30px;
+    text-align: center;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 10px;
+    border: solid #f4e7f7 2px;
+    background-color: #dbecec;
+  }
+  ul.dropdown-menu a:hover {
+    background-color: #f4e7f7; /* color menu cell on hover */
+  }
+  nav.dropdown:hover > ul.dropdown-menu, /* make main menu appear on hover */
+  nav.dropdown li:hover > ul.dropdown-menu /* make submenu appear on hover */ {
+    display: block;
+  }
+
+}
+
+/* Tablet */
+@media screen and (max-width: 800px) {
+  /* ------------ Gen ------------ */
+  h2 {
+    font-size: 24px;
+  }
+  /* ----------- HEADER ----------- */
+  button#home-button-image {
+    min-width: 160px;
+    width: 35vw;
+    height: auto;
+    margin-top: 0.4%;
+  }
+  button#menu-button-image {
+    width: 40px;
+    height: auto;
+    padding: 15px 8px 15px 8px;
+  }
+  /* ----- Dropdown Menu ----- */
+  nav.dropdown > :nth-child(2) { /* affect menu, not menu button */
+    position: absolute;
+    top: 50px;
+  }
+  .dropdown-submenu {
+    border-radius: 10px;
+  }
+  nav.dropdown ul:first-of-type {
+    max-height: 100vh;
+    overflow-y: auto;  /* menu scrollable */
+  }
+  li > ul.dropdown-menu:not(:first-child) {
+    margin-left: 30px;
+  }
+  ul.dropdown-menu {
+    display: none; /* menu not appear on page load */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    background-color: #f4e7f7;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 10px;
+  }
+
+  ul.dropdown-menu a:hover {
+    background-color: #f4e7f7; /* color menu cell on hover */
+  }
+  nav.dropdown:hover * { /* whole menu appears on hover */
+    display: block;
+  }
+}
+
+@media screen and (min-width: 650px) {
+}
+
+@media screen and (max-width: 650px) {
+  /* ----------- FOOTER ----------- */
+  div.footer-main:first-child {
+    padding: 0;
+    margin-left: -30px;
+  }
+  img#footer-logo {
+    min-width: 200px;
+    width: 45vw;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 450px) {
+
+}
+
+/* Smartphone */
+@media screen and (max-width: 450px) {
+  /* ----------- HEADER ----------- */
+  button#menu-button-image {
+    left: 0;
+  }
+  button#home-button-image {
+    margin-left: -8px;
+  }
+
+  /* ----------- FOOTER ----------- */
+  div.footer-main {
+    flex-direction: column;
+  }
+  div.footer-main:first-child {
+    margin: 0;
+    align-items: center;
+  }
+  div.footer-main > :first-child {
+    margin-left: -50px;
+  }
+  div.footer-logo-social {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 337px) {
+  label.knowyoubetterpart {
+    margin-left: -20vw;
+    }
+}
+
+/* ########## HEADER ########## */
+header {
+  grid-area: header;
+  height: 60px;
+  background-color: #dbecec;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 1;
+  border-bottom-left-radius: 80% 40%;
+  border-bottom-right-radius: 80% 40%;
+}
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+h1::before {
+  content: "\a";
+  white-space: pre;
+}
+
+#menu-button-image{
+  background-image: url("../media/header-footer/menu-button-of-three-horizontal-lines.png");
+  background-origin: content-box;
+  position: relative;
+  top: 10px;
+  left: 6px;
+  padding: 8px 12px 17px 12px;
+  width: 46px;
+  height: 40px;
+}
+
+#home-button-image {
+  position: relative;
+  background-image: url("../media/header-footer/queerrar-nobg.png");
+  width: 300px;
+  height: auto;
+  margin-top: 5px;
+  margin-left: 35vw;
+}
+
+#login-button-image{
+  background-image: url("../media/header-footer/messenger.png");
+  position: relative;
+  top: 10px;
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  right:10px;
+}
+
+#messenger-button-image {
+  background-image: url("../media/header-footer/user.png");
+  position: relative;
+  margin-left: 15px;
+  top: 10px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+}
+
+/* ########## FOOTER ########## */
+footer {
+  grid-area: footer;
+  width: 100%;
+  left: 0px;
+
+}
+.footer-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.flex-column {
+  flex-direction: column;
+}
+.footer-main {
+  flex-direction: row;
+  justify-content: space-between;
+  bottom: 10px;
+  padding-right: 50px;
+  background-color: #dbecec;
+  border-radius: 5%;
+}
+
+p.footerletters {
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 50px;
+}
+
+/* FOOTER COMPANY INFO */
+#footer-company-info {
+  text-align: center;
+}
+
+/* FOOTER LOGO SOCIAL */
+.footer-logo-social {
+  position: relative;
+  text-align: center;
+  margin-top: 20px;
+  flex-direction: column;
+}
+
+#footer-logo {
+  margin-top: -15px;
+  width: 250px;
+  height: auto;
+  content: url("../media/header-footer/queer-rar-footer.png");
+}
+
+#twitter-button-image,
+#instagram-button-image,
+#facebook-button-image,
+#youtube-button-image {
+  width: 30px;
+  height: 30px;
+  margin-top: -5px;
+}
+
+#twitter-button-image {
+  background-image: url("../media/header-footer/twitter.png");
+  margin-right: 20px;
+  margin-left: 40px;
+}
+
+#instagram-button-image {
+  background-image: url("../media/header-footer/instagram.png");
+  margin-right: 20px;
+}
+
+#facebook-button-image {
+  background-image: url("../media/header-footer/facebook.png");
+  margin-right: 20px;
+}
+
+#youtube-button-image {
+  background-image: url("../media/header-footer/youtube.png");
+}
+
+/* FOOTER CONTACT TELEPHONE*/
+#footer-txt-contact {
+  font-size: 13px;
+}
+
+
+#slogan {
+  width: 300px;
+}
+
+/* ############################## */
+/* ############LINKS################## */
+/* unvisited link */
+a:link {
+  color: #E61C1C;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: purple;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: green;
+  text-decoration: underline;
+}
+
+a:active {
+  color: #00FF7F;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+
+h1 {
+  font-size: 45px;
+  color: #c50707;
+  text-align: center;
+  font-family: Cookie;
+}
+
+
+
+
+
+
+/* ################################### */
+button {
+  background: transparent;
+  border: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+}

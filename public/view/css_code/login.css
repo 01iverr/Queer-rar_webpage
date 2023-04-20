@@ -1,0 +1,59 @@
+/* ########## MEDIA QUERIES ########## */
+
+@media screen and (min-width: 1400px) {
+  #index-page-components {
+    margin: 70px 600vw 50px 1%;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  #index-page-components {
+    margin: 70px 2% 50px 1%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  figure#animated_rainbow {
+    flex-direction: column;
+  }
+
+  figure#animated_rainbow figcaption {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 950px) {}
+
+@media screen and (min-width:800px) and (max-width:1100px) {}
+
+@media screen and (min-width: 800px) {}
+
+/* Tablet */
+@media screen and (max-width: 800px) {
+
+  /* ------------ Index ------------ */
+  figure#animated_rainbow {
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+
+  figure#animated_rainbow figcaption {
+    font-size: 16.5px;
+    padding: 8px;
+  }
+}
+
+@media screen and (min-width: 650px) {}
+
+@media screen and (max-width: 650px) {}
+
+@media screen and (min-width: 450px) {}
+
+/* Smartphone */
+@media screen and (max-width: 450px) {}
+
+@media screen and (max-width: 337px) {}
+
+#animated_rainbow {
+  display: flex;
+}
