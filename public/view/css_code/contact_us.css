@@ -1,0 +1,128 @@
+body {
+  background-image: url('../media/pride.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+#contactH1 {
+  color: black;
+}
+
+#contactH1 {
+  margin-top: -20px;
+}
+
+h3 {
+  font-size: 20px;
+  color: #A3A3A3;
+  text-align: center;
+}
+
+h5 {
+  font-size: 13px;
+  color: #B094BD;
+  text-align: center;
+}
+
+@media screen and (min-width: 1100px) {
+  #Contact {
+    margin-left: 45%;
+    margin-top: 150px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  #Contact {
+    margin-left: 25%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #Contact {
+    margin-left: 20%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (min-width: 730px) and (max-width: 800px) {
+  #Contact {
+    margin-left: 15%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #Contact {
+    margin-left: 12%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (min-width: 650px) and (max-width: 700px) {
+  #Contact {
+    margin-left: 12%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (min-width: 570px) and (max-width: 650px) {
+  #Contact {
+    margin-left: 8%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 570px) {
+  #Contact {
+    margin-left: 2%;
+    margin-top: 80px;
+  }
+}
+
+@media screen and (min-width: 520px) {
+  textarea {
+    margin-left: 10px;
+  }
+
+  #submitmessage {
+    margin-left: 225px;
+  }
+
+  input {
+    margin-left: 10px;
+  }
+
+  label {
+    margin-left: 30px;
+  }
+
+  #Contact {
+    width: 500px;
+    height: auto;
+  }
+}
+
+/* Smartphone */
+@media screen and (max-width: 520px) {
+}
+ /* // */
+#Contact {
+  bottom: auto;
+  border-radius: 5%;
+  background-color: #dbecec;
+}
+
+input {
+  border-bottom-color: black;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color: #dbecec;
+}
+
+textarea {
+  background-color: #dbecec;
+  border-color: #B3b3b3;
+}

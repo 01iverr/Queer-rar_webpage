@@ -4,7 +4,7 @@
     font-family: 'Poppins', sans-serif;
 }
 body {
-    background-color: #ff99f5;
+    background-color: #dbecec;
     background-image:
         radial-gradient(at 61% 4%, hsla(303, 91%, 61%, 1) 0px, transparent 50%),
         radial-gradient(at 75% 66%, hsla(196, 91%, 79%, 1) 0px, transparent 50%),
@@ -29,7 +29,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 40px;
+    padding: 30px 10px;
 }
 .lock-icon {
     font-size: 3rem;
@@ -49,11 +49,13 @@ p {
     border: none;
     border-bottom: 2px solid #dbecec;
     font-size: 15px;
+    margin-left: 40px;
     color: white;
     outline: none;
 }
 button {
     margin-top: 15px;
+    margin-left:40px;
     width: 80%;
     background-color: #dbecec;
     color: white;
