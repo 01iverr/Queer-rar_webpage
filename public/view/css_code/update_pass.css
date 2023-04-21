@@ -1,0 +1,21 @@
+body {
+  background-image: url('../media/background_photos/flag.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+#update-btn{
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 450px) {
+  #update-btn{
+    margin-left: 80px;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  #update-btn{
+    margin-left: 200px;
+  }
+}

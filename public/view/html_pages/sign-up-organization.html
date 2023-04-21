@@ -380,17 +380,21 @@
               <label for="Password1">
                 Password*:
               </label>
-              <input class="custom_forms" type="password" id="Password1" name="Password" autocomplete="current-password"
-                title=" Password must contain at least one uppercase and one lowercase letter and one number.The password must contains at least 8 characters and max 12" placeholder="topsecret123" onchange="checkPasswords();" onkeyup="PassValid()"
+              <input class="custom_forms" type="password" id="Password1" name="Password"
+                title=" Password must contain at least one uppercase and one lowercase letter and one number.The password must contains at least 8 characters and max 12" placeholder="topsecret123"
+                onchange="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
+                onkeyup="PassValid(document.getElementById('Password1'));"
                 oncopy="return false" onpaste="return false" required>
               <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('Password1'))">
               <br>
               <label for="PasswordVer">
                 Password*:
               </label>
-              <input class="custom_forms " type="password" id="PasswordVer" name="PasswordVeri" autocomplete="current-password" required placeholder="topsecret123" onkeyup="checkPasswords()" oncopy="return false" onpaste="return false"
+              <input class="custom_forms " type="password" id="PasswordVer" name="PasswordVeri"  required
+                placeholder="topsecret123"
+                onkeyup="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
                 title=" Password validator. Write again your chosen password">
-              <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('PasswordVer'))">
+              <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('PasswordVer'));">
               <br>
               <br>
 

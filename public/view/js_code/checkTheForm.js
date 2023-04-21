@@ -1,7 +1,7 @@
 // check if the 2 given passwords are the same. If yes then draw the border green else red
-function checkPasswords() {
-  var password1 = document.forms["formsignup"]["Password1"];
-  var password2 = document.forms["formsignup"]["PasswordVer"];
+function checkPasswords(id1 , id2) {
+  var password1 = id1;
+  var password2 = id2;
   if (password2.value) { //  password2 isn't null or undefined or empty
     if (password1.value == password2.value) {
       if (!PassValid()) {
@@ -19,8 +19,8 @@ function checkPasswords() {
 }
 ///////////////////////////////////////////////////////////////////////////
 //is password valid ? lets check and inform user what is going wrong if not.
-function PassValid() {
-  var pswrd = document.getElementById("Password1")
+function PassValid(id) {
+  var pswrd = id;
   // pswrd.setCustomValidity("Be aware that passwrod has to contain at least one uppercase and one lowercase letter,one number. Length of passord 8-12 characters");
   // pswrd.reportValidity();
   //validate first of all the length of the password!

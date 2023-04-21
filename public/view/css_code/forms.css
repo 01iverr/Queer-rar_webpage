@@ -24,7 +24,8 @@
     left:1vw;
   }
 
-  #signin-form{
+  #signin-form,
+  #updatepasswordform{
     width: 400px;
     height: 200px;
     margin-top: 50px;
@@ -61,11 +62,13 @@
     width: 0%;
   }
 
-  #signin-form{
+  #signin-form,
+  #updatepasswordform{
     width: 400px;
     height: 200px;
     margin-top: 50px;
   }
+
 
 
   /* sign up page*/
@@ -91,6 +94,15 @@
 
 @media screen and (min-width: 800px) {
 
+}
+
+@media screen and (min-width: 450px) and (max-width: 800px) {
+  #updatepasswordform{
+    width: 400px;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: -200px;
+  }
 }
 
 /* Tablet */
@@ -474,7 +486,12 @@ select {
    text-align: center;
 }
 
-#welcomeBack{
+#chang_pass{
+  margin-top: -35px;
+}
+
+#welcomeBack,
+#chang_pass{
   font-family: Cookie;
   font-size: 40px
 }
