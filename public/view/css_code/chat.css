@@ -15,16 +15,17 @@
 }
 
 .chat {
-    display: flex;
-    width: 800px;
-    height: 500px;
-    margin: 0 auto;
+    display: grid;
     border: 1px solid grey;
-    margin-top: 20px;
+    margin: 5rem 2rem 2rem 2rem;
+    grid-template-columns: 0.75fr 3fr;
+    grid-template-rows: 9fr 1fr;
+    min-width: 0;
 }
 
 .chat .users-list {
-    width: 300px;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     border-right: 1px solid grey;
 }
 
@@ -47,18 +48,23 @@
 }
 
 .chat .messages {
-    width: 100%;
-    position: relative;
+    display: grid;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
 }
 
 .chat .messages-list {
     height: calc(100% - 60px);
 }
 
-.chat input {
-    width: 100%;
-    box-sizing: border-box;
-    height: 30px;
+.chat .message-input {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    border-top: 1px solid grey;
+}
+
+.chat input{
+    width: 90%;
 }
 
 .chat .current-user {
@@ -66,6 +72,33 @@
     padding: 5px;
 }
 
+.chat .add-user{
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    border-right: 1px solid grey;
+}
+
+.chat .messages-list img{
+    width: 5rem;
+    height: 5rem;
+}
+
+.chat .users-list img{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+
+.chat .messages-list img:first-child{
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
+
 .hidden {
     display: none;
+}
+
+.not-exists{
+    background-color: #ffa1a1;
 }

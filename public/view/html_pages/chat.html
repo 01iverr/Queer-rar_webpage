@@ -22,22 +22,18 @@
             <!-- ========================== Main ========================== -->
             
             <main id="index-page-components">
-                <br><br><br>
-                <div class="welcome-screen">
-                    <h1>Please choose your name</h1>
-                    <div>
-                        <input type="text" />
-                    </div>
-                    <div>
-                        <button>Login</button>
-                    </div>
-                </div>
-                <div class="chat hidden">
+                <div class="chat">
                     <div class="users-list"></div>
+                    <div class="add-user">
+                        <label for="add-friend-username">Add a friend:</label>
+                        <input id="add-friend-username" type="text" placeholder="Username:"/>
+                    </div>
                     <div class="messages">
-                        <div class="current-user"></div>
                         <div class="messages-list"></div>
-                        <input type="text" placeholder="Type your message" class="hidden" />
+                    </div>
+                    <div class="message-input">
+                        <input id="message" type="text" placeholder="Type your message" />
+                        <input id="uploads" type="file" value="" multiple/>
                     </div>
                 </div>
             </main>
