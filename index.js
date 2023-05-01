@@ -4,6 +4,7 @@ const path = require('path');
 const uuid = require('uuid');
 const nodemailer = require('nodemailer');
 const dbDAO = require("./models/dbDAO");
+const toxicity = require('@tensorflow-models/toxicity');
 const MARIA_USER_CONTROLLER = dbDAO.MARIA_USER_CONTROLLER;
 const port = 8080;
 const app = express();
@@ -23,8 +24,6 @@ io.on('connection', socket => {
     });
 
     socket.on("new-chat-message", async (message) => {
-        await MARIA_USER_CONTROLLER.saveMessage(message.username, message.recipient, message.text, message.timestamp, message.files);
-
         if (users[message.recipient]) {
             socket.to(users[message.recipient].id).emit("new-chat-message", {
                 username: message.username,
@@ -34,6 +33,24 @@ io.on('connection', socket => {
                 files: message.files
             });
         }
+        const threshold = 0.9;
+        let toxic = false;
+        toxicity.load(threshold, ['identity_attack', 'insult', 'obscene', 'severe_toxicity', 'threat', 'toxicity']).then(async model => {
+            const sentences = [message.text];
+            let count = 0;
+            model.classify(sentences).then(async predictions => {
+                predictions.forEach((pred) => {
+                    if (pred.results[0].match === true) {
+                        count++;
+                    }
+                });
+                if (count > 0) {
+                    toxic = true;
+                }
+                await MARIA_USER_CONTROLLER.saveMessage(message.username, message.recipient, message.text, message.timestamp, message.files, toxic);
+            });
+
+        });
     });
 
     socket.on("add-friend", async (message) => {
@@ -99,18 +116,71 @@ app.get("/login" ,function(req,res){
     });
 });
 
+async function informToxicity(username, email, toxic) {
+    if(toxic >= 100){
+        await MARIA_USER_CONTROLLER.deleteUser(username);
+    }
+    else if(toxic > 75) {
+        let transporter = nodemailer.createTransport({
+            service: process.env.EMAIL_SERVICE,
+            host: process.env.EMAIL_HOST,
+            port: 587,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        let mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Toxicity Level: " + toxic,
+            html: "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "    <head>\n" +
+                "        <meta charset=\"UTF-8\">\n" +
+                "        <title>Title</title>\n" +
+                "    </head>\n" +
+                "    <body><p>Hi " + username + ", <br> This email is to inform you of your toxicity level.<br> " +
+                "Until today you have sent <strong>" + toxic + "</strong> messages" +
+                "If you reach <strong>100</strong> toxic messages your account will be <strong>deleted!</strong> </body>\n" +
+                "</html>"
+        };
+
+        await transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log("EMAIL ERROR:");
+                console.log(error);
+            } else {
+                // console.log('Email sent: ' + info.response);
+            }
+        });
+    }
+}
+
 app.post("/check-login", async function(req, res) {
     let username = req.body.signin_Username;
     let pwd = req.body.signin_Password;
     let userDatum = await MARIA_USER_CONTROLLER.getUserFromUsername(username);
 
-    if (userDatum && MARIA_USER_CONTROLLER.userPassIsCorrect(userDatum, username, pwd) ){
+    if (userDatum && MARIA_USER_CONTROLLER.userPassIsCorrect(userDatum, username, pwd) && !userDatum.locked){
         let session_id = uuid.v4();
         await MARIA_USER_CONTROLLER.login(username, session_id);
+        let toxic = await MARIA_USER_CONTROLLER.checkToxicity(username);
+        await informToxicity(username, toxic.email, toxic.toxic);
         res.redirect(`/?username=${userDatum.user_name}&session_id=${session_id}`)
     }
     else{
-        res.redirect("/login?failed=true")
+        if(userDatum && !userDatum.locked){
+            await MARIA_USER_CONTROLLER.failedLogin(username);
+            res.redirect("/login?failed=true")
+        }
+        else{
+            // TODO go to reset password page with proper message
+            res.redirect("/forgot_pass")
+            console.log("locked")
+        }
     }
 });
 
@@ -231,6 +301,29 @@ app.get("/chat" ,function(req,res){
     });
 });
 
+app.get("/code", async (req, res) => {
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
+
+    }
+});
+
+app.post("/addFriend", async (req, res) => {
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
+        let code = req.body.friendCode;
+        let friend = await MARIA_USER_CONTROLLER.getFriendFromCode(code);
+        if(friend !== 0){
+            await MARIA_USER_CONTROLLER.addFriend(username, friend);
+        }
+        else{
+            res.send("wrong code");
+        }
+    }
+});
+
 app.get("/friends", async (req, res) => {
     let username = req.query.username;
     let session_id = req.query.session_id;
@@ -317,9 +410,74 @@ app.post("/sendData", async function(req,res){
         }
         let session_id = uuid.v4();
         await MARIA_USER_CONTROLLER.login(username, session_id);
-        res.redirect(`/index.html/?username=${username}&session_id=${session_id}`)
+        res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
     }
     else{
         res.sendStatus(400).send("User name is taken.");
     }
 });
+
+app.get("/contact" ,function(req,res){
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    };
+
+    res.sendFile('Contact_us.html', options, function(err){
+        //console.log(err);
+    });
+});
+
+app.post("/contact", async function(req, res) {
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+
+    let name = req.body.username;
+    let pronouns = req.body.pronouns;
+    let email = req.body.email;
+    let message = req.body.message;
+
+    let transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        host: process.env.EMAIL_HOST,
+        port: 587,
+        secure: true,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    let mailOptions = {
+        from: email,
+        to: process.env.EMAIL_USER,
+        subject: "Problem",
+        html: "<!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "    <head>\n" +
+            "        <meta charset=\"UTF-8\">\n" +
+            "        <title>Title</title>\n" +
+            "    </head>\n" +
+            "    <body><p>Name: " + name + ", <br>Pronouns: " + pronouns + ", <br>Email: " + email + "</p>" +
+            "          <p>" + message + "</p>" +
+            "    </body>" +
+            "</html>"
+    };
+
+    await transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log("EMAIL ERROR:");
+            console.log(error);
+        } else {
+            // console.log('Email sent: ' + info.response);
+        }
+    });
+
+    if(username && session_id){
+        res.redirect(`/index.htl/?username=${username}&session_id=${session_id}`);
+    }
+    else{
+        res.redirect("/index.html");
+    }
+});
+
+

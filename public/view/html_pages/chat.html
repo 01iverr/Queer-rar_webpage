@@ -11,6 +11,18 @@
         <script src="../../client/main.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="../../client/chat.js"></script>
+
+        <script type="text/x-handlebars-template" id="file-item-template">
+            <div class="file-box">
+                {{#each filesList}}
+                    <div class="file-item" data-id="{{name}}">
+                        <img src="../../view/media/chat/file.png" alt="file picture">
+                        <span>{{name}}</span>
+                        <button onclick="removeFile('{{name}}')">remove file</button>
+                    </div>
+                {{/each}}
+            </div>
+        </script>
     </head>
     <body>
         <div class="wrapper">
@@ -32,6 +44,7 @@
                         <div class="messages-list"></div>
                     </div>
                     <div class="message-input">
+                        <div id="file-viewer"></div>
                         <input id="message" type="text" placeholder="Type your message" />
                         <input id="uploads" type="file" value="" multiple/>
                     </div>

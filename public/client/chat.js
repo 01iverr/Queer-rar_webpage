@@ -67,12 +67,20 @@ class Chat {
             $message.innerHTML += message.sender + dateFormat + ": " + message.message;
             if(message.file){
                 for (let file in message.file) {
+                    let buf = message.file[file].data;
+                    let name = message.file[file].name;
+                    let aElem = document.createElement('a');
+                    let imageElem = document.createElement('img');
                     if(message.file[file].type.startsWith("image")){
-                        let buf = message.file[file].data;
-                        let imageElem = document.createElement('img');
-                        imageElem.src = buf
-                        $message.appendChild(imageElem);
+                        imageElem.src = buf;
                     }
+                    else{
+                        imageElem.src = 'view/media/chat/file.png';
+                    }
+                    aElem.setAttribute('href', buf);
+                    aElem.setAttribute('download', name);
+                    aElem.appendChild(imageElem);
+                    $message.appendChild(aElem);
                 }
             }
             return $message;
@@ -133,6 +141,7 @@ class Chat {
         this.$fileInput = this.$chat.querySelector("#uploads")
         this.$messagesList = this.$chat.querySelector(".messages-list");
         this.$addFriendInput = document.querySelector("#add-friend-username");
+        this.$fileViewer = document.querySelector("#file-viewer");
         let users = await this.fetchLastCom();
         this.renderUsers(users);
     }
@@ -160,7 +169,6 @@ class Chat {
         });
 
         socket.on("new-chat-message", (message) => {
-            console.log(socket.id);
             this.addMessage(message.username, message.text, message.username, message.timestamp, message.files);
             if (message.username === this.activeChatId) {
                 this.renderMessages(message.username);
@@ -180,10 +188,25 @@ class Chat {
                 this.$addFriendInput.value = "";
             }
         });
+
+        this.$fileInput.addEventListener("change", () => {
+            let templateText = document.getElementById("file-item-template").textContent;
+            let compTemp = Handlebars.compile(templateText);
+            let fileViewer = document.getElementById("file-viewer");
+            let fileNamesList =[];
+            for(let file of this.$fileInput.files){
+                fileNamesList.push({name: file.name});
+            }
+            fileViewer.innerHTML = compTemp({'filesList': fileNamesList});
+        });
     }
 
     async activateChat($userElement) {
         const userId = $userElement.dataset.id;
+        this.$fileInput.value="";
+        this.$textInput.value="";
+        this.$fileViewer.innerHTML="";
+
 
         if (this.activeChatId) {
             this.$usersList
@@ -219,9 +242,8 @@ class Chat {
                     let user_files = {};
                     for (let i=0; i<this.$fileInput.files.length; i++) {
                         numberOfBytes += this.$fileInput.files[i].size;
-                        console.log(this.$fileInput.files[i]);
-
                         user_files[i] = {
+                            name: this.$fileInput.files[i].name,
                             type: this.$fileInput.files[i].type,
                             data : await toBase64(this.$fileInput.files[i])
                         };
@@ -230,8 +252,10 @@ class Chat {
                         message.files = user_files;
 
                     } else {
-                        // TODO show message to user
-                        console.log("files are too large, files will not be sent");
+                        console.log("too large files");
+                        this.$fileViewer.innerHTML = "<h3>The files are too large and will not be sent! <br> Files have to be at most 16MB!</h3>";
+
+
                     }
                 }
                 socket.emit("new-chat-message", message);
@@ -239,6 +263,9 @@ class Chat {
                 this.renderMessages(message.recipient);
                 this.$textInput.value = "";
                 this.$fileInput.value = "";
+                setTimeout( () => {
+                    this.$fileViewer.innerHTML = "";
+                }, 1500);
             }
         });
 
@@ -271,6 +298,22 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
 });
+
+function removeFile(dataId){
+    let fileItem = document.querySelector(`div[data-id="${dataId}"]`);
+    let fileBox = document.querySelector(".file-box");
+    let fileInput = document.querySelector("#uploads");
+    let files = Array.from(fileInput.files);
+    files = files.filter(function (file) {
+        return file.name !== dataId;
+    });
+    let dataTransfer = new DataTransfer();
+    for(let i = 0; i < files.length; i++) {
+        dataTransfer.items.add(files[i]);
+    }
+    fileInput.files = dataTransfer.files;
+    fileBox.removeChild(fileItem);
+}
 
 const socket = io();
 window.addEventListener('load', () => {

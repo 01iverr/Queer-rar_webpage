@@ -1,9 +1,10 @@
 const db = require("./db");
+const uuid = require('uuid');
 
 const MARIA_USER_CONTROLLER = {
     getUserFromUsername: async function(username){
         try{
-            let rows = await db.pool.query("SELECT user_name, password FROM users WHERE user_name='"+username+"'");
+            let rows = await db.pool.query("SELECT user_name, password, locked FROM users WHERE user_name='"+username+"'");
             return  rows[0];
         }catch (err) {
             console.log(err);
@@ -37,6 +38,22 @@ const MARIA_USER_CONTROLLER = {
             }
             else{
                 await db.pool.query("UPDATE sessions SET session_id = ? WHERE user_name = ?", [sessionId, username]);
+            }
+            const loginsQuery = ("INSERT INTO logins (username, date, success) VALUES (?, ?, ?)");
+            await db.pool.query(loginsQuery, [username, new Date().toJSON().slice(0, 10), 1]);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+    failedLogin: async function(username){
+        try {
+            const loginsQuery = ("INSERT INTO logins (username, date, success) VALUES (?, ?, ?)");
+            let date = new Date().toJSON();
+            await db.pool.query(loginsQuery, [username, date.slice(0, 10) + " " + date.slice(11,19), 0]);
+            const res = await db.pool.query("SELECT COUNT(success) AS fl FROM logins  WHERE success=0  and username='" + username+ "'");
+            if(parseInt(res[0].fl) > 2){
+                await db.pool.query("UPDATE users SET locked = ? WHERE user_name = ?", [1, username]);
             }
         } catch (err) {
             console.log(err);
@@ -79,7 +96,7 @@ const MARIA_USER_CONTROLLER = {
 
     updatePassword: async function(username, newPassword){
         try{
-            let up = await db.pool.query("UPDATE users SET password = ? WHERE user_name = ?", [newPassword, username]);
+            let up = await db.pool.query("UPDATE users SET password = ?, locked=0 WHERE user_name = ?", [newPassword, username]);
             // console.log(up);
         }catch (err) {
             console.log(err);
@@ -114,11 +131,10 @@ const MARIA_USER_CONTROLLER = {
     },
 
     getLastCommunications: async function(username){
-        let messages = await db.pool.query("SELECT messages.* FROM messages, "+
+        return await db.pool.query("SELECT messages.* FROM messages, "+
         "(SELECT users, max(JSON_VALUE(message, '$.timestamp')) AS timestamp FROM messages WHERE users LIKE '%"+ username +"%' GROUP BY users ORDER BY TIMESTAMP DESC) last_message " +
         "WHERE messages.users=last_message.users " +
         "AND JSON_VALUE(messages.message, '$.timestamp')=last_message.timestamp;");
-        return messages
     },
 
     getFriends: async function(username){
@@ -161,6 +177,34 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
+    getAddFriendCode: async function(username){
+        let code = await db.pool.query("SELECT fr_code FROM addfrcode WHERE username='" + username + "' ");
+        let date = new Date().toJSON();
+        if(code){
+            await db.pool.query("UPDATE addfrcode SET date='" + date.slice(0, 10) + " " + date.slice(11,19) + "' WHERE username='" + username + "' ")
+        }
+        else{
+            let code = uuid.v4();
+            const loginsQuery = ("INSERT INTO addfrcode (username, date, fr_code) VALUES (?, ?, ?)");
+            await db.pool.query(loginsQuery, [username, date.slice(0, 10) + " " + date.slice(11,19), code]);
+        }
+        return code;
+    },
+
+    getFriendFromCode: async function(code){
+        try{
+            let friend = await db.pool.query("SELECT username FROM addfrcode WHERE fr_code='" + code + "' ");
+            if(friend){
+                return friend[0];
+            }
+            else{
+                return 0;
+            }
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
     removeFriend: async function(username, friend){
         try{
             await db.pool.query("DELETE FROM friends WHERE user1='"+ username +"' AND user2='" + friend + "';");
@@ -192,20 +236,42 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
-    saveMessage: async function(sender, recipient, message, timestamp, files){
+    saveMessage: async function(sender, recipient, message, timestamp, files, toxicity){
         let newMessage = {sender: sender, message: message, timestamp: timestamp};
         try{
             let usernames = {"usernames": [sender, recipient].sort()};
-            const insertQuery = "INSERT INTO messages (users, message, file) VALUES (?, ?, ?)";
+            const insertQuery = "INSERT INTO messages (users, message, toxic, file) VALUES (?, ?, ?, ?)";
             if(files){
-                await db.pool.query(insertQuery, [JSON.stringify(usernames), newMessage, files]);
+                await db.pool.query(insertQuery, [JSON.stringify(usernames), newMessage, toxicity, files]);
             }
             else{
-                await db.pool.query(insertQuery, [JSON.stringify(usernames), newMessage, null]);
+                await db.pool.query(insertQuery, [JSON.stringify(usernames), newMessage, toxicity, null]);
+            }
+            if(toxicity){
+                await db.pool.query("UPDATE users SET toxic=toxic+1 WHERE user_name='" + sender + "'");
             }
         }catch (err) {
             console.log(err);
         }
+    },
+
+    checkToxicity: async function(username){
+        try{
+            let count_toxic = await db.pool.query("SELECT email, toxic FROM users WHERE user_name='" + username + "'");
+            return count_toxic[0];
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    deleteUser: async function(username){
+        await db.pool.query("DELETE FROM users WHERE user_name='" + username + "'");
+        await db.pool.query("DELETE FROM sessions WHERE user_name='" + username + "'");
+        await db.pool.query("DELETE FROM logins WHERE username='" + username + "'");
+        await db.pool.query("DELETE FROM messages WHERE users LIKE'%" + username + "%'");
+        await db.pool.query("DELETE FROM friends WHERE user1='" + username + "'");
+        await db.pool.query("DELETE FROM friends WHERE user2='" + username + "'");
+        await db.pool.query("DELETE FROM addfrcode WHERE username='" + username + "'");
     }
 };
 
