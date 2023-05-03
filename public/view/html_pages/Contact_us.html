@@ -4,63 +4,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css_code/main.css">
-  <link rel="stylesheet" href="../css_code/forms.css">
-  <link rel="stylesheet" href="../css_code/contact_us.css">
+  <link rel="stylesheet" href="../../view/css_code/main.css">
+  <link rel="stylesheet" href="../../view/css_code/forms.css">
+  <link rel="stylesheet" href="../../view/css_code/contact_us.css">
   <title> Contact with us </title>
-  <link rel="icon" type="image/x-icon" href="../media/header-footer/queerrar.ico">
+  <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="../../client/main.js"></script>
 </head>
 
 <body>
   <div class="wrapper">
-    <header class="wrapper header-wrapper">
-      <div class="header-wrapper header-group">
-        <!-- Menu -->
-        <nav class="dropdown">
-          <button id="menu-button-image" aria-label="Menu button including a hamburger menu icon created by Freepik - Flaticon"></button>
-          <ul class="dropdown-menu">
-
-            <li class="dropdown-submenu">
-              <a href="#">Events</a>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a href="#">Friends</a>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a href="#">Messages</a>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a href="#">Games </a>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a href="#">Dating</a>
-            </li>
-
-            <li class="dropdown-submenu">
-              <a href="#">Settings</a>
-            </li>
-
-          </ul>
-        </nav>
-
-        <!-- Logo -->
-        <button id="home-button-image" onclick="window.location.href='index.html';">
-        </button>
-
+    <!-- ========================== HEADER ========================== -->
+      <div id="header" >
+          {{> header}}
       </div>
-
-      <div class="header-wrapper header-group">
-        <!-- messenger-->
-        <button id="messenger-button-image" aria-label="messenger icon" onclick="window.location.href='/account';">
-        </button>
-        <!-- User Login -->
-        <button id="login-button-image" aria-label="Login button including a login icon created by Sebastian Belalcazar - Flaticon" onclick="window.location.href='/chat';">
-
-    </header>
+      
     <!-- ========================== Main ========================== -->
     <div id="Contact">
 
@@ -89,6 +48,7 @@
 
             <input type="email" placeholder="Enter a valid email address" id="user_email" name="email" required>
           </div>
+        </div>
           <br>
           <br>
           <label for="user_message">
@@ -98,9 +58,14 @@
           <input id="submitmessage" class="buttonsressub" type="submit" value="Submit">
       </form>
     </div>
+      
+      <!-- ========================== FOOTER ========================== -->
+      
+      <div id="footer">
+          {{> footer}}
+      </div>
   </div>
   <br>
-
   
 </body>
 

@@ -3,7 +3,7 @@
     padding: 0;
     font-family: 'Poppins', sans-serif;
 }
-body {
+#colours {
     background-color: #dbecec;
     background-image:
         radial-gradient(at 61% 4%, hsla(303, 91%, 61%, 1) 0px, transparent 50%),

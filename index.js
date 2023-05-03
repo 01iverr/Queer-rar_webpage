@@ -11,7 +11,9 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+    maxHttpBufferSize: 17e6
+});
 const users = {}
 
 server.listen(port, () => {
@@ -33,24 +35,29 @@ io.on('connection', socket => {
                 files: message.files
             });
         }
-        const threshold = 0.9;
+        const threshold = 0.75;
         let toxic = false;
-        toxicity.load(threshold, ['identity_attack', 'insult', 'obscene', 'severe_toxicity', 'threat', 'toxicity']).then(async model => {
-            const sentences = [message.text];
-            let count = 0;
-            model.classify(sentences).then(async predictions => {
-                predictions.forEach((pred) => {
-                    if (pred.results[0].match === true) {
-                        count++;
+        if(message.text !== "") {
+            toxicity.load(threshold, ['identity_attack', 'insult', 'obscene', 'severe_toxicity', 'threat', 'toxicity']).then(async model => {
+                const sentences = [message.text];
+                let count = 0;
+                model.classify(sentences).then(async predictions => {
+                    predictions.forEach((pred) => {
+                        if (pred.results[0].match === true) {
+                            count++;
+                        }
+                    });
+                    if (count > 0) {
+                        toxic = true;
                     }
+                    await MARIA_USER_CONTROLLER.saveMessage(message.username, message.recipient, message.text, message.timestamp, message.files, toxic);
                 });
-                if (count > 0) {
-                    toxic = true;
-                }
-                await MARIA_USER_CONTROLLER.saveMessage(message.username, message.recipient, message.text, message.timestamp, message.files, toxic);
-            });
 
-        });
+            });
+        }
+        else{
+            await MARIA_USER_CONTROLLER.saveMessage(message.username, message.recipient, message.text, message.timestamp, message.files, toxic);
+        }
     });
 
     socket.on("add-friend", async (message) => {

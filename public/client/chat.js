@@ -49,22 +49,33 @@ class Chat {
         if (!this.messages[userId]) {
             this.messages[userId] = [];
         }
-
+        let lastDate = "";
         const $messages = this.messages[userId].map((message) => {
             const date= new Date(message.timestamp);
-            const dateFormat = " " + date.getHours() + ":" + date.getMinutes() ; // + ", "+ date.toDateString();
+            const dateFormat = " " + (date.getHours()<10?'0':'') + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes(); // + ", "+ date.toDateString();
             const $message = document.createElement("div");
+            $message.classList.add("message");
+
+            if(lastDate !== date.toDateString()){
+                lastDate = date.toDateString();
+                let lastDateElement = document.createElement("div");
+                lastDateElement.innerHTML = lastDate;
+                lastDateElement.classList.add("date");
+                this.$messagesList.appendChild(lastDateElement);
+            }
 
             let currentChat = document.querySelector(".active");
             let profImg = document.createElement("img");
             if(currentChat.getAttribute("data-id") === message.sender){
                 profImg.setAttribute("src", currentChat.firstChild.getAttribute("src"));
+                $message.classList.add("friend-messages");
             }
             else{
                 profImg.setAttribute("src", this.currentUser.profile_picture);
+                $message.classList.add("user-messages");
             }
             $message.appendChild(profImg);
-            $message.innerHTML += message.sender + dateFormat + ": " + message.message;
+            $message.innerHTML += dateFormat + ": <br>" + message.message;
             if(message.file){
                 for (let file in message.file) {
                     let buf = message.file[file].data;
@@ -80,9 +91,11 @@ class Chat {
                     aElem.setAttribute('href', buf);
                     aElem.setAttribute('download', name);
                     aElem.appendChild(imageElem);
+                    $message.appendChild(document.createElement("br"));
                     $message.appendChild(aElem);
                 }
             }
+            this.$messagesList.append($message);
             return $message;
         });
         let lastMessage = document.querySelector(".users-list .active div");
@@ -91,7 +104,7 @@ class Chat {
             lastMessage.innerHTML = "";
             lastMessage.append(lastSendMessage.innerText);
         }
-        this.$messagesList.append(...$messages);
+        this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
     }
 
     initializeUserListener($user) {
@@ -122,9 +135,13 @@ class Chat {
         for (const newMess of lastTimeMess){
             const $user = document.createElement("div");
             let profImg = document.createElement("img");
+            let usernameElement = document.createElement("span");
+            usernameElement.innerHTML = newMess.username;
             profImg.src = newMess.prof_pic;
+            usernameElement.classList.add("user");
+            profImg.classList.add("user");
             $user.appendChild(profImg);
-            $user.innerHTML += newMess.username;
+            $user.appendChild(usernameElement);
             const $lastMess = document.createElement("div");
             $lastMess.innerHTML= newMess.last_message.sender + ": " + newMess.last_message.message;
             $user.appendChild($lastMess);
@@ -198,6 +215,7 @@ class Chat {
                 fileNamesList.push({name: file.name});
             }
             fileViewer.innerHTML = compTemp({'filesList': fileNamesList});
+            this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
         });
     }
 
@@ -252,10 +270,7 @@ class Chat {
                         message.files = user_files;
 
                     } else {
-                        console.log("too large files");
                         this.$fileViewer.innerHTML = "<h3>The files are too large and will not be sent! <br> Files have to be at most 16MB!</h3>";
-
-
                     }
                 }
                 socket.emit("new-chat-message", message);
@@ -265,7 +280,7 @@ class Chat {
                 this.$fileInput.value = "";
                 setTimeout( () => {
                     this.$fileViewer.innerHTML = "";
-                }, 1500);
+                }, 1000);
             }
         });
 

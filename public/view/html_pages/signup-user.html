@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../view/css_code/main.css">
   <link rel="stylesheet" href="../../view/css_code/forms.css">
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="../../client/main.js"></script>
   <script src="../../view/js_code/checkTheForm.js"></script>
 
   <title> Queer-rar </title>
@@ -15,23 +17,10 @@
 <body>
   <div class="wrapper">
     <!-- ========================== HEADER ========================== -->
-    <header class="wrapper header-wrapper">
-      <div class="header-wrapper header-group">
-        <!-- Logo -->
-        <button id="home-button-image" onclick="window.location.href='index.html';">
-        </button>
-
+      <div id="header" >
+          {{> header}}
       </div>
-
-      <div class="header-wrapper header-group">
-        <!-- User Login -->
-        <button id="login-button-image" aria-label="Login button including a login icon created by Sebastian Belalcazar - Flaticon" onclick="window.location.href='signup.html';">
-        </button>
-      </div>
-
-    </header>
-
-
+      
     <!-- ========================== Main ========================== -->
 
     <main>
@@ -459,55 +448,10 @@
 
     </main>
 
-
-
-
-
-
-
-
-
-
     <!-- ========================== FOOTER ========================== -->
-    <footer class="footer-wrapper flex-column">
-      <div class="footer-wrapper footer-main">
-        <div class="footer-wrapper flex-column">
-          <div id="footer-company-info">
-            <p class="footerletters">
-              <a href="index.html"> Our company</a><br>
-              <a href=""> Become a member </a> <br>
-              <a href=""> Report a problem</a> <br>
-            </p>
-          </div>
-          <!-- Social Media (they currently lead to the main page of each social media) -->
-          <div id="footer-social">
-            <button id="twitter-button-image" onclick=" window.open('http://twitter.com','_blank')" aria-label="Twitter icon created by Bogdan Rosu - Flaticon">
-            </button>
-
-            <button id="instagram-button-image" onclick=" window.open('http://instagram.com','_blank')" aria-label="Instagram icon created by Hight Quality Icons - Flaticon">
-            </button>
-
-            <button id="facebook-button-image" onclick=" window.open('http://facebook.com','_blank')" aria-label="Facebook icon created by Freepik - Flaticon">
-            </button>
-
-            <button id="youtube-button-image" onclick=" window.open('http://youtube.com','_blank')" aria-label="Youtube icon created by Freepik - Flaticon">
-            </button>
-          </div>
-        </div>
-
-
-        <div class="footer-wrapper footer-logo-social">
-          <!-- Logo -->
-          <img id="footer-logo" src="../media/header-footer/queer-rar-footer.png" alt="Queer-rar logo">
-
-
-
-        </div>
-
+      <div id="footer">
+          {{> footer}}
       </div>
-
-
-    </footer>
   </div>
 </body>
 

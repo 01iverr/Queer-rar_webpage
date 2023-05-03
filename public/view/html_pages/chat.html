@@ -18,7 +18,7 @@
                     <div class="file-item" data-id="{{name}}">
                         <img src="../../view/media/chat/file.png" alt="file picture">
                         <span>{{name}}</span>
-                        <button onclick="removeFile('{{name}}')">remove file</button>
+                        <button onclick="removeFile('{{name}}')">x</button>
                     </div>
                 {{/each}}
             </div>
@@ -37,14 +37,14 @@
                 <div class="chat">
                     <div class="users-list"></div>
                     <div class="add-user">
-                        <label for="add-friend-username">Add a friend:</label>
+                        <label for="add-friend-username">Search friend:</label>
                         <input id="add-friend-username" type="text" placeholder="Username:"/>
                     </div>
                     <div class="messages">
                         <div class="messages-list"></div>
+                        <div id="file-viewer"></div>
                     </div>
                     <div class="message-input">
-                        <div id="file-viewer"></div>
                         <input id="message" type="text" placeholder="Type your message" />
                         <input id="uploads" type="file" value="" multiple/>
                     </div>
