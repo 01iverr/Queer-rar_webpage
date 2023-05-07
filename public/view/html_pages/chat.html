@@ -6,19 +6,21 @@
         <link rel="stylesheet" href="../../view/css_code/chat.css">
         <link rel="stylesheet" href="../../view/css_code/main.css">
         <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
         <title> Queer-rar Chat </title>
         <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
         <script src="../../client/main.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="../../client/chat.js"></script>
+        <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
 
         <script type="text/x-handlebars-template" id="file-item-template">
             <div class="file-box">
                 {{#each filesList}}
                     <div class="file-item" data-id="{{name}}">
-                        <img src="../../view/media/chat/file.png" alt="file picture">
+                        <img src="{{img_src}}" alt="file picture">
                         <span>{{name}}</span>
-                        <button onclick="removeFile('{{name}}')">x</button>
+                        <button onclick="removeFile('{{name}}')">X</button>
                     </div>
                 {{/each}}
             </div>
@@ -41,6 +43,9 @@
                         <input id="add-friend-username" type="text" placeholder="Username:"/>
                     </div>
                     <div class="messages">
+                        <button id="video-call">
+                            <i class="fa fa-video"></i>
+                        </button>
                         <div class="messages-list"></div>
                         <div id="file-viewer"></div>
                     </div>

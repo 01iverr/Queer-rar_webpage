@@ -16,6 +16,11 @@ const io = new Server(server, {
 });
 const users = {}
 
+const { ExpressPeerServer } = require('peer');
+const peerServer = ExpressPeerServer(server, {debug: true,});
+
+app.use('/peerjs', peerServer);
+
 server.listen(port, () => {
     console.log('listening on', port);
 });
@@ -71,13 +76,42 @@ io.on('connection', socket => {
             socket.emit("users-changed", { username: message.friend, friend: newFriendList[message.friend] });
         }
     });
-})
+
+    socket.on("join-room", (roomId, userId) => {
+        socket.join(roomId);
+        io.to(roomId).emit("user-connected", userId);
+    });
+
+    socket.on("calling-user", (caller, whoIsCalled) => {
+        if(users[whoIsCalled]){
+            socket.to(users[whoIsCalled].id).emit("call", caller);
+        }
+    });
+
+    socket.on("call-refused", (roomId) => {
+        io.to(roomId).emit("user-left");
+    });
+
+    socket.on("user-leaving", (roomId) =>{
+        io.to(roomId).emit("user-left");
+    });
+});
 
 app.use(express.static('public'));
 
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
+
+app.get('/video', function(req, res){
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    };
+
+    res.sendFile('video.html', options, function(err){
+        //console.log(err)
+    });
+});
 
 app.get('/', function(req, res){
     let options = {

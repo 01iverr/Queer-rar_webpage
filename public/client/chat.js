@@ -37,9 +37,11 @@ class Chat {
         this.messages[recipient].push({sender: username, message: text, timestamp: timestamp, file: file});
     }
 
-    showNewMessageNotification(senderId) {
+    showNewMessageNotification(senderId, message) {
         let userWithNewMess = this.$usersList.querySelector(`div[data-id="${senderId}"]`);
         userWithNewMess.classList.add("has-new-notification");
+        let updMess = userWithNewMess.querySelector('div');
+        updMess.innerHTML = senderId + ": " + message;
         this.userToTop(userWithNewMess);
     }
 
@@ -109,7 +111,9 @@ class Chat {
 
     initializeUserListener($user) {
         $user.addEventListener("click", () => {
-            this.activateChat($user);
+            if(! Array.from($user.classList).includes("active")){
+                this.activateChat($user);
+            }
         });
     }
 
@@ -190,18 +194,57 @@ class Chat {
             if (message.username === this.activeChatId) {
                 this.renderMessages(message.username);
             } else {
-                this.showNewMessageNotification(message.username);
+                this.showNewMessageNotification(message.username, message.text);
             }
 
         });
 
+        socket.on("call", (caller) => {
+            let popup = document.createElement("div");
+            popup.classList.add("center-window");
+            let callingUser = document.querySelector(`div[data-id="${caller}"]`).cloneNode(true);
+            callingUser.removeChild(callingUser.lastChild);
+
+            let acceptButton = document.createElement("button");
+            let refuseButton = document.createElement("button");
+
+            acceptButton.setAttribute("id", "accept");
+            acceptButton.innerHTML = '<span class="material-symbols-rounded">call</span>';
+
+            refuseButton.setAttribute("id", "refuse");
+            refuseButton.innerHTML = '<span class="material-symbols-rounded">call_end</span>';
+
+            let roomIdCreation = [caller, this.currentUser.name];
+            roomIdCreation = roomIdCreation.sort()
+
+            acceptButton.addEventListener("click", () => {
+                window.location.replace("/video?username=" + this.currentUser.name + "&session_id=" + this.currentUser.session_id + "&room=" + roomIdCreation[0] + roomIdCreation[1]);
+            });
+
+            refuseButton.addEventListener("click", () => {
+                popup.remove();
+                socket.emit("call-refused", roomIdCreation[0] + roomIdCreation[1]);
+            });
+
+            popup.appendChild(callingUser);
+            popup.appendChild(acceptButton);
+            popup.appendChild(refuseButton);
+            document.body.appendChild(popup);
+        });
+
         this.$addFriendInput.addEventListener("keyup", (e) => {
             if (e.key === "Enter" && this.$addFriendInput.value !== "") {
-                const message = {
-                    username: this.currentUser.name,
-                    friend: this.$addFriendInput.value
-                };
-                socket.emit("add-friend", message);
+                let users = [];
+                this.$usersList.querySelectorAll("div[data-id]").forEach((user) => {
+                    users.push(user.getAttribute("data-id"));
+                });
+                if(this.$addFriendInput.value in users) {
+                    const message = {
+                        username: this.currentUser.name,
+                        friend: this.$addFriendInput.value
+                    };
+                    socket.emit("add-friend", message);
+                }
                 this.$addFriendInput.value = "";
             }
         });
@@ -212,7 +255,17 @@ class Chat {
             let fileViewer = document.getElementById("file-viewer");
             let fileNamesList =[];
             for(let file of this.$fileInput.files){
-                fileNamesList.push({name: file.name});
+                // if(file.type.startsWith("image")){
+                //     let fileReader = new FileReader();
+                //     fileReader.readAsDataURL(file);
+                //     fileReader.onload = function (reader) {
+                //         let src = reader.target.result;
+                //         fileNamesList.push({name: file.name, img_src: src});
+                //     };
+                // }
+                // else{
+                    fileNamesList.push({name: file.name, img_src: 'view/media/chat/file.png'});
+                // }
             }
             fileViewer.innerHTML = compTemp({'filesList': fileNamesList});
             this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
@@ -231,6 +284,18 @@ class Chat {
                 .querySelector(`div[data-id="${this.activeChatId}"]`)
                 .classList.remove("active");
         }
+
+        this.messages = document.querySelector(".messages");
+        let videoCall = document.getElementById("video-call");
+        let currentUser = this.currentUser;
+        let roomIdCreation = [userId, this.currentUser.name];
+        roomIdCreation = roomIdCreation.sort()
+        videoCall.onclick = function (){
+            socket.emit("calling-user", currentUser.name, userId);
+            setTimeout(() => {
+                window.location.href = "/video?username=" + currentUser.name + "&session_id=" + currentUser.session_id + "&room=" + roomIdCreation[0] + roomIdCreation[1];
+            }, 1000);
+        };
 
         this.activeChatId = userId;
         $userElement.classList.add("active");
@@ -336,6 +401,11 @@ window.addEventListener('load', () => {
     const username = urlParams.get('username');
     const session_id = urlParams.get('session_id');
 
+    window.addEventListener('beforeunload', () =>{
+        console.log("closing socket");
+        socket.close();
+    });
+
     if(username && session_id){
         const currentUser = {
             name: username,
@@ -345,3 +415,5 @@ window.addEventListener('load', () => {
         new Chat({ currentUser });
     }
 });
+
+
