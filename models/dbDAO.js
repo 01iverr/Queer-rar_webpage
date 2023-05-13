@@ -11,8 +11,25 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
+    getEmail: async function(username){
+        try{
+            return await db.pool.query("SELECT email FROM users WHERE user_name=?", [username]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
     userPassIsCorrect: function(userObj, username, password){
         return userObj.user_name === username && userObj.password === password
+    },
+
+    userIsOrganization: async function(username){
+        try{
+            let rows = await db.pool.query("SELECT organization FROM users WHERE user_name='"+ username + "'");
+            return rows[0].organization;
+        }catch (err) {
+            console.log(err);
+        }
     },
 
     userEmailIsCorrect: async function(userEmail){
@@ -114,8 +131,8 @@ const MARIA_USER_CONTROLLER = {
 
     addOrganization: async function (nfirstName, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nlearnUsFrom) {
         try {
-            const insertQuery = "INSERT INTO users (user_name, email, password, first_name, country, city, post_code, phone, birth_date, learn_us_from, organization, dating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            await db.pool.query(insertQuery, [nusername, nemail, npassword, nfirstName, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 1, 0]);
+            const insertQuery = "INSERT INTO users (user_name, email, password, first_name, country, city, post_code, phone, birth_date, learn_us_from, organization, dating, locked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            await db.pool.query(insertQuery, [nusername, nemail, npassword, nfirstName, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 1, 0, 1]);
         } catch (err) {
             console.log(err);
         }
@@ -130,11 +147,23 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
+    getLocation: async function(username) {
+        try {
+            return await db.pool.query("SELECT post_code, city, country FROM users WHERE user_name='"+username+"'");
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
     getLastCommunications: async function(username){
-        return await db.pool.query("SELECT messages.* FROM messages, "+
-        "(SELECT users, max(JSON_VALUE(message, '$.timestamp')) AS timestamp FROM messages WHERE users LIKE '%"+ username +"%' GROUP BY users ORDER BY TIMESTAMP DESC) last_message " +
-        "WHERE messages.users=last_message.users " +
-        "AND JSON_VALUE(messages.message, '$.timestamp')=last_message.timestamp;");
+        try {
+            return await db.pool.query("SELECT messages.users, messages.sender, messages.text, messages.file FROM messages, " +
+                "(SELECT users, max(JSON_VALUE(message, '$.timestamp')) AS timestamp FROM messages WHERE users LIKE '%" + username + "%' GROUP BY users ORDER BY TIMESTAMP DESC) last_message " +
+                "WHERE messages.users=last_message.users " +
+                "AND JSON_VALUE(messages.message, '$.timestamp')=last_message.timestamp;");
+        }catch (err) {
+            console.log(err);
+        }
     },
 
     getFriends: async function(username){
@@ -217,13 +246,18 @@ const MARIA_USER_CONTROLLER = {
     getMessages: async function(username1, username2){
         try{
             let usernames = {"usernames": [username1, username2].sort()};
-            let rows = await db.pool.query("SELECT message, file FROM messages WHERE users='" + JSON.stringify(usernames) + "';");
+            let rows = await db.pool.query("SELECT sender, text, timestamp, file FROM messages WHERE users='" + JSON.stringify(usernames) + "';");
             if(rows.length === 0){
                 return 0;
             }
             else{
                 let messages = [];
                 rows.forEach((item) => {
+                    item.message = {
+                        sender: item.sender,
+                        message: item.text,
+                        timestamp: Number(item.timestamp)
+                    };
                     if(item.file){
                         item.message.file = JSON.parse(item.file);
                     }
@@ -237,15 +271,14 @@ const MARIA_USER_CONTROLLER = {
     },
 
     saveMessage: async function(sender, recipient, message, timestamp, files, toxicity){
-        let newMessage = {sender: sender, message: message, timestamp: timestamp};
         try{
             let usernames = {"usernames": [sender, recipient].sort()};
-            const insertQuery = "INSERT INTO messages (users, message, toxic, file) VALUES (?, ?, ?, ?)";
+            const insertQuery = "INSERT INTO messages (users, sender, text, timestamp, toxic, file) VALUES (?, ?, ?, ?, ?, ?)";
             if(files){
-                await db.pool.query(insertQuery, [JSON.stringify(usernames), newMessage, toxicity, files]);
+                await db.pool.query(insertQuery, [JSON.stringify(usernames), sender, message, timestamp, toxicity, files]);
             }
             else{
-                await db.pool.query(insertQuery, [JSON.stringify(usernames), newMessage, toxicity, null]);
+                await db.pool.query(insertQuery, [JSON.stringify(usernames), sender, message, timestamp, toxicity, null]);
             }
             if(toxicity){
                 await db.pool.query("UPDATE users SET toxic=toxic+1 WHERE user_name='" + sender + "'");
@@ -264,14 +297,103 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
+    addEvent: async function(orgname, eName, eTimestamp, eDescription, eLat, eLon){
+        try{
+            const insertQuery = "INSERT INTO events (org_name, name, timestamp, description, lat, lon) VALUES (?, ?, ?, ?, ?, ?)";
+            await db.pool.query(insertQuery, [orgname, eName, eTimestamp, eDescription, eLat, eLon]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    updateEvent: async function(eId, eName, eTimestamp, eDescription, eLat, eLon){
+        try{
+            await db.pool.query("UPDATE events SET name='" + eName + "', timestamp='" + eTimestamp +
+                "', description='" + eDescription + "', lat=" + eLat + ", lon=" + eLon +
+                " WHERE id=" + eId + ";");
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    removeEvent: async function(organ, event_id){
+        try{
+            let users = await db.pool.query("SELECT userId FROM e_attendance WHERE eventId=?", [event_id]);
+            let event = await db.pool.query("SELECT name, org_name, timestamp FROM events WHERE id=?;", [event_id]);
+            await db.pool.query("DELETE FROM events WHERE id=? AND org_name=?", [event_id, organ]);
+            await db.pool.query("DELETE FROM e_attendance WHERE eventId=?", [event_id]);
+            return [users, event[0]];
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    getEvent: async function(id){
+        try{
+            return await db.pool.query("SELECT id, org_name, name, timestamp, description, lat, lon, creation_timestamp FROM events WHERE id=?;", [id]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    getEvents: async function(orgname=""){
+        try{
+            // Testing timezone
+            // let testTS = await db.pool.query("SELECT CURRENT_TIMESTAMP;");
+            // console.log(testTS);
+            if(orgname === ""){
+                return await db.pool.query("SELECT id, org_name, name, timestamp, description, lat, lon, creation_timestamp FROM events;");
+            }
+            else{
+                return await db.pool.query("SELECT * FROM events WHERE org_name='"+ orgname +"';");
+            }
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    searchEvents: async function(searchText){
+        try{
+            searchText = searchText.trim();
+            searchText = searchText.replaceAll(" ", "* ") + "*";
+            return await db.pool.query("SELECT id FROM events WHERE MATCH(org_name, name) AGAINST(? IN BOOLEAN MODE)", [searchText]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    updateAttendEvent: async function(username, event_id){
+        try {
+            let row = await db.pool.query("SELECT * FROM e_attendance WHERE userId='" + username + "' AND eventId=" + event_id + ";");
+            if(row[0]){
+                await db.pool.query("DELETE FROM e_attendance WHERE userId='" + username + "' AND eventId=" + event_id + ";");
+                await db.pool.query("UPDATE events SET people_count = people_count - 1 WHERE id=" + event_id + ";");
+                return 204;
+            }
+            else{
+                const insertQuery = "INSERT INTO e_attendance (userId, eventId) VALUES (?, ?)";
+                await db.pool.query(insertQuery, [username, event_id]);
+                await db.pool.query("UPDATE events SET people_count = people_count + 1 WHERE id=" + event_id + ";");
+                return 201;
+            }
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
     deleteUser: async function(username){
-        await db.pool.query("DELETE FROM users WHERE user_name='" + username + "'");
-        await db.pool.query("DELETE FROM sessions WHERE user_name='" + username + "'");
-        await db.pool.query("DELETE FROM logins WHERE username='" + username + "'");
-        await db.pool.query("DELETE FROM messages WHERE users LIKE'%" + username + "%'");
-        await db.pool.query("DELETE FROM friends WHERE user1='" + username + "'");
-        await db.pool.query("DELETE FROM friends WHERE user2='" + username + "'");
-        await db.pool.query("DELETE FROM addfrcode WHERE username='" + username + "'");
+        try {
+            await db.pool.query("DELETE FROM users WHERE user_name='" + username + "'");
+            await db.pool.query("DELETE FROM sessions WHERE user_name='" + username + "'");
+            await db.pool.query("DELETE FROM logins WHERE username='" + username + "'");
+            await db.pool.query("DELETE FROM messages WHERE users LIKE'%" + username + "%'");
+            await db.pool.query("DELETE FROM friends WHERE user1='" + username + "'");
+            await db.pool.query("DELETE FROM friends WHERE user2='" + username + "'");
+            await db.pool.query("DELETE FROM addfrcode WHERE username='" + username + "'");
+            await db.pool.query("DELETE FROM events WHERE org_name='" + username + "'");
+        }catch (err) {
+            console.log(err);
+        }
     }
 };
 

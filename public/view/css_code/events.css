@@ -1,0 +1,11 @@
+.event-item {
+    background-color: #dbecec;
+    padding: 1rem;
+    margin: 2rem;
+    width: 80%;
+}
+
+.hidden {
+    display: none;
+}
+

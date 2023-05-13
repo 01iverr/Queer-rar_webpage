@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../view/css_code/main.css">
+    <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+    <title> Queer-rar Add Event </title>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="../../client/main.js"></script>
+    <script src="../../client/add-updateEvent.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <!-- ========================== HEADER ========================== -->
+    <div id="header" >
+        {{> header}}
+    </div>
+
+    <!-- ========================== Main ========================== -->
+
+    <main id="index-page-components">
+        <h1> New Event? </h1>
+        <form action="/addEvent" method="POST" id="addEventForm">
+            <input type="hidden" name="event_id">
+            <input type="hidden" name="username">
+            <input type="hidden" name="session_id">
+            <input type="hidden" name="eLon">
+            <input type="hidden" name="eLat">
+
+            <label for="event-name">
+                Name of the event:
+            </label>
+            <input type="text" id="event-name" name="eName" placeholder="" required>
+            <br><br>
+
+            <label for="event-date">
+                Date:
+            </label>
+            <input type="date" id="event-date" name="eDate" required>
+            <br><br>
+
+            <label for="event-time">
+                Time:
+            </label>
+            <input type="time" id="event-time" name="eTime" required min="00:00" max="24:00">
+            <br><br>
+
+            <label for="event-place">
+                Place:
+            </label>
+            <input type="text" id="event-place" name="ePlace" required>
+            <div id="map"></div>
+            <input type="button" value="Check position" onclick="checkMap()">
+            <br><br>
+
+            <label for="event-desc">
+                Description:
+            </label>
+            <textarea rows="6" cols="65" id="event-desc" placeholder="Enter your description" name="eDesc" required> </textarea>
+            <br><br>
+
+            <input id="submitEvent" type="submit" value="Create the event">
+        </form>
+    </main>
+
+    <!-- ========================== FOOTER ========================== -->
+
+    <div id="footer">
+        {{> footer}}
+    </div>
+</div>
+</body>
+</html>

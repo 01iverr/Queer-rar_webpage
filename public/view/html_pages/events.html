@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../view/css_code/main.css">
+    <link rel="stylesheet" href="../../view/css_code/events.css">
+    <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+    <title> Queer-rar Events </title>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="../../client/main.js"></script>
+    <script src="../../client/event.js"></script>
+
+    <script type="text/x-handlebars-template" id="event-template">
+        <div class="event-box">
+            {{#each eventsList}}
+                <div class="event-item" data-id="{{id}}">
+                    <h2>{{name}}</h2>
+                    <h3>{{org_name}}<h3>
+
+                    <p>
+                        {{place}}
+                        {{timestamp}}
+                    </p>
+                    <p>{{description}}</p>
+
+                    {{people_count}}
+
+                    <div class="user">
+                        <button onclick="attend({{id}})">Will go</button>
+                    </div>
+                    <div class="organization">
+                        <button onclick="editEvent({{id}})">Edit</button>
+                        <button onclick="removeEvent({{id}})">Remove</button>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <!-- ========================== HEADER ========================== -->
+    <div id="header" >
+        {{> header}}
+    </div>
+
+    <!-- ========================== Main ========================== -->
+
+    <main id="index-page-components">
+        <h1>Events</h1>
+        
+        <label for="events-order">Order by: </label>
+        <select name="order-selections" id="events-order">
+            <option value="date" selected>Date</option>
+            <option value="distance">Distance</option>
+            <option value="newest">Newest</option>
+        </select>
+
+        <br><br>
+
+        <label for="event-search">Search: </label>
+        <input type="search" id="event-search">
+        
+        <div id="event-viewer">
+        
+        </div>
+    </main>
+
+    <!-- ========================== FOOTER ========================== -->
+
+    <div id="footer">
+        {{> footer}}
+    </div>
+</div>
+</body>
+</html>

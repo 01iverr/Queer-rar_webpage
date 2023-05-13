@@ -215,7 +215,13 @@ body {
 }
 
 #video-call {
-    margin-right: auto;
+    margin-left: auto;
     align-self: start;
     font-size: 2rem;
+    display: none;
+}
+
+#video-call img {
+    width: 3rem;
+    height: 3rem;
 }

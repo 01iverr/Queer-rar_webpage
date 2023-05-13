@@ -1,5 +1,7 @@
 require("dotenv").config();
+process.env.TZ = "Europe/Amstredam"; // temporary
 const express = require('express');
+const fileUpload = require("express-fileupload");
 const path = require('path');
 const uuid = require('uuid');
 const nodemailer = require('nodemailer');
@@ -18,6 +20,17 @@ const users = {}
 
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {debug: true,});
+
+const transporter = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE,
+    host: process.env.EMAIL_HOST,
+    port: 587,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
 app.use('/peerjs', peerServer);
 
@@ -103,6 +116,11 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 
+app.use(fileUpload({
+    defCharset: 'utf8',
+    defParamCharset: 'utf8'
+}));
+
 app.get('/video', function(req, res){
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
@@ -162,17 +180,6 @@ async function informToxicity(username, email, toxic) {
         await MARIA_USER_CONTROLLER.deleteUser(username);
     }
     else if(toxic > 75) {
-        let transporter = nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE,
-            host: process.env.EMAIL_HOST,
-            port: 587,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
-
         let mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -241,16 +248,7 @@ app.post("/reset_pass", async function(req, res){
     if (existingUser !== 0){
         let reset_session_id = uuid.v4();
         await MARIA_USER_CONTROLLER.changeSessionId(existingUser, reset_session_id);
-        let transporter = nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE,
-            host: process.env.EMAIL_HOST,
-            port: 587,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+
         let link = "http://localhost:8080/pass_reset?username=" + existingUser + "&session_id=" + reset_session_id;
         let mailOptions = {
             from: process.env.EMAIL_USER,
@@ -321,7 +319,7 @@ app.get("/profile_picture", async function(req, res){
     let username = req.query.username;
     let friend = req.query.friend;
     if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
-        let prof_pic = "";
+        let prof_pic;
         if(friend !== ""){
             prof_pic = await MARIA_USER_CONTROLLER.getProfilePicture(friend);
         }
@@ -427,6 +425,17 @@ app.get('/signup-user', function(req, res){
     })
 });
 
+app.get('/signupOrganization', function(req, res){
+
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    }
+
+    res.sendFile('sign-up-organization.html', options, function(err){
+        //console.log(err)
+    })
+});
+
 app.post("/sendData", async function(req,res){
     let username = req.body.Username;
     let user = await MARIA_USER_CONTROLLER.getUserFromUsername(username);
@@ -448,17 +457,59 @@ app.post("/sendData", async function(req,res){
         }
         else{
             await MARIA_USER_CONTROLLER.addOrganization(firstName, email, country, city, postCode, phone, birthDate, username, password, learnUsFrom);
+
+            if (!req.files) {
+                return res.status(400).send("No files were uploaded.");
+            }
+
+            const file = req.files.id;
+            const save_path = __dirname + "/files/" + firstName + file.name;
+
+            await file.mv(save_path, (err) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+            });
+
+            let mailOptions = {
+                from: email,
+                to: process.env.EMAIL_USER,
+                subject: "New organization: " + firstName,
+                html: "<!DOCTYPE html>\n" +
+                    "<html lang=\"en\">\n" +
+                    "    <head>\n" +
+                    "        <meta charset=\"UTF-8\">\n" +
+                    "        <title>Title</title>\n" +
+                    "    </head>\n" +
+                    "    <body><p>Name: " + firstName + ", <br>Email: " + email + ", <br>Phone: " + phone + ", " +
+                    "               <br>Location: " + city + ", " + country + "</p>" +
+                    "    </body>" +
+                    "</html>",
+                attachments: [{
+                    filename: firstName + file.name,
+                    path: save_path,
+                    contentType: 'application/pdf'
+                }],
+            };
+
+            await transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log("EMAIL ERROR:");
+                    console.log(error);
+                } else {
+                    // console.log('Email sent: ' + info.response);
+                }
+            });
         }
-        let session_id = uuid.v4();
-        await MARIA_USER_CONTROLLER.login(username, session_id);
-        res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
+
+        res.send("Our team is processing your request. We will email you shortly with the progress of your application.");
     }
     else{
         res.sendStatus(400).send("User name is taken.");
     }
 });
 
-app.get("/contact" ,function(req,res){
+app.get("/contact", function(req,res){
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
     };
@@ -476,17 +527,6 @@ app.post("/contact", async function(req, res) {
     let pronouns = req.body.pronouns;
     let email = req.body.email;
     let message = req.body.message;
-
-    let transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE,
-        host: process.env.EMAIL_HOST,
-        port: 587,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
 
     let mailOptions = {
         from: email,
@@ -514,11 +554,171 @@ app.post("/contact", async function(req, res) {
     });
 
     if(username && session_id){
-        res.redirect(`/index.htl/?username=${username}&session_id=${session_id}`);
+        res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
     }
     else{
         res.redirect("/index.html");
     }
 });
 
+app.get("/addEvent", async function (req, res) {
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    };
 
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    let event_id = req.query.event_id;
+    if (username && session_id && await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        if(await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+            res.sendFile('add_event.html', options, function (err) {
+                //console.log(err);
+            });
+        }
+        else{
+            res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
+        }
+    }
+    else{
+        res.redirect("/index.html");
+    }
+});
+
+app.get("/getEvent", async function (req, res) {
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    };
+
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    let event_id = req.query.event_id;
+    if (username && session_id && await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        if(await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+            let event = await MARIA_USER_CONTROLLER.getEvent(event_id);
+            res.send(event[0]);
+        }
+        else{
+            res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
+        }
+    }
+    else{
+        res.redirect("/index.html");
+    }
+});
+
+app.post("/addEvent", async function(req, res) {
+    let username = req.body.username;
+    let session_id = req.body.session_id;
+    let event_id = req.body.event_id;
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        let eName = req.body.eName;
+        let eDate = req.body.eDate;
+        let eTime = req.body.eTime;
+        let eLon = req.body.eLon;
+        let eLat= req.body.eLat;
+        let eDesc= req.body.eDesc;
+
+        if(event_id){
+            await MARIA_USER_CONTROLLER.updateEvent(event_id, eName, eDate + " " + eTime + ":00" , eDesc, eLat, eLon);
+        }
+        else {
+            await MARIA_USER_CONTROLLER.addEvent(username, eName, eDate + " " + eTime + ":00", eDesc, eLat, eLon);
+        }
+    }
+    res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
+});
+
+app.get('/events', function(req, res){
+
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    }
+
+    res.sendFile('events.html', options, function(err){
+        //console.log(err)
+    })
+});
+
+app.get("/getEvents", async function (req, res) {
+    let username = req.query.username;
+    let events;
+    if(username && await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        events = await MARIA_USER_CONTROLLER.getEvents(username);
+    }
+    else{
+        events = await MARIA_USER_CONTROLLER.getEvents();
+    }
+    res.send(events);
+});
+
+app.get("/searchEvents", async function (req, res) {
+    let username = req.query.username;
+    let text = req.query.text;
+    let events = [];
+    let ids = await MARIA_USER_CONTROLLER.searchEvents(text);
+    for(let id of ids){
+        let tempEvent = await MARIA_USER_CONTROLLER.getEvent(id.id)
+        events.push(tempEvent[0]);
+    }
+    res.send(events);
+});
+
+app.get("/location", async function(req, res) {
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let location = await MARIA_USER_CONTROLLER.getLocation(username);
+        res.send(location);
+    }
+});
+
+app.post("/attending", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    let event_id = req.query.event_id;
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let result = await MARIA_USER_CONTROLLER.updateAttendEvent(username, event_id);
+        res.sendStatus(result);
+    }
+});
+
+app.post("/removeEvent", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    let event_id = req.query.event_id;
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let result = await MARIA_USER_CONTROLLER.removeEvent(username, event_id);
+
+        for(let user of result[0]){
+            let userEmail = await MARIA_USER_CONTROLLER.getEmail(user.userId);
+            let mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: userEmail[0].email,
+                subject: "Event Cancellation",
+                html: "<!DOCTYPE html>\n" +
+                    "<html lang=\"en\">\n" +
+                    "    <head>\n" +
+                    "        <meta charset=\"UTF-8\">\n" +
+                    "        <title>Title</title>\n" +
+                    "    </head>\n" +
+                    "    <body><p>We would like to inform you that the event: </p>" +
+                    "          <p>" + result[1].name + " of organization " + result[1].org_name + " at: " + result[1].timestamp + "</p>" +
+                    "          <strong>is Cancelled!</strong>" +
+                    "    </body>" +
+                    "</html>"
+            };
+
+            await transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log("EMAIL ERROR:");
+                    console.log(error);
+                } else {
+                    // console.log('Email sent: ' + info.response);
+                }
+            });
+        }
+
+
+        res.sendStatus(200);
+    }
+});

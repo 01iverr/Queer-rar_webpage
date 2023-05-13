@@ -131,7 +131,11 @@ class Chat {
             lastTimeMess.push({
                 username: friend[0],
                 prof_pic: this.currentUser.friendProfPic,
-                last_message: message.message,
+                last_message: {
+                    sender: message.sender,
+                    text: message.text,
+                    timestamp: message.timestamp
+                },
                 file: message.file
             });
         }
@@ -147,7 +151,7 @@ class Chat {
             $user.appendChild(profImg);
             $user.appendChild(usernameElement);
             const $lastMess = document.createElement("div");
-            $lastMess.innerHTML= newMess.last_message.sender + ": " + newMess.last_message.message;
+            $lastMess.innerHTML= newMess.last_message.sender + ": " + newMess.last_message.text;
             $user.appendChild($lastMess);
             $user.dataset.id = newMess.username;
             this.$usersList.appendChild($user);
@@ -287,6 +291,7 @@ class Chat {
 
         this.messages = document.querySelector(".messages");
         let videoCall = document.getElementById("video-call");
+        videoCall.style.display = 'block';
         let currentUser = this.currentUser;
         let roomIdCreation = [userId, this.currentUser.name];
         roomIdCreation = roomIdCreation.sort()
