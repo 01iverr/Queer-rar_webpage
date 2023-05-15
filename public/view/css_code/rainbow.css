@@ -106,13 +106,13 @@
   }
 }
 
-@media screen and (min-width: 1100px) and (max-width:1132px) {
+@media screen and (min-width: 600px) and (max-width:1132px) {
   .playground>div{
-    margin-left: 50px;
-    border-radius:300px 300px 0 0;
+    margin-left: 10px;
+    border-radius:250px 250px 0 0;
   }
   .playground{
-    width:calc(40px * 14);
+    width:calc(40px * 7);
     height:calc(40px * 7);
   }
   #red{
@@ -160,6 +160,20 @@
     top: calc(40px * 7);
   }
 }
+
+
+@media screen and (min-width: 900px) and (max-width:950px) {
+  .playground>div{
+    margin-left: -300px;
+    border-radius:250x 0px 0 0;
+  }
+}
+
+
+
+
+
+
 
 .playground{
   border: none;
@@ -222,7 +236,7 @@
 }
 #middle{
   position:absolute;
-  background-color:white;
+  background-color: #f1fef1;;
   transform: rotate(0);
 }
 

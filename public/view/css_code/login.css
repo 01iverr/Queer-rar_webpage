@@ -1,4 +1,17 @@
 /* ########## MEDIA QUERIES ########## */
+body{
+  background-color: #f1fef1;
+}
+
+
+#button-login-forgot-pass{
+  background-image: url(../media/signin/forgot-password.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+  width: 30px;
+  height: 30px;
+}
+
 
 @media screen and (min-width: 1400px) {
   #index-page-components {
@@ -12,17 +25,58 @@
   }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen (min-width:980) and (max-width: 1100px) {
+
   figure#animated_rainbow {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   figure#animated_rainbow figcaption {
-    margin-top: 20px;
+    margin-top: 10px;
+  }
+
+  #index-page-components {
+    margin: 70px 2% 50px 1%;
+  }
+
+}
+
+@media screen (min-width:950) and (max-width: 980px) {
+
+  figure#animated_rainbow {
+    flex-direction: row;
+  }
+
+  figure#animated_rainbow figcaption {
+    margin-top: 10px;
+  }
+  #index-page-components {
+    margin-left: -10px;
+    margin-top: 100px;
   }
 }
 
-@media screen and (max-width: 950px) {}
+
+@media screen (min-width:600) and (max-width: 950px) {
+
+  figure#animated_rainbow {
+    flex-direction: row;
+  }
+
+  figure#animated_rainbow figcaption {
+    margin-top: 10px;
+    margin-left: -300px;
+  }
+  #index-page-components {
+    margin-left: -500px;
+    margin-top: 100px;
+  }
+}
+
+
+@media screen and (max-width: 900px) {
+
+}
 
 @media screen and (min-width:800px) and (max-width:1100px) {}
 
@@ -32,14 +86,14 @@
 @media screen and (max-width: 800px) {
 
   /* ------------ Index ------------ */
-  figure#animated_rainbow {
+  /* figure#animated_rainbow {
     margin-left: 2vw;
     margin-right: 2vw;
-  }
+  } */
 
   figure#animated_rainbow figcaption {
     font-size: 16.5px;
-    padding: 8px;
+    /* padding: 8px; */
   }
 }
 

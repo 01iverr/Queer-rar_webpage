@@ -190,7 +190,6 @@
     visibility:hidden;
   }
 
-
   form.custom_forms{
     width: 80%;
     text-align: center;
@@ -213,7 +212,7 @@
 /* signup */
   #formsignup{
     width: 90vw;
-    height: 110vh;
+    height: 72vh;
   }
     .goleftorright {
         flex-direction:column;
@@ -235,15 +234,13 @@
     .twobuttons{
       height:3%;
     }
-
-
 }
 
 @media screen and (max-width: 415px) {
   /* signup */
     #formsignup{
       width: 90vw;
-      height: 120vh;
+      height: 78vh;
     }
       .goleftorright {
           flex-direction:column;
