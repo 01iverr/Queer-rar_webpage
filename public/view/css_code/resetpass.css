@@ -14,7 +14,7 @@
         radial-gradient(at 10% 79%, hsla(228, 96%, 69%, 1) 0px, transparent 50%),
         radial-gradient(at 85% 58%, hsla(328, 81%, 68%, 1) 0px, transparent 50%);
     background-repeat: no-repeat;
-    color: white;
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +23,7 @@
 .card {
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: #eaf6f6;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
     display: flex;
@@ -50,7 +50,7 @@ p {
     border-bottom: 2px solid #dbecec;
     font-size: 15px;
     margin-left: 40px;
-    color: white;
+    color: black;
     outline: none;
 }
 button {
@@ -58,7 +58,7 @@ button {
     margin-left:40px;
     width: 80%;
     background-color: #dbecec;
-    color: white;
+    color: black;
     padding: 10px;
     font-weight: bold;
     text-transform: uppercase;
