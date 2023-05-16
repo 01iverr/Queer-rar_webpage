@@ -36,11 +36,12 @@
             </label>
             <input type="text"class="custom_forms"  id="event-name" name="eName" placeholder="" required>
 
-            <label for="event-date" class="custom_forms">
+            <label for="event-date" class="custom_forms" id="labeldate">
                 Date:
             </label>
             <input type="date" class="custom_forms"  id="event-date" name="eDate" required>
-            <label for="event-time" class="custom_forms">
+            <br>
+            <label for="event-time" class="custom_forms" id="labeltime">
                 Time:
             </label>
             <input type="time" class="custom_forms"  id="event-time" name="eTime" required min="00:00" max="24:00">
@@ -51,7 +52,8 @@
             <input type="text" class="custom_forms"  id="event-place" name="ePlace" required>
 
             <div id="map"></div>
-            <input type="button" class="custom_forms"  class="buttonsressub" value="Check position" id="checkpos" onclick="checkMap()">
+            <input type="button" class="custom_forms" value="Check position" id="checkpos" onclick="checkMap()">
+            <br>
             <label for="event-desc">
                 Description:
             </label>
