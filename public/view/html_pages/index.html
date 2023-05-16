@@ -5,6 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title> Queer-rar </title>
       <link rel="stylesheet" href="../../view/css_code/main.css">
+      <link rel="stylesheet" href="../../view/css_code/landpage.css">
       <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
       <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
       <script src="../../client/main.js"></script>
@@ -12,23 +13,28 @@
   <body>
     <div class="wrapper">
         <!-- ========================== HEADER ========================== -->
-        <div id="header">
+        <!-- <div id="header">
             {{> header}}
-        </div>
-            
+        </div> -->
+
         <!-- ========================== Main ========================== -->
-        
         <main id="index-page-components">
-      
-            <h1>Main page</h1>
-        
+
+          <div class="container">
+            <div class="banner">
+              <h1> <span>Queer-rar</span></h1>
+              <p>Everything about queer events</p>
+              <button type="button" class="btn-left">Sign in</button>
+              <button type="button" class="btn-right">Sing up</button>
+            </div>
+          </div>
         </main>
-        
+
         <!-- ========================== FOOTER ========================== -->
-        
-        <div id="footer">
+
+        <!-- <div id="footer">
             {{> footer}}
-        </div>
+        </div> -->
     </div>
     </body>
 </html>
