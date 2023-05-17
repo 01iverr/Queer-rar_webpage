@@ -11,6 +11,11 @@ html {
 
 body {
   margin: 0;
+
+}
+
+main{
+  min-height : 43vw;
 }
 
 
