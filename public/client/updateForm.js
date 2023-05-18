@@ -6,17 +6,27 @@ window.addEventListener('load', () => {
     if(username && session_id){
         let form = document.getElementById('updatepasswordform');
 
-        let hiddenInputName = document.createElement('input')
-        hiddenInputName.setAttribute('type', 'hidden');
-        hiddenInputName.setAttribute('name', 'username');
-        hiddenInputName.setAttribute('value', username);
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-        let hiddenInputSession = document.createElement('input')
-        hiddenInputSession.setAttribute('type', 'hidden');
-        hiddenInputSession.setAttribute('name', 'session_id');
-        hiddenInputSession.setAttribute('value', session_id);
+            let formData = new FormData(form);
+            formData.append("username", username);
+            formData.append("session_id", session_id);
 
-        form.appendChild(hiddenInputName);
-        form.appendChild(hiddenInputSession);
+            let init ={
+                method: "POST",
+                body: formData
+            }
+
+            fetch("/update_pass", init)
+                .then((res) => {
+                    if(res.status === 204){
+                        window.location.href = `/index.html`;
+                    }
+                    else if(res.status === 401){
+                        // you have not logged in
+                    }
+                })
+        });
     }
 });

@@ -1,0 +1,26 @@
+#friends-viewer {
+    margin: 2rem;
+}
+
+.friend-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.friend-frame {
+    width: 20%;
+    margin: 1rem;
+    padding: 0.5rem;
+    background-color: #dbecec;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.friend-frame img {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+}

@@ -106,6 +106,21 @@ h5 {
 
 /* Smartphone */
 @media screen and (max-width: 520px) {
+  #labels_inputs_block {
+    display: flex;
+  }
+
+  #labels_block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #input_blocks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
  /* // */
 #Contact {

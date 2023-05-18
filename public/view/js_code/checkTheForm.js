@@ -4,8 +4,8 @@ function checkPasswords(id1 , id2) {
   var password2 = id2;
   if (password2.value) { //  password2 isn't null or undefined or empty
     if (password1.value == password2.value) {
-      if (!PassValid()) {
-        PassValid();
+      if (!PassValid(password1)) {
+        PassValid(password1);
         password2.setCustomValidity("Incorrect password"); // we dont want to make this message visible!
           return;
       }

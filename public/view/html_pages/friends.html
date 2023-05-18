@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../view/css_code/main.css">
+        <link rel="stylesheet" href="../../view/css_code/friends.css">
+        <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+        <title> Queer-rar Events </title>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script src="../../client/main.js"></script>
+        <script src="../../client/friend.js"></script>
+        
+        <script type="text/x-handlebars-template" id="friend-template">
+            <div class="friend-box">
+                {{#each friendsList}}
+                    <div class="friend-frame" data-id="{{name}}">
+                        <img src="{{prof_pic}}" alt="profile picture of {{name}}">
+                        <h2>{{name}}</h2>
+                    </div>
+                {{/each}}
+            </div>
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- ========================== HEADER ========================== -->
+            <div id="header" >
+                {{> header}}
+            </div>
+            
+            <!-- ========================== Main ========================== -->
+            
+            <main id="index-page-components">
+                <h1>Friends</h1>
+                
+                <button id="code-gen">Generate a code to add friends</button>
+                <span id="new-code"></span>
+                <br><br>
+                
+                <input id="friend-code" type="text" placeholder="Place the code here">
+                <button id="add-friend">Add friend</button>
+                <br><br>
+                
+                <input id="friend-username" type="text" placeholder="Write the username">
+                <button id="rem-friend">Remove friend</button>
+                <br><br>
+                
+                <div id="friends-viewer">
+                
+                </div>
+            </main>
+            
+            <!-- ========================== FOOTER ========================== -->
+            
+            <div id="footer">
+                {{> footer}}
+            </div>
+        </div>
+    </body>
+</html>

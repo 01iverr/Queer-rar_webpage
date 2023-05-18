@@ -70,6 +70,8 @@ async function addPlaceDistance(list, viewer, template) {
             .then((res) => {
                 ev.place = res.features[0].properties.formatted;
             })
+        let localeDate =  new Date(ev.timestamp);
+        ev.timestamp = localeDate.toLocaleDateString() + " " + localeDate.toLocaleTimeString();
     }
     viewer.innerHTML = template({'eventsList': list});
     hideButtons(list, viewer);

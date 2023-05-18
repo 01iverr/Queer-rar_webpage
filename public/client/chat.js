@@ -242,7 +242,7 @@ class Chat {
                 this.$usersList.querySelectorAll("div[data-id]").forEach((user) => {
                     users.push(user.getAttribute("data-id"));
                 });
-                if(this.$addFriendInput.value in users) {
+                if(!(this.$addFriendInput.value in users)) {
                     const message = {
                         username: this.currentUser.name,
                         friend: this.$addFriendInput.value
@@ -253,23 +253,18 @@ class Chat {
             }
         });
 
-        this.$fileInput.addEventListener("change", () => {
+        this.$fileInput.addEventListener("change", async () => {
             let templateText = document.getElementById("file-item-template").textContent;
             let compTemp = Handlebars.compile(templateText);
             let fileViewer = document.getElementById("file-viewer");
-            let fileNamesList =[];
-            for(let file of this.$fileInput.files){
-                // if(file.type.startsWith("image")){
-                //     let fileReader = new FileReader();
-                //     fileReader.readAsDataURL(file);
-                //     fileReader.onload = function (reader) {
-                //         let src = reader.target.result;
-                //         fileNamesList.push({name: file.name, img_src: src});
-                //     };
-                // }
-                // else{
+            let fileNamesList = [];
+            for (let file of this.$fileInput.files) {
+                if (file.type.startsWith("image")) {
+                    let imgBase64 = await toBase64(file);
+                    fileNamesList.push({name: file.name, img_src: imgBase64});
+                } else {
                     fileNamesList.push({name: file.name, img_src: 'view/media/chat/file.png'});
-                // }
+                }
             }
             fileViewer.innerHTML = compTemp({'filesList': fileNamesList});
             this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
@@ -362,7 +357,7 @@ class Chat {
     addUder(user){
         const $newUser = document.createElement("div");
         let profImg = document.createElement("img");
-        profImg.src = JSON.parse(user.friend.profile_picture)[0];
+        profImg.src = JSON.parse(user.profile_picture.profile_picture)[0];
         $newUser.appendChild(profImg);
         $newUser.innerHTML += user.username;
         $newUser.setAttribute("data-id", user.username);
