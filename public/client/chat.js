@@ -4,6 +4,7 @@ class Chat {
     messages = {}
     constructor({ currentUser }) {
         this.currentUser = currentUser;
+        this.numberOfMess = 10;
         this.fetchProfPic();
         this.initializeChat();
         this.initializeListeners();
@@ -25,8 +26,8 @@ class Chat {
         return await res.json();
     }
 
-    async fetchMessages() {
-        const res = await fetch('/messages?username=' + this.currentUser.name + '&session_id=' + this.currentUser.session_id + '&recipient_username=' + this.activeChatId);
+    async fetchMessages(numberMess) {
+        const res = await fetch('/messages?username=' + this.currentUser.name + '&session_id=' + this.currentUser.session_id + '&recipient_username=' + this.activeChatId + '&numberMess=' + numberMess);
         return await res.json();
     }
 
@@ -54,9 +55,10 @@ class Chat {
         let lastDate = "";
         const $messages = this.messages[userId].map((message) => {
             const date= new Date(message.timestamp);
-            const dateFormat = " " + (date.getHours()<10?'0':'') + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes(); // + ", "+ date.toDateString();
+            const dateFormat = " " + String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0");
             const $message = document.createElement("div");
             $message.classList.add("message");
+            String().padStart()
 
             if(lastDate !== date.toDateString()){
                 lastDate = date.toDateString();
@@ -100,13 +102,17 @@ class Chat {
             this.$messagesList.append($message);
             return $message;
         });
+        let firstMsg = document.getElementsByClassName("message");
+        if(firstMsg[this.numberOfMess]){
+            firstMsg[this.numberOfMess].setAttribute("id", "first-message");
+        }
         let lastMessage = document.querySelector(".users-list .active div");
         if(lastMessage){
             let lastSendMessage = $messages.slice(-1)[0];
             lastMessage.innerHTML = "";
             lastMessage.append(lastSendMessage.innerText);
         }
-        this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
+        // this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
     }
 
     initializeUserListener($user) {
@@ -304,11 +310,13 @@ class Chat {
 
         this.$textInput.classList.remove("hidden");
 
-        let messages = await this.fetchMessages();
+        let messages = await this.fetchMessages(this.numberOfMess);
 
-        this.messages[userId] = messages.messages;
+        this.messages[userId] = messages.messages.reverse();
 
         this.renderMessages(userId);
+
+        this.$messagesList.scrollTo(0, this.$messagesList.scrollHeight);
 
         this.$textInput.addEventListener("keyup", async (e) => {
             if (e.key === "Enter" && (this.$textInput.value !== "" || this.$fileInput.value !== "")) {
@@ -352,6 +360,23 @@ class Chat {
         this.$usersList
             .querySelector(`div[data-id="${userId}"]`)
             .classList.remove("has-new-notification");
+
+        this.$messagesList.addEventListener("scrollend", async () => {
+            if (this.$messagesList.scrollTop === 0) {
+                let messages;
+                if (this.messages[this.activeChatId]) {
+                    messages = await this.fetchMessages(this.messages[this.activeChatId].length + this.numberOfMess);
+
+                } else {
+
+                    messages = await this.fetchMessages(this.numberOfMess);
+                }
+
+                this.messages[this.activeChatId] = messages.messages.reverse();
+                this.renderMessages(this.activeChatId);
+                location.hash = "#first-message";
+            }
+        });
     }
 
     addUder(user){
@@ -402,7 +427,6 @@ window.addEventListener('load', () => {
     const session_id = urlParams.get('session_id');
 
     window.addEventListener('beforeunload', () =>{
-        console.log("closing socket");
         socket.close();
     });
 

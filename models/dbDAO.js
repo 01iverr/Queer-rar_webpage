@@ -327,11 +327,11 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
-    getMessages: async function(username1, username2){
+    getMessages: async function(username1, username2, n){
         try{
             checkInputs([username2]);
             let usernames = {"usernames": [username1, username2].sort()};
-            let rows = await db.pool.query("SELECT sender, text, timestamp, file FROM messages WHERE users = ? ;", [JSON.stringify(usernames)]);
+            let rows = await db.pool.query("SELECT sender, text, timestamp, file FROM messages WHERE users = ? ORDER BY timestamp DESC LIMIT ?;", [JSON.stringify(usernames), Number(n)]);
             if(rows.length === 0){
                 return [];
             }

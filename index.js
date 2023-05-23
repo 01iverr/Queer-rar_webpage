@@ -1,5 +1,5 @@
 require("dotenv").config();
-process.env.TZ = "Europe/Amstredam"; // temporary
+process.env.TZ = "";
 const express = require('express');
 const fileUpload = require("express-fileupload");
 const path = require('path');
@@ -15,12 +15,19 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {
-    maxHttpBufferSize: 17e6
+    maxHttpBufferSize: 17e6,
+    cors: {
+        origin: "http://localhost:8080",
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling'],
+        credentials: true
+    },
+    allowEIO3: true,
 });
 const users = {}
 
 const { ExpressPeerServer } = require('peer');
-const peerServer = ExpressPeerServer(server, {debug: true,});
+const peerServer = ExpressPeerServer(server, {debug: true});
 
 const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
@@ -459,8 +466,9 @@ app.get("/messages", async (req, res) => {
     let username = req.query.username;
     let session_id = req.query.session_id;
     let recipient_username = req.query.recipient_username;
+    let numberOfMess = req.query.numberMess;
     if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
-        let messages = await MARIA_USER_CONTROLLER.getMessages(username, recipient_username);
+        let messages = await MARIA_USER_CONTROLLER.getMessages(username, recipient_username, numberOfMess);
         for(let mess of messages) {
            mess.message = decryptAES(mess.message);
         }
@@ -720,7 +728,7 @@ app.post("/addEvent", async function(req, res) {
         let eLat= req.body.eLat;
         let eDesc= req.body.eDesc;
 
-        if(event_id){
+        if(event_id !== null){
             await MARIA_USER_CONTROLLER.updateEvent(event_id, eName, eDate + " " + eTime, eDesc, eLat, eLon);
         }
         else {

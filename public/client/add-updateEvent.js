@@ -4,6 +4,8 @@ const session_id = urlParams.get('session_id');
 const event_id = urlParams.get('event_id');
 let lat;
 let lon;
+let map;
+let markerGroup;
 
 window.addEventListener("load", () => {
     let addUpdForm = document.getElementById("addEventForm");
@@ -69,24 +71,84 @@ window.addEventListener("load", () => {
     });
 });
 
+const redIcon = L.icon({
+    iconUrl: '../../view/media/map/red_icon.png',
+    iconSize:     [38, 45],
+    iconAnchor:   [22, 50],
+    popupAnchor:  [-3, -76]
+});
+
+const defaultIcon = L.icon({
+    iconUrl: '../../view/media/map/blue_icon.png',
+    iconSize:     [38, 45],
+    iconAnchor:   [22, 50],
+    popupAnchor:  [-3, -76]
+});
+
 function checkMap(){
+    let elementMap = document.getElementById("my-map");
+    if(elementMap.innerHTML === ""){
+        map = L.map('my-map');
+    }
     let place = document.querySelector("#event-place");
-    let hidden = document.querySelectorAll("input[type='hidden']");
     let requestOptions = {
         method: 'GET',
     };
 
+    function updatePlace(e){
+        lon = e.latlng.lng;
+        lat = e.latlng.lat;
+        place.value = e.target._popup._content;
+        for(let layer in markerGroup._layers){
+            markerGroup._layers[layer].setIcon(defaultIcon);
+        }
+        e.target.setIcon(redIcon);
+    }
+
+    function onMapClick(e) {
+
+        let marker = L.marker(e.latlng, {icon: redIcon});
+        fetch("https://api.geoapify.com/v1/geocode/reverse?lat=" + e.latlng.lat + "&lon=" + e.latlng.lng + "&apiKey=9c5413d88e744ac7a617abe44b5ec2b0")
+            .then((response) => response.json())
+            .then((res) => {
+                for(let layer in markerGroup._layers){
+                    markerGroup._layers[layer].setIcon(defaultIcon);
+                    if(map._layers[layer]._icon && !map._layers[layer]._popup._content.startsWith("Suggestion")){
+                        map._layers[layer].removeFrom(markerGroup);
+                    }
+                }
+                marker.bindPopup(res.features[0].properties.formatted);
+                place.value = res.features[0].properties.formatted;
+                marker.on('click', updatePlace);
+                marker.addTo(markerGroup);
+            });
+    }
+
+    map.on('click', onMapClick);
+
+
     fetch("https://api.geoapify.com/v1/geocode/search?text=" + place.value + "&apiKey=9c5413d88e744ac7a617abe44b5ec2b0", requestOptions)
         .then(response => response.json())
         .then(result => {
-            console.log(result);
-            let map = document.querySelector("#map");
             let mapImage = document.createElement("img");
 
             if(result.features[0]){
-                mapImage.src = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-grey&width=400&height=200&center=lonlat:"
-                               + result.features[0].geometry.coordinates[0] + "," + + result.features[0].geometry.coordinates[1] + "&zoom=14.8713&marker=lonlat:"
-                               + result.features[0].geometry.coordinates[0] + "," + + result.features[0].geometry.coordinates[1] + "&apiKey=9c5413d88e744ac7a617abe44b5ec2b0";
+                map.setView([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]], 10);
+                markerGroup = L.layerGroup().addTo(map);
+
+                L.tileLayer('https://maps.geoapify.com/v1/tile/{mapStyle}/{z}/{x}/{y}.png?apiKey={apiKey}', {
+                    attribution: 'Powered by Geoapify | © OpenMapTiles © OpenStreetMap contributors',
+                    apiKey: '9c5413d88e744ac7a617abe44b5ec2b0',
+                    mapStyle: "osm-bright-smooth", // More map styles on https://apidocs.geoapify.com/docs/maps/map-tiles/
+                    maxZoom: 20
+                }).addTo(map);
+
+                for(let point of result.features){
+                    let marker = L.marker([point.geometry.coordinates[1], point.geometry.coordinates[0]], {icon: defaultIcon});
+                    marker.bindPopup("Suggestion: " + point.properties.formatted);
+                    marker.on('click', updatePlace)
+                    marker.addTo(markerGroup);
+                }
                 lon = result.features[0].geometry.coordinates[0];
                 lat = result.features[0].geometry.coordinates[1];
             }
@@ -96,12 +158,6 @@ function checkMap(){
                 lon = "";
                 lat.value = "";
             }
-
-            map.prepend(mapImage);
-            if(map.childElementCount > 1){
-                map.lastElementChild.remove();
-            }
         })
         .catch(error => console.log('error', error));
 }
-
