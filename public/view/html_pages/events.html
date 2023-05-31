@@ -1,77 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../view/css_code/main.css">
-    <link rel="stylesheet" href="../../view/css_code/events.css">
-    <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
-    <title> Queer-rar Events </title>
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="../../client/main.js"></script>
-    <script src="../../client/event.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../view/css_code/main.css">
+  <link rel="stylesheet" href="../../view/css_code/events.css">
+  <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
+  <title> Queer-rar Events </title>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="../../client/main.js"></script>
+  <script src="../../client/event.js"></script>
 
-    <script type="text/x-handlebars-template" id="event-template">
-        <div class="event-box">
+  <script type="text/x-handlebars-template" id="event-template">
+    <div class="event-box">
             {{#each eventsList}}
-                <div class="event-item" data-id="{{id}}">
-                    <h2>{{name}}</h2>
-                    <h3>{{org_name}}<h3>
+    <div class="event-item" data-id="{{id}}">
+      <h2 id="name_of_event">{{name}}</h2>
 
-                    <p>
-                        {{place}}
-                        {{timestamp}}
-                    </p>
-                    <p>{{description}}</p>
+      <div class="user">
+          <input  class="buttonsressub" type="button" id="attend_button"  onclick="attend({{id}})" value="Go?">
+      </div>
+      <div class="organization">
+          <button onclick="editEvent({{id}})">
+              <img  src='../../view/media/events/pen.png' alt="edit icon" width="25" height="25">
+          </button>
+          <button onclick="removeEvent({{id}})">
+              <img  src='../../view/media/events/garbage.png' alt="delete icon" width="25" height="25">
+          </button>
+      </div>
+      <span id="goleft">
+        <img  src='../../view/media/events/group.png' alt="group icon" width="25" height="25"> {{people_count}}
+      </span>
+      <img class="icons" id="org_icon" src="../../view/media/events/org.png" alt="icon of a user">
 
-                    {{people_count}}
+      <span id="org_namee">{{org_name}}</span> <br><br>
 
-                    <div class="user">
-                        <button onclick="attend({{id}})">Will go</button>
-                    </div>
-                    <div class="organization">
-                        <button onclick="editEvent({{id}})">Edit</button>
-                        <button onclick="removeEvent({{id}})">Remove</button>
-                    </div>
+      <img class="icons" src="../../view/media/events/location.png" alt="icon of a location">
+      {{place}}
+      <br><br>
+      <img class="icons" src="../../view/media/events/time.png" alt="icon of a calendar">
+      {{timestamp}}
+      <br><br>
+      <img class="icons" src="../../view/media/events/info.png" alt="icon of a info">
+      {{description}}
+
                 </div>
             {{/each}}
         </div>
     </script>
 </head>
+
 <body>
-<div class="wrapper">
+  <div class="wrapper">
     <!-- ========================== HEADER ========================== -->
-    <div id="header" >
-        {{> header}}
+    <div id="header">
+      {{> header}}
     </div>
 
     <!-- ========================== Main ========================== -->
 
     <main id="index-page-components">
-        <h1>Events</h1>
-        
-        <label for="events-order">Order by: </label>
-        <select name="order-selections" id="events-order">
-            <option value="date" selected>Date</option>
-            <option value="distance">Distance</option>
-            <option value="newest">Newest</option>
-        </select>
+      <h1>Events</h1>
 
-        <br><br>
+      <label id="ordered" for="events-order">Order by: </label>
+      <select name="order-selections" id="events-order">
+        <option value="date" selected>Date</option>
+        <option value="distance">Distance</option>
+        <option value="newest">Newest</option>
+      </select>
 
-        <label for="event-search">Search: </label>
-        <input type="search" id="event-search">
-        
-        <div id="event-viewer">
-        
-        </div>
+
+      <label id="searchsection" for="event-search">
+        <img  src='../../view/media/events/search.png' alt="Search icon" width="25" height="25">
+      </label>
+      <input type="search" id="event-search">
+
+      <div id="event-viewer">
+
+      </div>
     </main>
 
     <!-- ========================== FOOTER ========================== -->
 
     <div id="footer">
-        {{> footer}}
+      {{> footer}}
     </div>
-</div>
+  </div>
 </body>
+
 </html>

@@ -11,7 +11,6 @@ html {
 
 body {
   margin: 0;
-
 }
 
 main{
@@ -403,4 +402,17 @@ button {
   background-repeat: no-repeat;
   background-size: 100%;
   cursor: pointer;
+}
+
+
+input.buttonsressub  {
+  background: transparent;
+  border: none;
+  color: Darkred;
+  font-family: Cookie;
+  font-style: oblique;
+  font-size: 30px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 20px;
 }
