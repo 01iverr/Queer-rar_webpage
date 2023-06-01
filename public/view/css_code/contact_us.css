@@ -1,5 +1,5 @@
 main {
-  background-image: url('../media/background_photos/pride.png');
+  background-image: url('../../view/media/contact/p.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -28,7 +28,8 @@ h5 {
 @media screen and (min-width: 1100px) {
   #Contact {
     margin-left: 45%;
-    margin-top: 150px;
+    margin-top: 130px;
+    margin-bottom: 20px;
   }
 }
 
@@ -36,6 +37,7 @@ h5 {
   #Contact {
     margin-left: 25%;
     margin-top: 80px;
+    margin-bottom: 20px;
   }
 }
 
@@ -43,6 +45,7 @@ h5 {
   #Contact {
     margin-left: 20%;
     margin-top: 80px;
+    margin-bottom: 20px;
   }
 }
 
@@ -50,6 +53,7 @@ h5 {
   #Contact {
     margin-left: 15%;
     margin-top: 80px;
+    margin-bottom: 20px;
   }
 }
 
@@ -104,6 +108,7 @@ h5 {
   }
 }
 
+
 /* Smartphone */
 @media screen and (max-width: 520px) {
   #labels_inputs_block {
@@ -114,14 +119,50 @@ h5 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-left: -20px;
   }
 
   #input_blocks {
+    margin-left: -60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  textarea {
+    margin-left: 30px;
+    width : 300px;
+  }
+
+  #Contact {
+    width: auto;
+    margin-left: 2px;
+  }
+
+  #submitmessage {
+    margin-left: 140px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  #Contact {
+    width: auto;
+    margin-left: 2px;
+  }
+  textarea {
+    margin-left: 40px;
+    width : 200px;
+  }
+
+  #input_blocks {
+    margin-right: 5px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
 }
+
+
  /* // */
 #Contact {
   bottom: auto;
