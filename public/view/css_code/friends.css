@@ -1,3 +1,11 @@
+main {
+  background-image: url('../../view/media/background_photos/flag2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+}
+
+
 #friends-viewer {
     margin: 2rem;
 }
@@ -9,18 +17,53 @@
 }
 
 .friend-frame {
-    width: 20%;
-    margin: 1rem;
+    width: 250px;
     padding: 0.5rem;
     background-color: #dbecec;
-    border-radius: 10px;
-    display: flex;
+    border-radius: 10%;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .friend-frame img {
-    width: 12rem;
-    height: 12rem;
+    margin-top: 10px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
+}
+
+@media screen and (min-width: 360px) {
+  .friend-frame {
+      margin: 1rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+  .friend-frame {
+      margin: 1rem;
+      margin-left: -20px;
+    }
+}
+
+.write{
+  position: relative;
+  width: 130px;
+  height: 25px;
+  top:-8px;
+  padding: 0;
+  font-family: sans-serif;
+  font-weight: bold;
+  outline: none;
+  box-sizing: border-box;
+  border: 2px;
+  border-radius: 6px;
+  flex: 1; /* to resize */
+  margin-left: 5px;
+}
+
+.write:focus {
+  border: 2px solid #00cccc;
+  outline: none;
 }

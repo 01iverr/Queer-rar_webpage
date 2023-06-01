@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
         <script src="../../client/main.js"></script>
         <script src="../../client/friend.js"></script>
-        
+
         <script type="text/x-handlebars-template" id="friend-template">
             <div class="friend-box">
                 {{#each friendsList}}
@@ -28,31 +28,40 @@
             <div id="header" >
                 {{> header}}
             </div>
-            
+
             <!-- ========================== Main ========================== -->
-            
+
             <main id="index-page-components">
                 <h1>Friends</h1>
-                
-                <button id="code-gen">Generate a code to add friends</button>
+
+                <button id="code-gen">
+                  <img  src='../../view/media/friends/coding.png' alt="Generate a code to add friends" title=
+                  "Generate a code to add friends" width="25" height="25"> Generate a code to add friends
+                  </button>
                 <span id="new-code"></span>
                 <br><br>
-                
-                <input id="friend-code" type="text" placeholder="Place the code here">
-                <button id="add-friend">Add friend</button>
+
+                <input id="friend-code"  class="write" type="text" placeholder="Place the code here">
+                <button id="add-friend">
+                  <img  src='../../view/media/friends/add-user.png' alt="Add friend" title=
+                  "Add friend" width="20" height="20">
+                </button>
                 <br><br>
-                
-                <input id="friend-username" type="text" placeholder="Write the username">
-                <button id="rem-friend">Remove friend</button>
+
+                <input id="friend-username" class="write" type="text" placeholder="Write the username">
+                <button id="rem-friend">
+                  <img  src='../../view/media/friends/remove-user.png' alt="Remove friend" title=
+                  "Remove friend" width="20" height="20">
+                </button>
                 <br><br>
-                
+
                 <div id="friends-viewer">
-                
+
                 </div>
             </main>
-            
+
             <!-- ========================== FOOTER ========================== -->
-            
+
             <div id="footer">
                 {{> footer}}
             </div>
