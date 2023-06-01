@@ -142,7 +142,18 @@ main {
     z-index: 1;
     border-radius: 10px;
   }
-
+  ul.dropdown-menu a {
+   color: black;
+   text-align: left;
+   padding: 9px 13px;
+   text-decoration: none;
+   font-family: Cookie;
+   font-size: 30px;
+   display: block;
+   border-radius: 10px;
+   border: solid #f4e7f7 2px;
+   background-color:  #dbecec;
+ }
   ul.dropdown-menu a:hover {
     background-color: #f4e7f7; /* color menu cell on hover */
   }
