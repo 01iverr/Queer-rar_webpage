@@ -535,6 +535,17 @@ app.get('/signupOrganization', function(req, res){
     })
 });
 
+app.get("/isOrganization", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+
+    if (username && session_id && await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        if(await MARIA_USER_CONTROLLER.userIsOrganization(username)){
+            res.sendStatus(200);
+        }
+    }
+});
+
 app.get("/username_available", async function (req, res) {
     let username = req.query.username;
     let user = await MARIA_USER_CONTROLLER.userNameAvailable(username);

@@ -1,6 +1,8 @@
 const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get('username');
 const session_id = urlParams.get('session_id');
+const nEventsPage = 2;
+let eventsList;
 
 window.addEventListener("load", () => {
     let templateText = document.getElementById("event-template").textContent;
@@ -8,40 +10,72 @@ window.addEventListener("load", () => {
     let eventViewer = document.getElementById("event-viewer");
     let orderSelection = document.getElementById("events-order");
     let eventSearch = document.getElementById("event-search");
-    let events;
-    let userLocation;
+    let currentPage = document.getElementById("current-page");
+    let currentPageNumber = Number(currentPage.innerHTML);
+    let previousButton = document.getElementById("previous");
+    let nextButton = document.getElementById("next");
+    let fullList;
 
     fetch("/getEvents?username=" + username)
         .then((response) => response.json())
-        .then(async (eventList) => {
-            events = await addPlaceDistance(eventList, eventViewer, compTemp);
+        .then(async (eventL) => {
+            fullList = eventL;
+            eventsList = await addPlaceDistance(eventL, eventViewer, compTemp, currentPageNumber);
         })
 
     orderSelection.addEventListener("change", () => {
         if(orderSelection.value === "date")
-            events.sort(function(a, b){return a.timestamp > b.timestamp});
+            eventsList.sort(function(a, b){return a.timestamp > b.timestamp});
         else if(orderSelection.value === "distance"){
-            events.sort(function(a, b){return a.distance > b.distance});
+            eventsList.sort(function(a, b){return a.distance > b.distance});
         }
         else if(orderSelection.value === "newest"){
-            events.sort(function(a, b){return a.creation_timestamp < b.creation_timestamp})
+            eventsList.sort(function(a, b){return a.creation_timestamp < b.creation_timestamp})
         }
-        eventViewer.innerHTML = compTemp({'eventsList': events});
-        hideButtons(events, eventViewer);
+        showEvents(eventsList, compTemp, eventViewer, 1);
+        currentPage.innerHTML = "1";
+        currentPageNumber = 1;
     });
 
     eventSearch.addEventListener("keyup", (e) => {
+
         if (e.key === "Enter" && eventSearch.value !== "") {
             fetch("/searchEvents?text=" + eventSearch.value)
                 .then((response) => response.json())
                 .then(async (eventList) => {
-                    events = await addPlaceDistance(eventList, eventViewer, compTemp);
+                    eventsList = await addPlaceDistance(eventList, eventViewer, compTemp, 1);
+                    currentPage.innerHTML = "1";
+                    currentPageNumber = 1;
                 })
         }
+        else if(e.key === "Enter" && eventSearch.value === ""){
+            eventsList = fullList;
+            showEvents(eventsList, compTemp, eventViewer, currentPageNumber);
+        }
+    });
+
+    previousButton.addEventListener("click", () => {
+        if (currentPageNumber === 1) {
+            return;
+        }
+        currentPageNumber -= 1;
+        currentPage.innerHTML = String(currentPageNumber);
+        showEvents(eventsList, compTemp, eventViewer, currentPageNumber);
+    });
+
+    nextButton.addEventListener("click", () => {
+        if (currentPageNumber === Math.ceil(eventsList.length / nEventsPage)) {
+            return;
+        }
+        currentPageNumber += 1;
+        currentPage.innerHTML = String(currentPageNumber);
+        showEvents(eventsList, compTemp, eventViewer, currentPageNumber);
     });
 });
 
-function hideButtons(list, viewer){
+function showEvents(list, comTemp, viewer, pageNumber){
+    viewer.innerHTML = comTemp({'eventsList': list.slice(nEventsPage * (pageNumber - 1),  nEventsPage + nEventsPage * (pageNumber - 1))});
+
     if (list[0].people_count != null) {
         // organization
         let buttons = viewer.querySelectorAll(".user");
@@ -55,10 +89,22 @@ function hideButtons(list, viewer){
         buttons.forEach((button) => {
             button.classList.add("hidden")
         });
+        fetch("/attendances?username=" + username + "&session_id=" + session_id)
+            .then((response) => response.json())
+            .then((res) => {
+                let events = viewer.querySelectorAll(".event-item");
+                events.forEach((event) => {
+                    if(res.includes(Number(event.getAttribute("data-id")))){
+                        event.querySelector(".user input").value = "I'm going";
+                        // set icon
+                    }
+                });
+
+            });
     }
 }
 
-async function addPlaceDistance(list, viewer, template) {
+async function addPlaceDistance(list, viewer, template, pNumber) {
     list = list.sort(function (a, b) {
         return a.timestamp > b.timestamp
     });
@@ -73,8 +119,7 @@ async function addPlaceDistance(list, viewer, template) {
         let localeDate =  new Date(ev.timestamp);
         ev.timestamp = localeDate.toLocaleDateString() + " " + localeDate.toLocaleTimeString();
     }
-    viewer.innerHTML = template({'eventsList': list});
-    hideButtons(list, viewer);
+    showEvents(list, template, viewer, pNumber);
 
     fetch("/location?username=" + username + "&session_id=" + session_id)
         .then((response) => response.json())
@@ -83,7 +128,7 @@ async function addPlaceDistance(list, viewer, template) {
                 locationData[0].city + " " + locationData[0].country + "&apiKey=9c5413d88e744ac7a617abe44b5ec2b0")
                 .then((response) => response.json())
                 .then((res) => {
-                    userLocation = res.features[0].geometry.coordinates;
+                    let userLocation = res.features[0].geometry.coordinates;
 
                     list.forEach((ev) =>{
                         fetch("https://api.geoapify.com/v1/routing?waypoints=" + userLocation[1] + "," + userLocation[0] + "|" + ev.lat + "," + ev.lon +
@@ -102,8 +147,13 @@ async function addPlaceDistance(list, viewer, template) {
 function attend(id){
     fetch("/attending?username=" + username + "&session_id=" + session_id + "&event_id=" + id, {method: "POST"})
         .then((res) => {
-            console.log(res.status);
-            // change icon
+            let attendButton = document.querySelector(`.event-item[data-id="${id}"] .user input`);
+            if(res.status === 201){
+                attendButton.value = "I'm going";
+            }
+            else{
+                attendButton.value = "Go?";
+            }
         });
 }
 
