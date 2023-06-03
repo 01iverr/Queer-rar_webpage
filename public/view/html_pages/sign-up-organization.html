@@ -17,9 +17,18 @@
 <body>
   <div class="wrapper">
     <!-- ========================== HEADER ========================== -->
-      <div id="header" >
-          {{> header}}
+    <header class="wrapper header-wrapper">
+      <div class="header-wrapper header-group">
+        <!-- Logo -->
+        <button id="home-button-image" onclick="window.location.href='index.html';">
+        </button>
       </div>
+      <div class="header-wrapper header-group">
+        <!-- User Login-->
+        <button id="messenger-button-image" aria-label="messenger icon" onclick="window.location.href='/account';">
+        </button>
+      </div>
+    </header>
     <!-- ========================== Main ========================== -->
 
     <main>
@@ -439,7 +448,7 @@
       </form>
 
       <p class="importantmess">Please have in mind that you have to fullfill all the areas with star (*) </p>
-      
+
     </main>
 
     <!-- ========================== FOOTER ========================== -->

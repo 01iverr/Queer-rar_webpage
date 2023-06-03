@@ -29,15 +29,15 @@ input{
   display: inline;
 }
 
-
-
 .icons{
   height: 20px;
   display: inline-flex;
   margin-top:-50px;
 }
 
-
+#events-order{
+  border-radius: 6px;
+}
 #event-search {
   position: relative;
   width: 100px;
