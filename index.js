@@ -653,9 +653,6 @@ app.get("/contact", function(req,res){
 });
 
 app.post("/contact", async function(req, res) {
-    let username = req.query.username;
-    let session_id = req.query.session_id;
-
     let name = req.body.username;
     let pronouns = req.body.pronouns;
     let email = req.body.email;
@@ -683,15 +680,10 @@ app.post("/contact", async function(req, res) {
             console.log(error);
         } else {
             // console.log('Email sent: ' + info.response);
+            res.sendStatus(200);
         }
     });
 
-    if(username && session_id){
-        res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
-    }
-    else{
-        res.redirect("/index.html");
-    }
 });
 
 app.get("/addEvent", async function (req, res) {

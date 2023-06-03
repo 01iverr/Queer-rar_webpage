@@ -7,10 +7,12 @@
   <link rel="stylesheet" href="../../view/css_code/main.css">
   <link rel="stylesheet" href="../../view/css_code/forms.css">
   <link rel="stylesheet" href="../../view/css_code/contact_us.css">
+  <link rel="stylesheet" href="../../view/css_code/popup.css">
   <title> Contact with us </title>
   <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
   <script src="../../client/main.js"></script>
+  <script src="../../view/js_code/formRegistered.js"></script>
 </head>
 
 <body>
@@ -27,7 +29,7 @@
       <h1 id="contactH1"> Get in touch</h1>
       <h3>Contact us for any problem that you may face or if you need more informations about us! </h3>
       <h5> WE WILL EMAIL YOU BACK AS SOON AS POSSIBLE. STAY SAFE!</h5>
-      <form action="/contact" method="POST" novalidate>
+      <form id="contactForm" action="/contact" method="POST" novalidate>
         <div id="labels_inputs_block">
           <div id="labels_block">
             <label for="user_name">
@@ -58,6 +60,13 @@
           <textarea rows="6" cols="65" id="user_message" placeholder="Enter your message" name="message" required> </textarea>
           <input id="submitmessage" class="buttonsressub" type="submit" value="Submit">
       </form>
+    </div>
+
+    <div id="popup" class="overlayHidden">
+      <div class="popup">
+        <h2>Your form has been submitted</h2>
+        <button class="close" onclick="closePopUp()">&times;</button>
+      </div>
     </div>
   </main>
       <!-- ========================== FOOTER ========================== -->

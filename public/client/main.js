@@ -37,6 +37,14 @@ window.onload = () => {
                 .then((res) => {
                     if(res.status === 200 && document.querySelectorAll(".dropdown-submenu")[4]){
                         document.querySelectorAll(".dropdown-submenu")[4].remove();
+                        let menuUl = document.querySelector("ul.dropdown-menu");
+                        let liElem = document.createElement("li");
+                        liElem.classList.add("dropdown-submenu");
+                        let aElem = document.createElement("a");
+                        aElem.href = "/addEvent?username=" + userName + "&session_id=" + sessionId;
+                        aElem.innerHTML = "Create event";
+                        liElem.append(aElem);
+                        menuUl.append(liElem);
                     }
                 })
         })
