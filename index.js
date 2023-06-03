@@ -9,7 +9,6 @@ const dbDAO = require("./models/dbDAO");
 const CryptoJS = require("crypto-js");
 const toxicity = require('@tensorflow-models/toxicity');
 const MARIA_USER_CONTROLLER = dbDAO.MARIA_USER_CONTROLLER;
-const port = 8080;
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
@@ -17,7 +16,7 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
     maxHttpBufferSize: 17e6,
     cors: {
-        origin: "http://localhost:8080",
+        origin: "http://" + process.env.SERVER_IP + ":" + process.env.SERVER_PORT,
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true
@@ -69,8 +68,8 @@ function decryptAES(data){
 
 app.use('/peerjs', peerServer);
 
-server.listen(port, () => {
-    console.log('listening on', port);
+server.listen(Number(process.env.SERVER_PORT), process.env.SERVER_IP,() => {
+    console.log('listening on', process.env.SERVER_IP, process.env.SERVER_PORT);
 });
 
 io.on('connection', socket => {
@@ -183,14 +182,8 @@ app.get('/', function(req, res){
     });
 });
 
-app.get('/index.html', function(req, res){
-    let options = {
-        root: path.join(__dirname, 'public', 'view', 'html_pages')
-    };
-
-    res.sendFile('index.html', options, function(err){
-        //console.log(err)
-    });
+app.get('/index.html', async function (req, res) {
+    res.redirect("/");
 });
 
 app.get("/account", async function(req, res){
@@ -214,6 +207,16 @@ app.get("/login" ,function(req,res){
 
     res.sendFile('sign_in_form.html', options, function(err){
         //console.log(err);
+    });
+});
+
+app.get('/signup_choices', function(req, res){
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    };
+
+    res.sendFile('signup_choices.html', options, function(err){
+        //console.log(err)
     });
 });
 
@@ -532,6 +535,17 @@ app.get('/signupOrganization', function(req, res){
     })
 });
 
+app.get("/username_available", async function (req, res) {
+    let username = req.query.username;
+    let user = await MARIA_USER_CONTROLLER.userNameAvailable(username);
+    if(user){
+        res.sendStatus(200);
+    }
+    else{
+        res.sendStatus(400);
+    }
+});
+
 app.post("/sendData", async function(req,res){
     let username = req.body.Username;
     let user = await MARIA_USER_CONTROLLER.userNameAvailable(username);
@@ -614,9 +628,6 @@ app.post("/sendData", async function(req,res){
 
             res.send("Our team is processing your request. We will email you shortly with the progress of your application.");
         }
-    }
-    else{
-        res.sendStatus(400).send("User name is taken.");
     }
 });
 
@@ -789,6 +800,16 @@ app.post("/attending", async function(req, res){
     if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
         let result = await MARIA_USER_CONTROLLER.updateAttendEvent(username, event_id);
         res.sendStatus(result);
+    }
+});
+
+app.get("/attendances", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let result = await MARIA_USER_CONTROLLER.userAttendances(username);
+        let ids = result.map((event) => { return event.eventId; });
+        res.send(ids);
     }
 });
 

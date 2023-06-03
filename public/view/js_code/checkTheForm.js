@@ -146,3 +146,22 @@ function FileSizeValidation() {
   }
   ID.setCustomValidity(""); //user has not uploaded a file
 }
+
+function checkUserName(username) {
+  fetch("/username_available?username=" + username.value)
+      .then((res) => {
+        console.log(res.status)
+        if(res.status === 400){
+          username.setCustomValidity("The selected username is taken");
+          username.reportValidity();
+        }
+        else if(res.status === 200){
+          username.setCustomValidity("");
+          username.reportValidity();
+        }
+
+      })
+}
+
+
+

@@ -20,9 +20,14 @@
 <body>
   <div class="wrapper">
     <!-- ========================== HEADER ========================== -->
-      <div id="header" >
-          {{> header}}
-      </div>
+      <header class="wrapper header-wrapper">
+          <div class="header-wrapper header-group">
+              <!-- Logo -->
+              <button id="home-button-image" onclick="window.location.href='index.html';">
+              </button>
+          
+          </div>
+      </header>
     <!-- ========================== Main ========================== -->
 
     <main id="index-page-components">
@@ -61,8 +66,8 @@
               <div id="login-message"></div>
             </fieldset>
             <div id="signin-buttons">
-              <input class="buttonsressub" type="button" value="New?" id="button-signup_redirect" name="signup_button" onclick="window.location.href='/signup-user';">
-              <input class="buttonsressub" type="button"  id="button-login-forgot-pass" name="forgotpas">
+              <input class="buttonsressub" type="button" value="New?" id="button-signup_redirect" name="signup_button" onclick="window.location.href='/signup_choices';">
+              <input class="buttonsressub" type="button"  id="button-login-forgot-pass" name="forgotpas" onclick="window.location.href='/forgot_pass';">
             <input class="buttonsressub" type="submit" value="Sign in»" id="button-login-submit" name="submit">
             </div>
           </form>

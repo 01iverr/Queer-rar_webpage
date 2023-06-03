@@ -9,6 +9,26 @@ function checkInputs(inputs){
     }
 }
 
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function formatDate(date) {
+    return (
+        [
+            date.getUTCFullYear(),
+            padTo2Digits(date.getUTCMonth() + 1),
+            padTo2Digits(date.getUTCDate()),
+        ].join('-') +
+        ' ' +
+        [
+            padTo2Digits(date.getUTCHours()),
+            padTo2Digits(date.getUTCMinutes()),
+            padTo2Digits(date.getUTCSeconds()),
+        ].join(':')
+    );
+}
+
 const MARIA_USER_CONTROLLER = {
     userIsLocked: async function(username){
         try{
@@ -176,7 +196,7 @@ const MARIA_USER_CONTROLLER = {
     addUser: async function (nfirstName, nsurName, npronouns, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom) {
         try {
             checkInputs([nfirstName, nsurName, npronouns, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom]);
-            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, last_name, pronouns, country, city, post_code, phone, birth_date, learn_us_from, organization, dating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, last_name, pronouns, country, city, post_code, phone, birth_date, learn_us_from, organization, dating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             await db.pool.query(insertQuery, [nusername, nemail, npassword, nsalt, nfirstName, nsurName, npronouns, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 0, 0]);
         } catch (err) {
             console.log(err);
@@ -425,10 +445,10 @@ const MARIA_USER_CONTROLLER = {
     getEvents: async function(orgname=""){
         try{
             if(orgname === ""){
-                return await db.pool.query("SELECT id, org_name, name, timestamp, description, lat, lon, creation_timestamp FROM events;");
+                return await db.pool.query("SELECT id, org_name, name, timestamp, description, lat, lon, creation_timestamp FROM events WHERE timestamp > ? ;", [formatDate(new Date())]);
             }
             else{
-                return await db.pool.query("SELECT * FROM events WHERE org_name = ? ;", [orgname]);
+                return await db.pool.query("SELECT * FROM events WHERE org_name = ? AND timestamp > ? ;", [orgname, formatDate(new Date())]);
             }
         }catch (err) {
             console.log(err);
@@ -440,7 +460,7 @@ const MARIA_USER_CONTROLLER = {
             checkInputs([searchText]);
             searchText = searchText.trim();
             searchText = searchText.replaceAll(" ", "* ") + "*";
-            return await db.pool.query("SELECT id FROM events WHERE MATCH(org_name, name) AGAINST(? IN BOOLEAN MODE)", [searchText]);
+            return await db.pool.query("SELECT id FROM events WHERE timestamp > ? AND MATCH(org_name, name) AGAINST(? IN BOOLEAN MODE) ;", [formatDate(new Date()), searchText]);
         }catch (err) {
             console.log(err);
         }
@@ -461,6 +481,14 @@ const MARIA_USER_CONTROLLER = {
                 await db.pool.query("UPDATE events SET people_count = people_count + 1 WHERE id = ? ;", [event_id]);
                 return 201;
             }
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    userAttendances: async function(username){
+        try {
+            return  await db.pool.query("SELECT eventId FROM e_attendance WHERE userId = ? ;", [username]);
         }catch (err) {
             console.log(err);
         }

@@ -85,12 +85,8 @@ const connectToNewUser = (userId, stream) => {
 
 const addVideoStream = (video, stream, id) => {
     video.srcObject = stream;
-    video.setAttribute("id", id);
     video.addEventListener("loadedmetadata", () => {
         video.play();
-        if(document.querySelectorAll("video") > 1){
-            document.getElementById("friendVideo").remove();
-        }
-        videoGrid.append(video);
+        document.getElementById(id).prepend(video);
     });
 };
