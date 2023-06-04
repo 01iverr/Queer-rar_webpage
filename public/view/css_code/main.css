@@ -225,7 +225,7 @@ header {
   top: 0px;
   left: 0px;
   position: fixed;
-  z-index: 1;
+  z-index: 10;
   border-bottom-left-radius: 80% 40%;
   border-bottom-right-radius: 80% 40%;
 }
@@ -285,7 +285,6 @@ footer {
   grid-area: footer;
   width: 100%;
   left: 0px;
-
 }
 .footer-wrapper {
   display: flex;

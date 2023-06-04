@@ -11,7 +11,7 @@
   color: white;
   margin-top: 10px;
 }
-body {
+main{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -143,6 +143,7 @@ h2 {
 }
 
 input[type="submit"] ,
+input[type="file"],
 input[type="button"] {
   border: none;
   outline: none;
@@ -206,7 +207,7 @@ input[type="submit"]:active {
   .inputBox {
     width: 200px;
   }
-  #resetpas{
+  #resetpas {
     margin-top: -44px;
   }
 }

@@ -5,13 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../view/css_code/main.css">
-    <link rel="stylesheet" href="../../view/css_code/forms.css">
+    <link rel="stylesheet" href="../../view/css_code/resetpass.css">
     <link rel="stylesheet" href="../../view/css_code/profile.css">
+    <!-- Google Fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="../../client/main.js"></script>
     <script src="../../client/profile.js"></script>
-
-    <title> Queer-rar </title>
+    <title> My profile </title>
     <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
 </head>
 
@@ -307,80 +311,71 @@
             <option value="xe/they">
         </datalist>
 
-        <h1> My profile </h1>
-        <img class="formimage" id="handimg" src="../../view/media/signup/pen.png" alt="an image of a hand that holds a pen">
-        <form class="custom_forms" id="formsignup" action="/updateInfo" method="POST">
 
-                <div class="gl">
-                    <fieldset class="custom_forms" id="personalinfopart">
-                        <legend class="custom_forms">Personal Informations:</legend>
+        <div class="box">
+          <form class="custom_forms" id="formsignup" action="/updateInfo" method="POST">
+            <h2>My profile</h2>
 
-                        <img id="profileImage" alt="user profile picture">
-                        <input type="file" id="new-image">
-                        <input type="button" id="reset-image" value="keep old" onclick="resetProfPic()">
-
-                        <label for="txtNameSU">
-                            Name*:
-                        </label>
-                        <input class="custom_forms" autocomplete="on" type="text" id="txtNameSU" name="firstNameSu" required placeholder="Dimitris" pattern="[A-Za-z ]{3,20}"
-                               title="Please write your chosen name (or names with using space between of them) here. It is a required field" aria-label="Please write your name (or names with using space between of them) here.Its required field">
-                        <br>
-                        <label for="txtSurnameSU">
-                            Surname*:
-                        </label>
-                        <input class="custom_forms" type="text" id="txtSurnameSU" name="surName" required placeholder="Dimitrakopoulos" pattern="[A-Za-z ]{3,20}"
-                               title="Please write your surname (or surnames with using space between of them) here. It is a required field" aria-label="Please write your surname (or surnames with using space between of them) here.Its required field"><br>
-                        <label for="txtPronouns">
-                            Pronouns*:
-                        </label>
-                        <input class="custom_forms" list="pronouns" type="text" id="txtPronouns" name="txtPronounsSU" required placeholder="he/they" title="Please write your pronouns here.It is a required field"
-                               aria-label="Please write your prounouns here. It is a required field"> <br>
-                        <label for="txtEmailSU">
-                            E-mail*:
-                        </label>
-                        <input class="custom_forms" type="email" id="txtEmailSU" name="emailSu" required minlength="11" placeholder="techonomy@yahoo.gr" title="Please write your email here.Its required field"
-                               aria-label="Please write your email here. It is a required field">
-                        <br>
-                        <label for="txtCountry">
-                            Country*:
-                        </label>
-                        <input class="custom_forms" list="countries" type="text" id="txtCountry" name="txtCountrySU" required pattern="[A-Za-z ]{3,30}" placeholder="Greece" title="Please write your Country here.Its not required field"
-                               aria-label="Please write your Country here. It is a required field"> <br>
-                        <label for="txtCity">
-                            City*:
-                        </label>
-                        <input class="custom_forms" list="cities" type="text" id="txtCity" name="txtCitySU" required pattern="[A-Za-z ]{3,30}" placeholder="Peraeus" title="Please write your City here.Its required field"
-                               aria-label="Please write your City here. It is arequired field"> <br>
-                        <label for="Postcodeinput">
-                            Postcode*:
-                        </label>
-                        <input class="custom_forms" type="text" id="Postcodeinput" name="Postcodeinputus" required placeholder="10210" title="Please write your Postcode here.Its not required field"
-                               aria-label="Please write your Postcode here. It is a required field"><br>
-                        <label for="txtPhoneSU">
-                            Phone*:
-                        </label>
-                        <input class="custom_forms" type="tel" id="txtPhoneSU" name="phoneSU" placeholder="6900000000" required title="Please write your phone here without country code.Its required field"
-                               aria-label="Please write your  phone here without country code. It is a required field"> <br>
-                    </fieldset>
+            <img id="profileImage" alt="user profile picture" >
+            <input type="file" id="new-image" name="userimage">
+            <br>
+            <input type="button"  id="reset-image" value="keep old" onclick="resetProfPic()">
 
 
-                </div>
+            <label id="lblname" for="txtNameSU">
+              Name:
+            </label>
+            <input autocomplete="on" type="text" id="txtNameSU" name="firstNameSu" required placeholder="Dimitris" pattern="[A-Za-z ]{3,20}"
+              title="Please write your chosen name (or names with using space between of them) here. It is a required field" aria-label="Please write your name (or names with using space between of them) here.Its required field">
+            <br>
+            <label for="txtSurnameSU">
+              Surname:
+            </label>
+            <input type="text" id="txtSurnameSU" name="surName" required placeholder="Dimitrakopoulos" pattern="[A-Za-z ]{3,20}" title="Please write your surname (or surnames with using space between of them) here. It is a required field"
+              aria-label="Please write your surname (or surnames with using space between of them) here.Its required field"><br>
+            <label for="txtPronouns">
+              Pronouns:
+            </label>
+            <input list="pronouns" type="text" id="txtPronouns" name="txtPronounsSU" required placeholder="he/they" title="Please write your pronouns here.It is a required field" aria-label="Please write your prounouns here. It is a required field">
+            <br>
+            <label for="txtEmailSU">
+              E-mail:
+            </label>
+            <input type="email" id="txtEmailSU" name="emailSu" required minlength="11" placeholder="techonomy@yahoo.gr" title="Please write your email here.Its required field" aria-label="Please write your email here. It is a required field">
+            <br>
+            <label for="txtCountry">
+              Country:
+            </label>
+            <input list="countries" type="text" id="txtCountry" name="txtCountrySU" required pattern="[A-Za-z ]{3,30}" placeholder="Greece" title="Please write your Country here.Its not required field"
+              aria-label="Please write your Country here. It is a required field"> <br>
+            <label for="txtCity">
+              City:
+            </label>
+            <input list="cities" type="text" id="txtCity" name="txtCitySU" required pattern="[A-Za-z ]{3,30}" placeholder="Peraeus" title="Please write your City here.Its required field"
+              aria-label="Please write your City here. It is arequired field"> <br>
+            <label for="Postcodeinput">
+              Postcode:
+            </label>
+            <input type="text" id="Postcodeinput" name="Postcodeinputus" required placeholder="10210" title="Please write your Postcode here.Its not required field" aria-label="Please write your Postcode here. It is a required field"><br>
+            <label for="txtPhoneSU">
+              Phone:
+            </label>
+            <input type="tel" id="txtPhoneSU" name="phoneSU" placeholder="6900000000" required title="Please write your phone here without country code.Its required field"
+              aria-label="Please write your  phone here without country code. It is a required field"> <br>
 
-            <div class="twobuttons" id="buttonsresetandsubmit">
-                <input class="buttonsressub" type="button" onclick="return wannareset();" aria-label="reset the form" value="Clear all">
-                <input class="buttonsressub submitt" type="submit" aria-label="send the form" id="submitSUform" value="Submit"><br>
-            </div>
-        </form>
 
-        <p class="importantmess">Please have in mind that you have to fullfill all the areas with star (*) </p>
+            <input type="button" onclick="window.location.href='events.html';" value="Back">
+            <input type="submit" aria-label="send the form" id="submitSUform" value="Save">
+          </form>
+        </div>
 
-
+        <br>
     </main>
 
     <!-- ========================== FOOTER ========================== -->
-    <div id="footer">
+    <!-- <div id="footer">
         {{> footer}}
-    </div>
+    </div> -->
 </div>
 </body>
 
