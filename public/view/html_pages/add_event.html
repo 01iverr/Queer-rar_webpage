@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../view/css_code/main.css">
     <link rel="stylesheet" href="../../view/css_code/forms.css">
     <link rel="stylesheet" href="../../view/css_code/add_event.css">
+    <link rel="stylesheet" href="../../view/css_code/popup.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
@@ -64,7 +65,12 @@
         </form>
         <br>
 
-        <div id="my-map"></div>
+        <div id="popup" class="overlayHidden">
+            <div id="map-popup" class="popup">
+                <div id="my-map"></div>
+                <button class="close" onclick="closePopUp()">&times;</button>
+            </div>
+        </div>
     </main>
 
     <!-- ========================== FOOTER ========================== -->

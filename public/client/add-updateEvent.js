@@ -86,6 +86,10 @@ const defaultIcon = L.icon({
 });
 
 function checkMap(){
+    let popUp = document.getElementById("popup");
+    popUp.classList.remove("overlayHidden");
+    popUp.classList.add("overlay");
+
     let elementMap = document.getElementById("my-map");
     if(elementMap.innerHTML === ""){
         map = L.map('my-map');
@@ -160,4 +164,10 @@ function checkMap(){
             }
         })
         .catch(error => console.log('error', error));
+}
+
+function closePopUp() {
+    let popUp = document.getElementById("popup");
+    popUp.classList.remove("overlay");
+    popUp.classList.add("overlayHidden");
 }

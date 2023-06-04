@@ -26,8 +26,22 @@ h1{
 }
 
 #my-map {
-    height: 300px;
-    width: 500px;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+#map-popup {
+    display: block;
+    width: 80%;
+    height: 40vh;
+}
+
+#map-popup .close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
 }
 
 @media screen and (min-width: 450px) {
@@ -35,6 +49,13 @@ h1{
     margin-left: 240px;
   }
 }
+
+@media screen and (min-width: 1400px) {
+    #map-popup {
+        height: 60vh;
+    }
+}
+
 @media screen and (max-width: 450px) {
     label{
       margin-left: -19px;

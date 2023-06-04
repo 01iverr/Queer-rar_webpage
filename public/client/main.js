@@ -20,17 +20,19 @@ if(!userName && !sessionId){
     });
 }
 
-window.onload = () => {
+window.addEventListener("load", () => {
     getPartials()
         .then(function(){
-            let template = document.getElementById("header").textContent;
+            if(document.getElementById("header")){
+                let template = document.getElementById("header").textContent;
+                let compiledTemplate = Handlebars.compile(template);
+                let content = compiledTemplate({});
+                document.getElementById("header").innerHTML = content;
+            }
+
+            let template = document.getElementById("footer").textContent;
             let compiledTemplate = Handlebars.compile(template);
             let content = compiledTemplate({});
-            document.getElementById("header").innerHTML = content;
-
-            template = document.getElementById("footer").textContent;
-            compiledTemplate = Handlebars.compile(template);
-            content = compiledTemplate({});
             document.getElementById("footer").innerHTML = content;
 
             fetch("/isOrganization?username=" + userName + "&session_id=" + sessionId)
@@ -67,4 +69,4 @@ window.onload = () => {
                 }
             }
         })
-}
+})

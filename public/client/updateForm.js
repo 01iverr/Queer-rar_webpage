@@ -23,9 +23,6 @@ window.addEventListener('load', () => {
                     if(res.status === 204){
                         window.location.href = `/index.html`;
                     }
-                    else if(res.status === 401){
-                        // you have not logged in
-                    }
                 })
         });
     }

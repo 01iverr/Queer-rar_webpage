@@ -182,6 +182,16 @@ app.get('/', function(req, res){
     });
 });
 
+app.get('/pageNF', function(req, res){
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    };
+
+    res.sendFile('page_not_found.html', options, function(err){
+        //console.log(err)
+    });
+});
+
 app.get('/index.html', async function (req, res) {
     res.redirect("/");
 });
@@ -366,7 +376,7 @@ app.post("/update_pass", async function(req, res){
         res.sendStatus(204);
     }
     else{
-        res.sendStatus(401);
+        res.redirect("/pageNF");
     }
 });
 
@@ -384,6 +394,9 @@ app.get("/profile_picture", async function(req, res){
         }
         res.send({picture: prof_pic});
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/chat" ,function(req,res){
@@ -396,13 +409,13 @@ app.get("/chat" ,function(req,res){
     });
 });
 
-app.get("/code", async (req, res) => {
-    let username = req.query.username;
-    let session_id = req.query.session_id;
-    if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
-
-    }
-});
+// app.get("/code", async (req, res) => {
+//     let username = req.query.username;
+//     let session_id = req.query.session_id;
+//     if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
+//
+//     }
+// });
 
 app.post("/addFriend", async (req, res) => {
     let username = req.query.username;
@@ -424,6 +437,9 @@ app.post("/addFriend", async (req, res) => {
             res.send("wrong code");
         }
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.post("/remFriend", async (req, res) => {
@@ -434,6 +450,9 @@ app.post("/remFriend", async (req, res) => {
         let oldFriend = req.body.friend_name;
         await MARIA_USER_CONTROLLER.removeFriend(username, oldFriend);
         res.sendStatus(201);
+    }
+    else{
+        res.redirect("/pageNF");
     }
 });
 
@@ -454,6 +473,9 @@ app.get("/userFriends", async (req, res) => {
         let friendList = await MARIA_USER_CONTROLLER.getFriends(username);
         res.send({friends: friendList});
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/frCode", async (req, res) => {
@@ -462,6 +484,9 @@ app.get("/frCode", async (req, res) => {
     if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
         let code = await MARIA_USER_CONTROLLER.getAddFriendCode(username);
         res.send(code);
+    }
+    else{
+        res.redirect("/pageNF");
     }
 });
 
@@ -477,6 +502,9 @@ app.get("/messages", async (req, res) => {
         }
         res.send({messages: messages});
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/last_coms", async (req, res) => {
@@ -488,6 +516,9 @@ app.get("/last_coms", async (req, res) => {
             mess.text = decryptAES(mess.text);
         }
         res.send({last_com: last_mess});
+    }
+    else{
+        res.redirect("/pageNF");
     }
 });
 
@@ -543,6 +574,9 @@ app.get("/isOrganization", async function(req, res){
         if(await MARIA_USER_CONTROLLER.userIsOrganization(username)){
             res.sendStatus(200);
         }
+    }
+    else{
+        res.redirect("/pageNF");
     }
 });
 
@@ -640,6 +674,9 @@ app.post("/sendData", async function(req,res){
             res.send("Our team is processing your request. We will email you shortly with the progress of your application.");
         }
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/contact", function(req,res){
@@ -699,20 +736,13 @@ app.get("/addEvent", async function (req, res) {
                 //console.log(err);
             });
         }
-        else{
-            res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
-        }
     }
     else{
-        res.redirect("/index.html");
+        res.redirect("/pageNF");
     }
 });
 
 app.get("/getEvent", async function (req, res) {
-    let options = {
-        root: path.join(__dirname, 'public', 'view', 'html_pages')
-    };
-
     let username = req.query.username;
     let session_id = req.query.session_id;
     let event_id = req.query.event_id;
@@ -721,12 +751,9 @@ app.get("/getEvent", async function (req, res) {
             let event = await MARIA_USER_CONTROLLER.getEvent(event_id);
             res.send(event[0]);
         }
-        else{
-            res.redirect(`/index.html/?username=${username}&session_id=${session_id}`);
-        }
     }
     else{
-        res.redirect("/index.html");
+        res.redirect("/pageNF");
     }
 });
 
@@ -748,8 +775,11 @@ app.post("/addEvent", async function(req, res) {
         else {
             await MARIA_USER_CONTROLLER.addEvent(username, eName, eDate + " " + eTime, eDesc, eLat, eLon);
         }
+        res.sendStatus(204);
     }
-    res.sendStatus(204);
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get('/events', function(req, res){
@@ -794,6 +824,9 @@ app.get("/location", async function(req, res) {
         let location = await MARIA_USER_CONTROLLER.getLocation(username);
         res.send(location);
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.post("/attending", async function(req, res){
@@ -804,6 +837,9 @@ app.post("/attending", async function(req, res){
         let result = await MARIA_USER_CONTROLLER.updateAttendEvent(username, event_id);
         res.sendStatus(result);
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/attendances", async function(req, res){
@@ -813,6 +849,9 @@ app.get("/attendances", async function(req, res){
         let result = await MARIA_USER_CONTROLLER.userAttendances(username);
         let ids = result.map((event) => { return event.eventId; });
         res.send(ids);
+    }
+    else{
+        res.redirect("/pageNF");
     }
 });
 
@@ -856,6 +895,9 @@ app.post("/removeEvent", async function(req, res){
 
         res.sendStatus(200);
     }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/profile", async function (req, res) {
@@ -871,7 +913,7 @@ app.get("/profile", async function (req, res) {
         })
     }
     else{
-        res.redirect("/index.html");
+        res.redirect("/pageNF");
     }
 });
 
@@ -885,6 +927,9 @@ app.get("/profileInfo", async function (req, res){
         info.last_name = decryptAES(info.last_name);
         info.phone = decryptAES(info.phone);
         res.send(info);
+    }
+    else{
+        res.redirect("/pageNF");
     }
 });
 
@@ -905,6 +950,8 @@ app.post("/updateInfo", async function (req, res){
         await MARIA_USER_CONTROLLER.updateProfile(username, firstName, surName, pronouns, email, profPic, country, city, postCode, phone);
         res.sendStatus(204);
     }
-
+    else{
+        res.redirect("/pageNF");
+    }
 });
 

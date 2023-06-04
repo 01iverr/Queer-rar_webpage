@@ -10,7 +10,7 @@
     opacity: 1;
 }
 .overlayHidden {
-    visibility: hidden;
+    display: none;
     opacity: 0;
 }
 
