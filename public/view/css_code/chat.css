@@ -206,12 +206,8 @@ body {
     margin: 0 0.5rem;
 }
 
-#accept {
-    background-color: #008026;
-}
-
-#refuse {
-    background-color: #E61C1C;
+#refuse img{
+    transform: rotate(180deg);
 }
 
 #video-call {

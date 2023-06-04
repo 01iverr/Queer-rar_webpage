@@ -219,10 +219,12 @@ class Chat {
             let refuseButton = document.createElement("button");
 
             acceptButton.setAttribute("id", "accept");
-            acceptButton.innerHTML = '<span class="material-symbols-rounded">call</span>';
+            // acceptButton.innerHTML = '<span class="material-symbols-rounded">call</span>';
+            acceptButton.innerHTML = '<img src="../view/media/chat/answer-call.png" alt="accept call">';
 
             refuseButton.setAttribute("id", "refuse");
-            refuseButton.innerHTML = '<span class="material-symbols-rounded">call_end</span>';
+            // refuseButton.innerHTML = '<span class="material-symbols-rounded">call_end</span>';
+            refuseButton.innerHTML = '<img src="../view/media/chat/reject-call.png" alt="refuse call">';
 
             let roomIdCreation = [caller, this.currentUser.name];
             roomIdCreation = roomIdCreation.sort()

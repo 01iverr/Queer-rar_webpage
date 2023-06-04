@@ -95,8 +95,11 @@ function showEvents(list, comTemp, viewer, pageNumber){
                 let events = viewer.querySelectorAll(".event-item");
                 events.forEach((event) => {
                     if(res.includes(Number(event.getAttribute("data-id")))){
-                        event.querySelector(".user input").value = "I'm going";
-                        // set icon
+                        event.querySelector(".user button").innerHTML="";
+                        let imgIcon = document.createElement("img");
+                        imgIcon.src = "../../view/media/events/willgo.png";
+                        imgIcon.alt = "icon will go";
+                        event.querySelector(".user button").append(imgIcon);
                     }
                 });
 
@@ -147,12 +150,16 @@ async function addPlaceDistance(list, viewer, template, pNumber) {
 function attend(id){
     fetch("/attending?username=" + username + "&session_id=" + session_id + "&event_id=" + id, {method: "POST"})
         .then((res) => {
-            let attendButton = document.querySelector(`.event-item[data-id="${id}"] .user input`);
+            let attendButton = document.querySelector(`.event-item[data-id="${id}"] .user button`);
             if(res.status === 201){
-                attendButton.value = "I'm going";
+                attendButton.innerHTML = "";
+                let imgIcon = document.createElement("img");
+                imgIcon.src = "../../view/media/events/willgo.png";
+                imgIcon.alt = "icon will go";
+                attendButton.append(imgIcon);
             }
             else{
-                attendButton.value = "Go?";
+                attendButton.innerHTML = "Go?";
             }
         });
 }
