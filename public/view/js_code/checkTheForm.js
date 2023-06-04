@@ -147,7 +147,8 @@ function FileSizeValidation() {
   ID.setCustomValidity(""); //user has not uploaded a file
 }
 
-function checkUserName(username) {
+function checkUserName(Username) {
+  var username = Username;
   fetch("/username_available?username=" + username.value)
       .then((res) => {
         console.log(res.status)
@@ -162,6 +163,3 @@ function checkUserName(username) {
 
       })
 }
-
-
-

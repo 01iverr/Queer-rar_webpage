@@ -18,6 +18,10 @@ main{
 }
 
 @media screen and (min-width: 390px) {
+
+  #footer{
+    display: block;
+  }
   .box {
     width: 380px;
     height: 700px;
@@ -42,15 +46,16 @@ main{
   #new-image{
     margin-left: 150px;
     width: 90px;
-    height: auto;
   }
 
   #reset-image{
       margin-top: -10px;
+
   }
 
   #new-image{
     margin-top: -90px;
+    padding: 11px 25px;
   }
 
   h2{
@@ -65,19 +70,24 @@ main{
 
 @media screen and (max-width: 390px) {
 
+  #footer{
+    display: none;
+  }
+
   #reset-image ,
   #new-image{
     margin-left: 100px;
     width: 90px;
-    height: auto;
   }
 
   #reset-image{
       margin-top: 10px;
+
   }
 
   #new-image{
-    margin-top: -80px;
+    margin-top: -90px;
+    padding: 20px;
   }
 
   h2{
@@ -97,7 +107,7 @@ main{
 
 }
 
-@media screen and (max-width: 324px) {
+@media screen and  (max-width: 324px) {
   #submitSUform{
     margin-top: -43px;
     margin-left: 130px;

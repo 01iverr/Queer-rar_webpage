@@ -376,7 +376,7 @@
                 <!-- letters (upper or lowercase) and/or numbers (0-9) and /or underscore (_) -->
                 Username*:
               </label>
-              <input class="custom_forms" type="text" id="Username" name="Username" required pattern="^[A-Za-z0-9_]{3,15}$" placeholder="user2001" title="Username must contain only letter and underscore minlength 3 characters and max 15"> <br>
+              <input class="custom_forms" type="text" id="Username" name="Username" required pattern="^[A-Za-z0-9_]{3,15}$" placeholder="user2001" title="Username must contain only letter and underscore minlength 3 characters and max 15" onsubmit="checkUserName(document.getElementById('Username'))"> <br>
               <label for="Password1">
                 Password*:
               </label>
