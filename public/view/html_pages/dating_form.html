@@ -6,13 +6,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../../view/css_code/resetpass.css">
+  <link rel="stylesheet" href="../../view/css_code/dating_form.css">
 
   <!-- Google Fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
-  <title>Forgot Password?</title>
+  <title>Date?</title>
   <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 </head>
@@ -20,15 +21,29 @@
 <body>
   <main>
   <div class="box">
-    <form name="resetpasswordform" id="resetpasswordform" action="/reset_pass" method="POST" autocomplete="off">
-      <h2>Forgot Password?</h2>
-      <span id="message">Check your email after for instructions!</span>
+    <form name="datingform" id="datingform" method="POST" autocomplete="off">
+      <h2>Wanna date?</h2>
+      <span id="message">Fill the form and find the love</span>
 
       <div class="inputBox">
-        <input id="reset_email" name="reset_email" type="text" required="required">
-        <span>Email</span>
+        <input id="sentence" name="sentence" type="text" required="required">
+        <span>About me:</span>
         <i></i>
       </div>
+
+      Gender:<br>
+        <input type="checkbox" name="gender_male" value="Male"> Male <br>
+        <input type="checkbox" name="gender_female" value="Female"> Female<br>
+        <input type="checkbox" name="gender_Masc" value="Masc"> Masc <br>
+        <input type="checkbox" name="gender_fem" value="Fem"> Fem <br>
+        <input type="checkbox" name="gender_nb" value="NB"> NB <br>
+        <input type="checkbox" name="gender_other" value="Other"> Other<br>
+
+      <label for="age">
+        Preffered age:
+      </label>
+      <input type="range" id="age" name="points" min="18" max="99">
+
 
       <br><br>
       <input type="button" onclick="window.location.href='index.html';" value="Back">

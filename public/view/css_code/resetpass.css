@@ -98,7 +98,7 @@ h2 {
   outline: none;
   box-shadow: none;
   border: none;
-  color: #23242a;
+  color: black;
   font-size: 1em;
   letter-spacing: 0.05em;
   transition: 0.5s;
@@ -140,6 +140,7 @@ h2 {
 .inputBox input:valid~i,
 .inputBox input:focus~i {
   height: 44px;
+  z-index: -2;
 }
 
 input[type="submit"] ,
@@ -162,6 +163,7 @@ input[type="button"] {
 
 input[type="submit"]:active {
   opacity: 0.8;
+
 }
 
 @media screen and (min-width: 390px) {
