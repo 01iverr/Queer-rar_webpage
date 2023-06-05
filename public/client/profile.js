@@ -71,3 +71,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
 });
+
+function cancelChanges() {
+    window.location.href = "/events?username=" + userName + "&session_id=" + sessionId;
+}
