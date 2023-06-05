@@ -162,14 +162,22 @@ app.use(fileUpload({
     defParamCharset: 'utf8'
 }));
 
-app.get('/video', function(req, res){
+app.get('/video', async function (req, res) {
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
     };
 
-    res.sendFile('video.html', options, function(err){
-        //console.log(err)
-    });
+    let session_id = req.query.session_id;
+    let username = req.query.username;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        res.sendFile('video.html', options, function (err) {
+            //console.log(err)
+        });
+    }
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get('/', function(req, res){
@@ -399,14 +407,21 @@ app.get("/profile_picture", async function(req, res){
     }
 });
 
-app.get("/chat" ,function(req,res){
+app.get("/chat" ,async function (req, res) {
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
     };
 
-    res.sendFile('chat.html', options, function(err){
-        //console.log(err);
-    });
+    let session_id = req.query.session_id;
+    let username = req.query.username;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        res.sendFile('chat.html', options, function (err) {
+            //console.log(err)
+        });
+    } else {
+        res.redirect("/pageNF");
+    }
 });
 
 // app.get("/code", async (req, res) => {
@@ -456,14 +471,21 @@ app.post("/remFriend", async (req, res) => {
     }
 });
 
-app.get("/friends" ,function(req,res){
+app.get("/friends" ,async function (req, res) {
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
     };
 
-    res.sendFile('friends.html', options, function(err){
-        //console.log(err);
-    });
+    let session_id = req.query.session_id;
+    let username = req.query.username;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        res.sendFile('friends.html', options, function (err) {
+            //console.log(err)
+        });
+    } else {
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/userFriends", async (req, res) => {
@@ -782,39 +804,60 @@ app.post("/addEvent", async function(req, res) {
     }
 });
 
-app.get('/events', function(req, res){
+app.get('/events', async function (req, res) {
 
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
     }
 
-    res.sendFile('events.html', options, function(err){
-        //console.log(err)
-    })
+    let session_id = req.query.session_id;
+    let username = req.query.username;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        res.sendFile('events.html', options, function (err) {
+            //console.log(err)
+        });
+    } else {
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/getEvents", async function (req, res) {
     let username = req.query.username;
+    let session_id = req.query.session_id;
     let events;
-    if(username && await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
-        events = await MARIA_USER_CONTROLLER.getEvents(username);
+    let org = false;
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        if(username && await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+            events = await MARIA_USER_CONTROLLER.getEvents(username);
+            org = true;
+        }
+        else{
+            events = await MARIA_USER_CONTROLLER.getEvents();
+        }
+        res.send({"eventsList": events, "isOrg": org});
     }
     else{
-        events = await MARIA_USER_CONTROLLER.getEvents();
+        res.redirect("/pageNF");
     }
-    res.send(events);
 });
 
 app.get("/searchEvents", async function (req, res) {
     let username = req.query.username;
+    let session_id = req.query.session_id;
     let text = req.query.text;
     let events = [];
-    let ids = await MARIA_USER_CONTROLLER.searchEvents(text);
-    for(let id of ids){
-        let tempEvent = await MARIA_USER_CONTROLLER.getEvent(id.id)
-        events.push(tempEvent[0]);
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let ids = await MARIA_USER_CONTROLLER.searchEvents(text);
+        for(let id of ids){
+            let tempEvent = await MARIA_USER_CONTROLLER.getEvent(id.id)
+            events.push(tempEvent[0]);
+        }
+        res.send(events);
     }
-    res.send(events);
+    else{
+        res.redirect("/pageNF");
+    }
 });
 
 app.get("/location", async function(req, res) {
@@ -944,7 +987,7 @@ app.post("/updateInfo", async function (req, res){
     let city = req.body.txtCitySU;
     let postCode = req.body.Postcodeinputus;
     let phone = encryptAES(req.body.phoneSU);
-    let profPic = req.body.prof_pic;
+    let profPic = {"0": req.body.prof_pic};
 
     if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
         await MARIA_USER_CONTROLLER.updateProfile(username, firstName, surName, pronouns, email, profPic, country, city, postCode, phone);
@@ -955,3 +998,111 @@ app.post("/updateInfo", async function (req, res){
     }
 });
 
+app.get("/dating", async function (req, res) {
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    }
+
+    let session_id = req.query.session_id;
+    let username = req.query.username;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        res.sendFile('dating.html', options, function (err) {
+            //console.log(err)
+        });
+    } else {
+        res.redirect("/pageNF");
+    }
+});
+
+app.get("/datingUsers", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let dU = await MARIA_USER_CONTROLLER.datingUsers();
+        res.send(dU);
+    }
+    else{
+        res.redirect("/pageNF");
+    }
+});
+
+app.get("/datingForm", async function (req, res) {
+    let options = {
+        root: path.join(__dirname, 'public', 'view', 'html_pages')
+    }
+
+    let session_id = req.query.session_id;
+    let username = req.query.username;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        res.sendFile('datingForm.html', options, function (err) {
+            //console.log(err)
+        });
+    } else {
+        res.redirect("/pageNF");
+    }
+});
+
+app.post("/datingForm", async function (req, res) {
+    let username = req.body.username;
+    let session_id = req.body.session_id;
+    let gender = req.body.gender;
+    let info = req.body.info;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        await MARIA_USER_CONTROLLER.addToDating(username, gender, info);
+        res.sendStatus(200);
+    }
+    else{
+        res.redirect("/pageNF");
+    }
+});
+
+app.get("/removeDating", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        await MARIA_USER_CONTROLLER.removeFromDating(username);
+        res.sendStatus(200);
+    }
+    else{
+        res.redirect("/pageNF");
+    }
+});
+
+app.get("/filterDating", async function(req, res){
+    let username = req.query.username;
+    let session_id = req.query.session_id;
+    let gender = req.query.gender;
+    let agel = Number(req.query.agel);
+    let ageu = Number(req.query.ageu);
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        let fU = await MARIA_USER_CONTROLLER.filterDatingUsers(gender, agel, ageu);
+        res.send(fU);
+    }
+    else{
+        res.redirect("/pageNF");
+    }
+});
+
+app.post("/startChat", async function(req, res){
+    let username = req.body.username;
+    let session_id = req.body.session_id;
+    let newDate = req.body.newDate;
+
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
+        await MARIA_USER_CONTROLLER.saveMessage(username, newDate, "Hello", Date.now(), null, false);
+        res.sendStatus(200);
+    }
+    else{
+        res.redirect("/pageNF");
+    }
+});
+
+app.get('*', function(req, res){
+    res.redirect("/pageNF"); // always last route
+});

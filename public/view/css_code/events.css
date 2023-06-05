@@ -60,6 +60,10 @@ input{
   margin-bottom: 0.5rem;
 }
 
+.pageHandler.hidden {
+  display: none;
+}
+
 .pageHandler button{
   color: white;
   font-weight: bold;

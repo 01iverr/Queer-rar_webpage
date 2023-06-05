@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../view/css_code/main.css">
   <link rel="stylesheet" href="../../view/css_code/events.css">
+  <link rel="stylesheet" href="../../view/css_code/popup.css">
   <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
   <title> Queer-rar Events </title>
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -83,10 +84,17 @@
 
       </div>
 
-      <div class="pageHandler">
+      <div class="pageHandler hidden">
         <input type="image"  id="previous" src='../../view/media/events/previus.png' alt="previous" width="30" height="30">
         <span id="current-page"> 1 </span>
           <input type="image"  id="next" src='../../view/media/events/next.png' alt="next" width="30" height="30">
+      </div>
+
+      <div id="popup" class="overlayHidden">
+        <div class="popup">
+          <h2>Sorry no events in your area</h2>
+          <button class="close" onclick="closePopUp()">&times;</button>
+        </div>
       </div>
     </main>
 

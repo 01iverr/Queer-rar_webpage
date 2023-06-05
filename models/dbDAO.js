@@ -196,8 +196,8 @@ const MARIA_USER_CONTROLLER = {
     addUser: async function (nfirstName, nsurName, npronouns, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom) {
         try {
             checkInputs([nfirstName, nsurName, npronouns, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom]);
-            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, last_name, pronouns, country, city, post_code, phone, birth_date, learn_us_from, organization, dating) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            await db.pool.query(insertQuery, [nusername, nemail, npassword, nsalt, nfirstName, nsurName, npronouns, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 0, 0]);
+            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, last_name, pronouns, country, city, post_code, phone, birth_date, learn_us_from, organization) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            await db.pool.query(insertQuery, [nusername, nemail, npassword, nsalt, nfirstName, nsurName, npronouns, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 0]);
         } catch (err) {
             console.log(err);
         }
@@ -206,8 +206,8 @@ const MARIA_USER_CONTROLLER = {
     addOrganization: async function (nfirstName, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom) {
         try {
             checkInputs([nfirstName, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom]);
-            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, country, city, post_code, phone, birth_date, learn_us_from, organization, dating, locked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            await db.pool.query(insertQuery, [nusername, nemail, npassword, nsalt, nfirstName, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 1, 0, 1]);
+            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, country, city, post_code, phone, birth_date, learn_us_from, organization, locked) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            await db.pool.query(insertQuery, [nusername, nemail, npassword, nsalt, nfirstName, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 1, 1]);
         } catch (err) {
             console.log(err);
         }
@@ -223,11 +223,11 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
-    updateProfile: async function(username, nfirstName, nlastName, npronouns, nemail, nprofilePidture, ncountry, ncity, npostcode, nphone){
+    updateProfile: async function(username, nfirstName, nlastName, npronouns, nemail, nprofilePicture, ncountry, ncity, npostcode, nphone){
         try{
-            checkInputs([username, nfirstName, nlastName, npronouns, nemail, nprofilePidture, ncountry, ncity, npostcode, nphone]);
-            let updQuery = "UPDATE users SET email = ?, first_name = ?, last_name = ?, pronouns = ?, country = ?, city = ?, post_code = ?, phone = ? WHERE user_name = ? ;";
-            await db.pool.query(updQuery, [nemail, nfirstName, nlastName, npronouns, ncountry, ncity, npostcode, nphone, username]);
+            checkInputs([username, nfirstName, nlastName, npronouns, nemail, ncountry, ncity, npostcode, nphone]);
+            let updQuery = "UPDATE users SET email = ?, first_name = ?, last_name = ?, pronouns = ?, country = ?, city = ?, post_code = ?, phone = ?, profile_picture = ? WHERE user_name = ? ;";
+            await db.pool.query(updQuery, [nemail, nfirstName, nlastName, npronouns, ncountry, ncity, npostcode, nphone, nprofilePicture, username]);
         }catch (err) {
             console.log(err);
         }
@@ -494,9 +494,46 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
+    addToDating: async function(username, gender, info){
+        try {
+            checkInputs([gender, info]);
+            let res_year = await db.pool.query("SELECT YEAR(birth_date) AS year FROM users WHERE user_name = ? ;", [username]);
+            await db.pool.query("INSERT INTO dating (user_name, gender, birth_year, info) VALUES (?, ?, ?, ?)", [username, gender, res_year.year, info]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    removeFromDating: async function(username){
+        await db.pool.query("DELETE FROM dating WHERE user_name = ? ;", [username]);
+    },
+
+    datingUsers: async function() {
+        try {
+            return await db.pool.query("SELECT * FROM dating ;");
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    filterDatingUsers: async function(genderSel, age_lower, age_upper){
+        try {
+            checkInputs([genderSel]);
+            if(age_lower === 18 && age_upper === 100){
+                return await db.pool.query("SELECT * FROM dating WHERE gender = ? ;", [genderSel]);
+            }
+            else{
+                return await db.pool.query("SELECT * FROM dating WHERE gender = ? AND " +
+                    "birth_year BETWEEN YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR)) AND " +
+                    "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR));", [genderSel, age_upper, age_lower]);
+            }
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
     deleteUser: async function(username){
         try {
-            await db.pool.query("DELETE FROM users WHERE user_name = ? ;", [username]);
             await db.pool.query("DELETE FROM sessions WHERE user_name = ? ;", [username]);
             await db.pool.query("DELETE FROM logins WHERE username = ? ;", [username]);
             await db.pool.query("DELETE FROM messages WHERE users LIKE ? ;", ["%" + username + "%"]);
@@ -504,6 +541,8 @@ const MARIA_USER_CONTROLLER = {
             await db.pool.query("DELETE FROM friends WHERE user2 = ? ;", [username]);
             await db.pool.query("DELETE FROM addfrcode WHERE username = ? ;", [username]);
             await db.pool.query("DELETE FROM events WHERE org_name = ? ;", [username]);
+            await db.pool.query("DELETE FROM dating WHERE user_name = ? ;", [username]);
+            await db.pool.query("DELETE FROM users WHERE user_name = ? ;", [username]);
         }catch (err) {
             console.log(err);
         }
