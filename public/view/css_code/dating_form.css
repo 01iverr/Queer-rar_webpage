@@ -1,0 +1,47 @@
+
+@font-face {
+  font-family: "CookieRegular";
+  src: url("../fonts/Cookie-Regular.ttf");
+}
+
+main{
+  background-image: url('../media/background_photos/flags.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+
+fieldset{
+  border: none;
+  color: white;
+  margin-top: 10px;
+  /* float:left;
+  width: 50%;
+  display: inline-block; */
+}
+
+legend{
+  display:inline-flex;
+}
+
+@media screen and (min-width: 390px) {
+
+  .box {
+    width: 800px;
+    height: 850px;
+    background: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+
+
+
+}
+
+@media screen and  (max-width: 324px) {
+}

@@ -6,7 +6,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../../view/css_code/resetpass.css">
+  <link rel="stylesheet" href="../../view/css_code/profile.css">
   <link rel="stylesheet" href="../../view/css_code/dating_form.css">
+  <link rel="stylesheet" href="../../view/css_code/customrange.css">
+  <link rel="stylesheet" href="../../view/css_code/age_range.css">
 
   <!-- Google Fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,44 +19,95 @@
   <title>Date?</title>
   <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="../../view/js_code/age_range.js"></script>
 </head>
 
 <body>
-  <main>
-  <div class="box">
-    <form name="datingform" id="datingform" method="POST" autocomplete="off">
-      <h2>Wanna date?</h2>
-      <span id="message">Fill the form and find the love</span>
+  <div class="wrapper">
+    <!-- ========================== HEADER ========================== -->
+    <div id="header">
+      {{> header}}
+    </div>
 
-      <div class="inputBox">
-        <input id="sentence" name="sentence" type="text" required="required">
-        <span>About me:</span>
-        <i></i>
+    <main>
+      <div class="box">
+        <form name="datingform" id="datingform" method="POST" autocomplete="off">
+          <h2>Wanna date?</h2>
+          <span id="message">Fill the form and find the love</span>
+
+          <fieldset id="mygender">
+            <legend class="radiochoices">My gender:</legend>
+            <input type="checkbox" name="gender_male" value="Male"> Male <br>
+            <input type="checkbox" name="gender_female" value="Female"> Female<br>
+            <input type="checkbox" name="gender_Masc" value="Masc"> Masc <br>
+            <input type="checkbox" name="gender_fem" value="Fem"> Fem <br>
+            <input type="checkbox" name="gender_nb" value="NB"> NB <br>
+            <input type="checkbox" name="gender_other" value="Other"> Other<br>
+          </fieldset>
+
+          <fieldset id="othergender">
+            <legend class="radiochoices">Looking for:</legend>
+            <input type="checkbox" name="gender_male" value="Male"> Male <br>
+            <input type="checkbox" name="gender_female" value="Female"> Female<br>
+            <input type="checkbox" name="gender_Masc" value="Masc"> Masc <br>
+            <input type="checkbox" name="gender_fem" value="Fem"> Fem <br>
+            <input type="checkbox" name="gender_nb" value="NB"> NB <br>
+            <input type="checkbox" name="gender_other" value="Other"> Other<br>
+          </fieldset>
+
+          <fieldset>
+            <legend>Preffered Age:</legend>
+            <label for="minage">Min:</label>
+            <input type="number" id="minage" name="minage" min="18" max="100">
+            <label for="maxage">Max:</label>
+            <input type="number" id="maxage" name="maxage" min="18" max="100">
+          </fieldset>
+
+          <fieldset>
+            <legend>How far from me?</legend>
+            <div class="slidecontainer">
+              <input type="range" min="10" max="70" value="25" class="slider" id="myRange" step="5" oninput="this.nextElementSibling.value = this.value">
+              <output>25</output> km
+            </div>
+          </fieldset>
+
+          <div class="inputBox">
+            <input id="sentence" name="sentence" type="text" required="required">
+            <span>About me:</span>
+            <i></i>
+          </div>
+
+          <fieldset>
+            <legend class="radiochoices">My account will be visible in dating part and I will be able to use dating part:</legend>
+            <ul>
+              <li>
+                <label class="radiochoices" for="Ag">
+                  <input type="radio" id="Ag" name="confirm" value="Agree" required>
+                  Agree
+                </label>
+              </li>
+              <li>
+                <label class="radiochoices" for="Di">
+                  <input type="radio" id="Di" name="confirm" value="Disagree" required>
+                  Disagree
+                </label>
+              </li>
+            </ul>
+          </fieldset>
+
+          <br><br>
+          <input type="button" onclick="window.location.href='index.html';" value="Cancel">
+
+          <a href="../sign_in_form.html">
+            <input type="submit" id="resetpas" onclick="window.location.href='dating_results.html';" value="Continue">
+          </a>
+        </form>
       </div>
-
-      Gender:<br>
-        <input type="checkbox" name="gender_male" value="Male"> Male <br>
-        <input type="checkbox" name="gender_female" value="Female"> Female<br>
-        <input type="checkbox" name="gender_Masc" value="Masc"> Masc <br>
-        <input type="checkbox" name="gender_fem" value="Fem"> Fem <br>
-        <input type="checkbox" name="gender_nb" value="NB"> NB <br>
-        <input type="checkbox" name="gender_other" value="Other"> Other<br>
-
-      <label for="age">
-        Preffered age:
-      </label>
-      <input type="range" id="age" name="points" min="18" max="99">
-
-
-      <br><br>
-      <input type="button" onclick="window.location.href='index.html';" value="Back">
-
-      <a href="../sign_in_form.html">
-        <input type="submit" id="resetpas" nclick="window.location.href='sign_in_form.html';"  value="Reset">
-      </a>
-    </form>
+    </main>
+    <div id="footer">
+      {{> footer}}
+    </div>
   </div>
-  </main>
 </body>
 
 </html>
