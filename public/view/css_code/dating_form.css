@@ -1,8 +1,7 @@
-
-@font-face {
+/* @font-face {
   font-family: "CookieRegular";
   src: url("../fonts/Cookie-Regular.ttf");
-}
+} */
 
 main{
   background-image: url('../media/background_photos/flags.png');
@@ -11,37 +10,105 @@ main{
   background-size: cover;
 }
 
+.message{
+  color: #ffffcc;
+  visibility:hidden;
+}
+
+input.agerange:not(:focus):not(:placeholder-shown):invalid {
+  background-color: #ffdddd;
+  border: 2px solid #cc0000;
+}
 
 fieldset{
   border: none;
   color: white;
   margin-top: 10px;
-  /* float:left;
-  width: 50%;
-  display: inline-block; */
 }
 
 legend{
-  display:inline-flex;
+  /* display:inline-flex; */
+  margin-bottom: 20px;
+  margin-left: -50px;
+  color: #ffffcc;
 }
 
-@media screen and (min-width: 390px) {
-
+@media screen and (min-width: 700px) {
   .box {
-    width: 800px;
-    height: 850px;
+    width: 700px;
+    height: 690px;
     background: #1c1c1c;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
+
+  #genders {
+    margin-left: 30px;
+    margin-top: 50px;
+  }
+
+  #fmygender {
+    display: inline-block;
+    width: 30%;
+    float: left;
+  }
+
+  #fothergender {
+    float: left;
+    width: 30%;
+  }
+
+  #f_age{
+    display: inline-block;
+    width: 40%;
+    float: right;
+    height: 50%;
+  }
+
+  #f_far{
+    display: inline-flex;
+    margin-top: 20px;
+    width: 40%;
+    height: 50%;
+    float: right;
+  }
+
+  #myRange{
+    margin-left: -20px;
+    width: 190px;
+  }
+
+  #maxage,
+  #minage{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  #fconsent,
+  #fsent{
+    margin-top: 50px;
+    margin-left: 20px;
+  }
+
+  #sentence_box{
+    margin-top: -13px;
+  }
+
 }
 
-@media screen and (max-width: 390px) {
 
+@media screen and  (max-width: 700px) {
 
 
 }
 
-@media screen and  (max-width: 324px) {
+ul{
+  list-style-type: none;
+  text-align: left;
+}
+
+input[type='number']{
+    width: 50px;
+    background-color: #dbecec;
 }
