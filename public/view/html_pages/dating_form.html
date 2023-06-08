@@ -12,8 +12,6 @@
   <link rel="stylesheet" href="../../view/css_code/customrange.css">
   <link rel="stylesheet" href="../../view/css_code/dating_form.css">
 
-
-
   <!-- Google Fonts  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,15 +57,15 @@
             </fieldset>
 
             <fieldset id="f_age">
-              <legend>Preff. Age:</legend>
-              <label for="minage">Min:</label>
+              <legend id="l_age">Preff. Age:</legend>
+              <label id="laage" for="minage">Min:</label>
               <input type="number" class="agerange" id="minage" name="minage" value="18" min="18" max="100"  onblur="checkAge()">
               <label for="maxage">Max:</label>
               <input type="number" id="maxage"  class="agerange" name="maxage" min="18" value="100" max="100" onblur="checkAge()" >
             </fieldset>
 
             <fieldset id="f_far">
-              <legend>How far from me?</legend>
+              <legend  id="l_far">How far from me?</legend>
               <div class="slidecontainer">
                 <input type="range" min="10" max="70" value="25" class="slider" id="myRange" step="5" oninput="this.nextElementSibling.value = this.value">
                 <output>25</output>km
@@ -76,7 +74,7 @@
           </div>
 
           <fieldset id="fsent">
-            <legend>Write one sentence about you!</legend>
+            <legend  id="l_consent">Write one sentence about you!</legend>
             <div id="sentence_box" class="inputBox">
               <input id="sentence" maxlength="30" name="sentence" type="text" required="required">
               <span>About me:</span>
@@ -98,7 +96,7 @@
                 <label class="radiochoices" for="Di">
                   <input type="radio" id="Di" name="confirm" value="Disagree" onchange="displayMessages()" required>
                   Disagree
-                  <span id="dimess" class="message" > (Don't worry we won't  keep the data from this form) </span>
+                  <span id="dimess" class="message" > (We won't  keep the data from this form) </span>
                 </label>
               </li>
             </ul>

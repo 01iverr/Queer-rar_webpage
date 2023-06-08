@@ -94,14 +94,131 @@ legend{
   #sentence_box{
     margin-top: -13px;
   }
-
 }
 
 
-@media screen and  (max-width: 700px) {
+@media screen and (max-width: 700px) {
+  .box {
+    width: 400px;
+    height: 850px;
+    background: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
 
+  h2{
+    margin-top: -40px;
+  }
+
+  #genders {
+    margin-left: 60px;
+    margin-top: 50px;
+  }
+
+  #fmygender {
+    display: inline-block;
+    width: 50%;
+    float: left;
+  }
+
+  #fothergender {
+    float: left;
+    width: 50%;
+  }
+
+  #f_age{
+    float: left;
+    margin-top: 20px;
+  }
+
+  #f_far{
+    display: block;
+    float: left;
+  }
+
+  #myRange{
+    margin-left: -20px;
+    width: 190px;
+  }
+
+  #maxage,
+  #minage{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  #fconsent,
+  #fsent{
+    margin-top: 30px;
+    margin-left: 50px;
+  }
+
+  #sentence_box{
+    margin-top: -13px;
+    margin-left: -30px;
+  }
 
 }
+
+@media screen and (min-width: 350px) and (max-width: 390px) {
+
+  #genders {
+    margin-left: 30px;
+    margin-top: 50px;
+  }
+
+}
+
+@media screen and (max-width: 350px) {
+
+  #genders {
+    margin-left: 15px;
+    margin-top: 20px;
+  }
+
+  #othergender{
+    margin-left: 10px;
+  }
+
+  #fconsent,
+  #fsent {
+    margin-top: 30px;
+    margin-left: 50px;
+  }
+
+  #sentence_box{
+    margin-top: -13px;
+    margin-left: -30px;
+  }
+
+  #laage{
+    float: left;
+    margin-left: -20px;
+  }
+
+  #l_far{
+    margin-top: 20px;
+  }
+
+  #myRange{
+    margin-left: -20px;
+    width: 170px;
+  }
+
+  #fconsent,
+  #fsent{
+    margin-top: 30px;
+    margin-left: 20px;
+  }
+
+  ul{
+    margin-left: -30px;
+  }
+}
+
+
+
 
 ul{
   list-style-type: none;
