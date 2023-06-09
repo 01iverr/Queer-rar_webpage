@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Cookie";
+    src: url("../fonts/Cookie-Regular.ttf");
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -26,6 +31,15 @@
     position: relative;
     justify-content: center;
     align-items: center;
+    font-family: Cookie;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.popup img {
+    width: 50px;
+    height: 50px;
+    margin-right: 0.5rem;
 }
 
 .popup h2 {
@@ -34,8 +48,9 @@
 
 .popup .close {
     transition: all 200ms;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: bold;
+    font-family: Cookie;
 }
 .popup .close:hover {
     color: #06D85F;

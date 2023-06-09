@@ -65,7 +65,6 @@ function resetProfPic(){
     imageInput.value= "";
 }
 
-// TODO make function and take it from external file
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

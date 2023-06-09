@@ -37,7 +37,7 @@ window.addEventListener("load", () => {
             })
     }
 
-    addUpdForm.addEventListener("submit", (e) => {
+    addUpdForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         let eDate = document.querySelector('input[name="eDate"]');
         let eTime = document.querySelector('input[name="eTime"]');
@@ -46,6 +46,15 @@ window.addEventListener("load", () => {
         formData.append("username", username);
         formData.append("session_id", session_id);
         formData.append("event_id", event_id);
+        if (typeof lon === "undefined") {
+            let pl = document.querySelector("#event-place");
+            await fetch("https://api.geoapify.com/v1/geocode/search?text=" + pl.value + "&apiKey=9c5413d88e744ac7a617abe44b5ec2b0", {method: 'GET'})
+                .then(response => response.json())
+                .then(result => {
+                    lon = result.features[0].geometry.coordinates[0];
+                    lat = result.features[0].geometry.coordinates[1];
+                });
+        }
         formData.append("eLon", lon);
         formData.append("eLat", lat);
         let localeDate = new Date(eDate.value + " " + eTime.value + ":00");

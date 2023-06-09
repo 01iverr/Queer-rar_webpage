@@ -41,6 +41,7 @@ window.addEventListener("load", () => {
                     if(res.status === 200 && menuItems[3] && menuItems[4]){
                         menuItems[3].remove();
                         menuItems[4].remove();
+                        menuItems[5].remove();
                         let menuUl = document.querySelector("ul.dropdown-menu");
                         let liElem = document.createElement("li");
                         liElem.classList.add("dropdown-submenu");
