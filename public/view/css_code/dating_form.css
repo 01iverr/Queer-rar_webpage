@@ -40,7 +40,7 @@ legend{
     background: #1c1c1c;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   #genders {
@@ -104,7 +104,7 @@ legend{
     background: #1c1c1c;
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 80px;
   }
 
   h2{
@@ -162,15 +162,28 @@ legend{
 }
 
 @media screen and (min-width: 350px) and (max-width: 390px) {
+  .box {
+    position: relative;
+    width: 350px;
+    height:850px;
+    margin-bottom: 80px;
+  }
 
   #genders {
     margin-left: 30px;
-    margin-top: 50px;
+    margin-top: 30px;
   }
 
 }
 
 @media screen and (max-width: 350px) {
+
+  .box {
+    position: relative;
+    width: 300px;
+    height:850px;
+    margin-bottom: 80px;
+  }
 
   #genders {
     margin-left: 15px;

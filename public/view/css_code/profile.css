@@ -70,8 +70,26 @@ main{
 
 @media screen and (max-width: 390px) {
 
+
+  form{
+    position: relative;
+  }
+
+  .box {
+    position: relative;
+    width: 280px;
+    height:770px;
+    margin-top: 20px;
+    margin-bottom: 80px;
+  }
+
+  h2 {
+    float: center;
+    margin-top: -40px;
+  }
+
   #footer{
-    display: none;
+    display:block;
   }
 
   #reset-image ,
@@ -127,7 +145,7 @@ main{
 
 .box{
   top: 50px;
-  position: relative;
+  position:relative;
 }
 
 
