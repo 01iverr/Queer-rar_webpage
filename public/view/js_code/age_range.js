@@ -9,7 +9,7 @@ function checkAge() {
     maxage.value =100;
     return;
   }
-  if (minage.value > maxage.value) {
+  if (parseInt(minage.value) > parseInt(maxage.value)) {
     minage.setCustomValidity("Max age > Min age");
     minage.reportValidity();
     return;

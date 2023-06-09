@@ -20,14 +20,10 @@
 <body>
   <div class="wrapper">
     <!-- ========================== HEADER ========================== -->
-      <header class="wrapper header-wrapper">
-          <div class="header-wrapper header-group">
-              <!-- Logo -->
-              <button id="home-button-image" onclick="window.location.href='index.html';">
-              </button>
+    <div id="header">
+      {{> header}}
+    </div>
 
-          </div>
-      </header>
     <!-- ========================== Main ========================== -->
 
     <main id="index-page-components">
@@ -73,11 +69,6 @@
           </form>
         </figcaption>
       </figure>
-      <br>
-      <br>
-
-
-
       </main>
 
       <!-- ========================== FOOTER ========================== -->
