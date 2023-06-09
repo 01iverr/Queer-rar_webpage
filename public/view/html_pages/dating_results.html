@@ -5,20 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../../view/css_code/main.css">
         <link rel="stylesheet" href="../../view/css_code/friends.css">
+        <link rel="stylesheet" href="../../view/css_code/popup.css">
         <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
         <title> Queer-rar Friends </title>
         <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
         <script src="../../client/main.js"></script>
-        <script src="../../client/friend.js"></script>
-
+        <script src="../../client/dating.js"></script>
         <script type="text/x-handlebars-template" id="friend-template"> 
             <div class="friend-box">
                 {{#each friendsList}}
-                    <div class="friend-frame" data-id="{{name}}">
-                        <img src="{{prof_pic}}" alt="profile picture of {{name}}">
-                        <h2>{{name}}</h2>
-                        // add one sentence about me
-                        // add icon for messages
+                    <div class="friend-frame" data-id="{{user_name}}">
+                        <img src="{{profPic}}" alt="profile picture of {{user_name}}">
+                        <h2>{{user_name}}</h2>
+                        <h3>{{info}}</h3>
+                        <button onclick="sendMessage('{{user_name}}')">Send message</button>
                     </div>
                 {{/each}}
             </div>
@@ -38,6 +38,20 @@
 
                 <div id="friends-viewer">
 
+                </div>
+
+                <div id="popup-register" class="overlayHidden">
+                    <div class="popup">
+                        <h2>You have to complete the form to see dating users</h2>
+                        <button class="close" onclick="closePopUp('popup-register')">&times;</button>
+                    </div>
+                </div>
+
+                <div id="popup-nousers" class="overlayHidden">
+                    <div class="popup">
+                        <h2>Sorry no users available</h2>
+                        <button class="close" onclick="closePopUp('popup-nousers')">&times;</button>
+                    </div>
                 </div>
             </main>
 

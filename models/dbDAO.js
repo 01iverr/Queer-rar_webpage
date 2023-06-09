@@ -494,23 +494,56 @@ const MARIA_USER_CONTROLLER = {
         }
     },
 
-    addToDating: async function(username, gender, info){
+    addToDating: async function(username, gender, info, searchGender, minAge, maxAge, distance){
         try {
-            checkInputs([gender, info]);
+            checkInputs([info]);
+            checkInputs(gender);
+            checkInputs(searchGender);
+            gender = gender.join(",");
+            searchGender = searchGender.join(",");
             let res_year = await db.pool.query("SELECT YEAR(birth_date) AS year FROM users WHERE user_name = ? ;", [username]);
-            await db.pool.query("INSERT INTO dating (user_name, gender, birth_year, info) VALUES (?, ?, ?, ?)", [username, gender, res_year.year, info]);
+            await db.pool.query("INSERT INTO dating (user_name, gender, birth_year, info, look_gender, look_min_age, look_max_age, look_distance)" +
+                                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [username, gender, res_year[0].year, info, searchGender, minAge, maxAge, distance]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    updateDatingUser: async function(username, gender, info, searchGender, minAge, maxAge, distance){
+        try {
+            checkInputs([info]);
+            checkInputs(gender);
+            checkInputs(searchGender);
+            gender = gender.join(",");
+            searchGender = searchGender.join(",");
+            await db.pool.query("UPDATE dating SET gender = ?, info = ?, look_gender = ?, look_min_age = ?, look_max_age = ?, look_distance = ? " +
+                " WHERE user_name = ? ;", [gender, info, searchGender, minAge, maxAge, distance, username]);
         }catch (err) {
             console.log(err);
         }
     },
 
     removeFromDating: async function(username){
-        await db.pool.query("DELETE FROM dating WHERE user_name = ? ;", [username]);
+        try {
+            await db.pool.query("DELETE FROM dating WHERE user_name = ? ;", [username]);
+        }catch (err) {
+            console.log(err);
+        }
     },
 
-    datingUsers: async function() {
+    datingUser: async function(username) {
         try {
-            return await db.pool.query("SELECT * FROM dating ;");
+            return await db.pool.query("SELECT user_name, gender, info, look_gender, look_min_age, look_max_age, look_distance FROM dating " +
+                                            "WHERE user_name = ? ;", [username]);
+        }catch (err) {
+            console.log(err);
+        }
+    },
+
+    userIsDating: async function(username){
+        try{
+            let row = await db.pool.query("SELECT user_name FROM dating WHERE user_name = ? ;", [username]);
+            return typeof row[0] !== 'undefined';
         }catch (err) {
             console.log(err);
         }
@@ -518,14 +551,18 @@ const MARIA_USER_CONTROLLER = {
 
     filterDatingUsers: async function(genderSel, age_lower, age_upper){
         try {
-            checkInputs([genderSel]);
-            if(age_lower === 18 && age_upper === 100){
-                return await db.pool.query("SELECT * FROM dating WHERE gender = ? ;", [genderSel]);
+            let query = "SELECT user_name, YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL birth_year YEAR)) AS age, " +
+                                "info, look_distance FROM dating WHERE FIND_IN_SET('";
+            let genderPref = genderSel.join("', gender) OR FIND_IN_SET('");
+            genderPref += "', gender) ";
+            query += genderPref;
+            if(age_lower === 18 && age_upper === 99){
+                return await db.pool.query(query);
             }
             else{
-                return await db.pool.query("SELECT * FROM dating WHERE gender = ? AND " +
-                    "birth_year BETWEEN YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR)) AND " +
-                    "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR));", [genderSel, age_upper, age_lower]);
+                return await db.pool.query(query + "AND birth_year BETWEEN " +
+                    "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR)) AND " +
+                    "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR));", [age_upper, age_lower]);
             }
         }catch (err) {
             console.log(err);

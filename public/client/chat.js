@@ -213,17 +213,16 @@ class Chat {
             let popup = document.createElement("div");
             popup.classList.add("center-window");
             let callingUser = document.querySelector(`div[data-id="${caller}"]`).cloneNode(true);
+            callingUser.classList.add("calling-profile");
             callingUser.removeChild(callingUser.lastChild);
 
             let acceptButton = document.createElement("button");
             let refuseButton = document.createElement("button");
 
             acceptButton.setAttribute("id", "accept");
-            // acceptButton.innerHTML = '<span class="material-symbols-rounded">call</span>';
             acceptButton.innerHTML = '<img src="../view/media/chat/answer-call.png" alt="accept call">';
 
             refuseButton.setAttribute("id", "refuse");
-            // refuseButton.innerHTML = '<span class="material-symbols-rounded">call_end</span>';
             refuseButton.innerHTML = '<img src="../view/media/chat/reject-call.png" alt="refuse call">';
 
             let roomIdCreation = [caller, this.currentUser.name];
@@ -399,6 +398,7 @@ class Chat {
     }
 }
 
+// TODO make function and take it from external file
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

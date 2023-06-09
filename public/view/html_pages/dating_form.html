@@ -20,7 +20,9 @@
   <title>Date?</title>
   <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="../../client/main.js"></script>
   <script src="../../view/js_code/age_range.js"></script>
+  <script src="../../client/datingForm.js"></script>
 </head>
 
 <body>
@@ -40,7 +42,7 @@
               <legend id="mygender" class="radiochoices">My gender:</legend>
               <input type="checkbox" name="gender_male" value="Male"> Male <br>
               <input type="checkbox" name="gender_female" value="Female"> Female<br>
-              <input type="checkbox" name="gender_Masc" value="Masc"> Masc <br>
+              <input type="checkbox" name="gender_masc" value="Masc"> Masc <br>
               <input type="checkbox" name="gender_fem" value="Fem"> Fem <br>
               <input type="checkbox" name="gender_nb" value="NB"> NB <br>
               <input type="checkbox" name="gender_other" value="Other"> Other<br>
@@ -50,7 +52,7 @@
               <legend id="othergender" class="radiochoices">Looking:</legend>
               <input type="checkbox" name="o_gender_male" value="Male"> Male <br>
               <input type="checkbox" name="o_gender_female" value="Female"> Female<br>
-              <input type="checkbox" name="o_gender_Masc" value="Masc"> Masc <br>
+              <input type="checkbox" name="o_gender_masc" value="Masc"> Masc <br>
               <input type="checkbox" name="o_gender_fem" value="Fem"> Fem <br>
               <input type="checkbox" name="o_gender_nb" value="NB"> NB <br>
               <input type="checkbox" name="o_gender_other" value="Other"> Other<br>
@@ -67,7 +69,7 @@
             <fieldset id="f_far">
               <legend  id="l_far">How far from me?</legend>
               <div class="slidecontainer">
-                <input type="range" min="10" max="70" value="25" class="slider" id="myRange" step="5" oninput="this.nextElementSibling.value = this.value">
+                <input type="range" min="10" max="70" value="25" class="slider" id="myRange" name="distance" step="5" oninput="this.nextElementSibling.value = this.value">
                 <output>25</output>km
               </div>
             </fieldset>
@@ -103,10 +105,10 @@
           </fieldset>
 
           <br><br>
-          <input type="button" onclick="window.location.href='index.html';" value="Cancel">
+          <input type="button" onclick="window.location.href='/index.html';" value="Cancel">
 
           <a href="../sign_in_form.html">
-            <input type="submit" id="resetpas" onclick="window.location.href='dating_results.html';" value="Continue">
+            <input type="submit" id="resetpas" value="Continue">
           </a>
         </form>
       </div>

@@ -66,6 +66,36 @@ function decryptAES(data){
     return CryptoJS.enc.Utf8.stringify(dec)
 }
 
+// TODO export function from event.js and import it
+function haversine(latx, lonx, laty, lony) {
+    Number.prototype.toRad = function() {
+        return this * Math.PI / 180;
+    }
+
+    let R = 6371; // radius of earth
+    let x1 = latx-laty;
+    let dLat = x1.toRad();
+    let x2 = lonx-lony;
+    let dLon = x2.toRad();
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(laty.toRad()) * Math.cos(latx.toRad()) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return Number((R * c).toFixed(3));
+}
+
+async function getUserCoordinates(username) {
+    let locationData = await MARIA_USER_CONTROLLER.getLocation(username);
+    let coordinates;
+    await fetch("https://api.geoapify.com/v1/geocode/search?text=" + locationData[0].post_code + " " +
+        locationData[0].city + " " + locationData[0].country + "&apiKey=9c5413d88e744ac7a617abe44b5ec2b0")
+        .then((response) => response.json())
+        .then((res) => {
+            coordinates = res.features[0].geometry.coordinates;
+        });
+    return coordinates;
+}
+
 app.use('/peerjs', peerServer);
 
 server.listen(Number(process.env.SERVER_PORT), process.env.SERVER_IP,() => {
@@ -423,14 +453,6 @@ app.get("/chat" ,async function (req, res) {
         res.redirect("/pageNF");
     }
 });
-
-// app.get("/code", async (req, res) => {
-//     let username = req.query.username;
-//     let session_id = req.query.session_id;
-//     if(await MARIA_USER_CONTROLLER.validSessionId(username, session_id)){
-//
-//     }
-// });
 
 app.post("/addFriend", async (req, res) => {
     let username = req.query.username;
@@ -998,7 +1020,7 @@ app.post("/updateInfo", async function (req, res){
     }
 });
 
-app.get("/dating", async function (req, res) {
+app.get("/datingPage", async function (req, res) {
     let options = {
         root: path.join(__dirname, 'public', 'view', 'html_pages')
     }
@@ -1006,8 +1028,8 @@ app.get("/dating", async function (req, res) {
     let session_id = req.query.session_id;
     let username = req.query.username;
 
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        res.sendFile('dating.html', options, function (err) {
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        res.sendFile('dating_results.html', options, function (err) {
             //console.log(err)
         });
     } else {
@@ -1015,12 +1037,12 @@ app.get("/dating", async function (req, res) {
     }
 });
 
-app.get("/datingUsers", async function(req, res){
+app.get("/datingUser", async function(req, res){
     let username = req.query.username;
     let session_id = req.query.session_id;
 
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        let dU = await MARIA_USER_CONTROLLER.datingUsers();
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        let dU = await MARIA_USER_CONTROLLER.datingUser(username);
         res.send(dU);
     }
     else{
@@ -1036,8 +1058,8 @@ app.get("/datingForm", async function (req, res) {
     let session_id = req.query.session_id;
     let username = req.query.username;
 
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        res.sendFile('datingForm.html', options, function (err) {
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        res.sendFile('dating_form.html', options, function (err) {
             //console.log(err)
         });
     } else {
@@ -1048,25 +1070,34 @@ app.get("/datingForm", async function (req, res) {
 app.post("/datingForm", async function (req, res) {
     let username = req.body.username;
     let session_id = req.body.session_id;
-    let gender = req.body.gender;
-    let info = req.body.info;
+    let genders = [req.body.gender_male, req.body.gender_female, req.body.gender_masc, req.body.gender_fem, req.body.gender_nb, req.body.gender_other];
+    genders = genders.filter(function( gen ) {
+        return gen !== undefined;
+    });
+    let info = req.body.sentence;
+    let lookGender = [req.body.o_gender_male, req.body.o_gender_female, req.body.o_gender_masc, req.body.o_gender_fem, req.body.o_gender_nb, req.body.o_gender_other];
+    lookGender = lookGender.filter(function( gen ) {
+        return gen !== undefined;
+    });
+    let lookMinAge = Number(req.body.minage);
+    let lookMaxAge = Number(req.body.maxage);
+    let lookDistance = Number(req.body.distance);
+    let agreement = req.body.confirm;
 
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        await MARIA_USER_CONTROLLER.addToDating(username, gender, info);
-        res.sendStatus(200);
-    }
-    else{
-        res.redirect("/pageNF");
-    }
-});
-
-app.get("/removeDating", async function(req, res){
-    let username = req.query.username;
-    let session_id = req.query.session_id;
-
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        await MARIA_USER_CONTROLLER.removeFromDating(username);
-        res.sendStatus(200);
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        if(agreement === "Agree"){
+            if(await MARIA_USER_CONTROLLER.userIsDating(username)){
+                await MARIA_USER_CONTROLLER.updateDatingUser(username, genders, info, lookGender, lookMinAge, lookMaxAge, lookDistance);
+            }
+            else{
+                await MARIA_USER_CONTROLLER.addToDating(username, genders, info, lookGender, lookMinAge, lookMaxAge, lookDistance);
+            }
+            res.sendStatus(201);
+        }
+        else{
+            await MARIA_USER_CONTROLLER.removeFromDating(username);
+            res.sendStatus(204);
+        }
     }
     else{
         res.redirect("/pageNF");
@@ -1076,13 +1107,31 @@ app.get("/removeDating", async function(req, res){
 app.get("/filterDating", async function(req, res){
     let username = req.query.username;
     let session_id = req.query.session_id;
-    let gender = req.query.gender;
-    let agel = Number(req.query.agel);
-    let ageu = Number(req.query.ageu);
 
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        let fU = await MARIA_USER_CONTROLLER.filterDatingUsers(gender, agel, ageu);
-        res.send(fU);
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        if(await MARIA_USER_CONTROLLER.userIsDating(username)){
+            let userPref = await MARIA_USER_CONTROLLER.datingUser(username);
+            let fU = await MARIA_USER_CONTROLLER.filterDatingUsers(userPref[0].look_gender, userPref[0].look_min_age, userPref[0].look_max_age);
+
+            // calculate distances
+            let userCoordinates = await getUserCoordinates(username);
+            let finalUsers = []
+            for(let duser of fU){
+                if(duser.user_name !== username){
+                    let duserCoordinates = await getUserCoordinates(duser.user_name);
+                    duser.distance = haversine(userCoordinates[1], userCoordinates[0], duserCoordinates[1], duserCoordinates[0]);
+                    if(duser.distance <= userPref[0].look_distance && duser.distance <= duser.look_distance){ //filter distances
+                        duser.profPic = await MARIA_USER_CONTROLLER.getProfilePicture(duser.user_name);
+                        duser.profPic = JSON.parse(duser.profPic.profile_picture)[0];
+                        finalUsers.push(duser);
+                    }
+                }
+            }
+            res.send(finalUsers);
+        }
+        else{
+            res.sendStatus(401);
+        }
     }
     else{
         res.redirect("/pageNF");
@@ -1094,9 +1143,11 @@ app.post("/startChat", async function(req, res){
     let session_id = req.body.session_id;
     let newDate = req.body.newDate;
 
-    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id)) {
-        await MARIA_USER_CONTROLLER.saveMessage(username, newDate, "Hello", Date.now(), null, false);
-        res.sendStatus(200);
+    if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
+        if(await MARIA_USER_CONTROLLER.userIsDating(newDate)){
+            await MARIA_USER_CONTROLLER.saveMessage(username, newDate, encryptAES("Hello"), Date.now(), null, false);
+            res.sendStatus(200);
+        }
     }
     else{
         res.redirect("/pageNF");

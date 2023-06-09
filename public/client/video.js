@@ -87,6 +87,9 @@ const addVideoStream = (video, stream, id) => {
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", () => {
         video.play();
+        if(id === "friendVideo"){
+            document.getElementById("myVideo").classList.remove("posUntilAnswer");
+        }
         document.getElementById(id).prepend(video);
     });
 };
