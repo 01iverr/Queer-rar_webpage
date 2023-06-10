@@ -436,7 +436,7 @@ const MARIA_USER_CONTROLLER = {
 
     getEvent: async function(id){
         try{
-            return await db.pool.query("SELECT id, org_name, name, timestamp, description, lat, lon, creation_timestamp FROM events WHERE id=?;", [id]);
+            return await db.pool.query("SELECT id, org_name, name, timestamp, description, lat, lon, creation_timestamp, people_count FROM events WHERE id=?;", [id]);
         }catch (err) {
             console.log(err);
         }
@@ -552,18 +552,13 @@ const MARIA_USER_CONTROLLER = {
     filterDatingUsers: async function(genderSel, age_lower, age_upper){
         try {
             let query = "SELECT user_name, YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL birth_year YEAR)) AS age, " +
-                                "info, look_distance FROM dating WHERE FIND_IN_SET('";
+                                "info, look_distance, look_gender FROM dating WHERE FIND_IN_SET('";
             let genderPref = genderSel.join("', gender) OR FIND_IN_SET('");
             genderPref += "', gender) ";
             query += genderPref;
-            if(age_lower === 18 && age_upper === 99){
-                return await db.pool.query(query);
-            }
-            else{
-                return await db.pool.query(query + "AND birth_year BETWEEN " +
-                    "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR)) AND " +
-                    "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR));", [age_upper, age_lower]);
-            }
+            return await db.pool.query(query + "AND birth_year BETWEEN " +
+                "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR)) AND " +
+                "YEAR(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL ? YEAR));", [age_upper, age_lower]);
         }catch (err) {
             console.log(err);
         }

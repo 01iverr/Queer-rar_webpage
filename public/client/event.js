@@ -37,7 +37,7 @@ window.addEventListener("load", () => {
         else if(orderSelection.value === "newest"){
             eventsList.sort(function(a, b){return a.creation_timestamp < b.creation_timestamp})
         }
-        showEvents(eventsList, compTemp, eventViewer, 1);
+        showEvents(eventsList, compTemp, eventViewer, 1, isOrg);
         totalPages = Math.ceil(eventsList.length / nEventsPage);
         currentPage.innerHTML = "1 / " + totalPages;
         currentPageNumber = 1;
@@ -49,6 +49,7 @@ window.addEventListener("load", () => {
             fetch("/searchEvents?text=" + eventSearch.value + "&username=" + username + "&session_id=" + session_id)
                 .then((response) => response.json())
                 .then(async (eventList) => {
+                    console.log(isOrg)
                     eventsList = await addPlaceDistance(eventList, eventViewer, compTemp, 1, isOrg);
                     totalPages = Math.ceil(eventsList.length / nEventsPage);
                     currentPage.innerHTML = "1 / " + totalPages;
@@ -57,7 +58,10 @@ window.addEventListener("load", () => {
         }
         else if(e.key === "Enter" && eventSearch.value === ""){
             eventsList = fullList;
-            showEvents(eventsList, compTemp, eventViewer, currentPageNumber);
+            totalPages = Math.ceil(eventsList.length / nEventsPage);
+            currentPage.innerHTML = "1 / " + totalPages;
+            currentPageNumber = 1;
+            showEvents(eventsList, compTemp, eventViewer, currentPageNumber, isOrg);
         }
     });
 
@@ -67,7 +71,7 @@ window.addEventListener("load", () => {
         }
         currentPageNumber -= 1;
         currentPage.innerHTML = String(currentPageNumber) + " / " + totalPages;
-        showEvents(eventsList, compTemp, eventViewer, currentPageNumber);
+        showEvents(eventsList, compTemp, eventViewer, currentPageNumber, isOrg);
     });
 
     nextButton.addEventListener("click", () => {
@@ -76,18 +80,18 @@ window.addEventListener("load", () => {
         }
         currentPageNumber += 1;
         currentPage.innerHTML = String(currentPageNumber) + " / " + totalPages;
-        showEvents(eventsList, compTemp, eventViewer, currentPageNumber);
+        showEvents(eventsList, compTemp, eventViewer, currentPageNumber, isOrg);
     });
 });
 
-function showEvents(list, comTemp, viewer, pageNumber){
+function showEvents(list, comTemp, viewer, pageNumber, isOrg){
     viewer.innerHTML = comTemp({'eventsList': list.slice(nEventsPage * (pageNumber - 1),  nEventsPage + nEventsPage * (pageNumber - 1))});
 
     if(list[0]){
         let pageBox = document.querySelector(".pageHandler");
         pageBox.classList.remove("hidden");
 
-        if (list[0].people_count != null) {
+        if (isOrg) {
             // organization
             let buttons = viewer.querySelectorAll(".user");
             buttons.forEach((button) => {
@@ -157,12 +161,12 @@ async function addPlaceDistance(list, viewer, template, pNumber, org) {
                     list = list.filter((ev) => {
                         return ev.distance < 600;
                     });
-                    showEvents(list, template, viewer, pNumber);
+                    showEvents(list, template, viewer, pNumber, org);
                 });
         });
     }
     else{
-        showEvents(list, template, viewer, pNumber);
+        showEvents(list, template, viewer, pNumber, org);
     }
 
     return list;

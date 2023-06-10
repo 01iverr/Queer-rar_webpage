@@ -813,7 +813,7 @@ app.post("/addEvent", async function(req, res) {
         let eLat= req.body.eLat;
         let eDesc= req.body.eDesc;
 
-        if(event_id !== null){
+        if(event_id !== "null"){
             await MARIA_USER_CONTROLLER.updateEvent(event_id, eName, eDate + " " + eTime, eDesc, eLat, eLon);
         }
         else {
@@ -1112,6 +1112,13 @@ app.get("/filterDating", async function(req, res){
         if(await MARIA_USER_CONTROLLER.userIsDating(username)){
             let userPref = await MARIA_USER_CONTROLLER.datingUser(username);
             let fU = await MARIA_USER_CONTROLLER.filterDatingUsers(userPref[0].look_gender, userPref[0].look_min_age, userPref[0].look_max_age);
+            fU = fU.filter((tempUser) => {
+                for(let g of tempUser.look_gender){
+                    if(userPref[0].gender.includes(g)){
+                        return tempUser;
+                    }
+                }
+            });
 
             // calculate distances
             let userCoordinates = await getUserCoordinates(username);
