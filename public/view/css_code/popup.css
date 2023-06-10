@@ -58,6 +58,13 @@
 
 @media screen and (max-width: 700px) {
     .popup {
-        width: 40%;
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .popup img {
+        width: 30px;
+        height: 30px;
     }
 }
