@@ -14,7 +14,6 @@ body {
 }
 
 main{
-  min-height : 43vw;
   grid-area: main;
 }
 
@@ -33,7 +32,9 @@ main{
 
 
 @media screen and (min-width: 1100px) {
-
+  main{
+    min-height : 40vw;
+  }
 }
 
 @media screen and (max-width: 1100px) {
@@ -50,6 +51,9 @@ main{
 
 
 @media screen and (min-width:800px) and (max-width:1100px){
+  main{
+    min-height : 40vw;
+  }
 }
 
 @media screen and (min-width: 800px) {
@@ -165,6 +169,10 @@ main{
 }
 
 @media screen and (max-width: 650px) {
+  main{
+    min-height : 110vw;
+  }
+
   /* ----------- FOOTER ----------- */
   div.footer-main:first-child {
     padding: 0;
