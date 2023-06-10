@@ -17,18 +17,10 @@
 <body>
   <div class="wrapper">
     <!-- ========================== HEADER ========================== -->
-    <header class="wrapper header-wrapper">
-      <div class="header-wrapper header-group">
-        <!-- Logo -->
-        <button id="home-button-image" onclick="window.location.href='index.html';">
-        </button>
-      </div>
-      <div class="header-wrapper header-group">
-        <!-- User Login-->
-        <button id="messenger-button-image" aria-label="messenger icon" onclick="window.location.href='/account';">
-        </button>
-      </div>
-    </header>
+    <div id="header">
+      {{> header}}
+    </div>
+      
     <!-- ========================== Main ========================== -->
 
     <main>
