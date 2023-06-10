@@ -1,0 +1,29 @@
+
+@font-face {
+  font-family: "CookieRegular";
+  src: url("../fonts/Cookie-Regular.ttf");
+}
+
+#mysentence{
+  margin-top: = -20px;
+  font-style: italic;
+  font-size: 20px;
+}
+
+#username{
+    font-family: CookieRegular;
+    font-size: 35px;
+    color: blue;
+}
+
+#msg{
+  background-image: url(../media/dating/mail.png);
+  background-repeat: no-repeat;
+  background-size:contain;
+  width: 30px;
+  height: 30px;
+}
+
+.friend-frame {
+    background-color: #f4e7f7
+  }

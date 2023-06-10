@@ -6,19 +6,21 @@
         <link rel="stylesheet" href="../../view/css_code/main.css">
         <link rel="stylesheet" href="../../view/css_code/friends.css">
         <link rel="stylesheet" href="../../view/css_code/popup.css">
+        <link rel="stylesheet" href="../../view/css_code/dating_results.css">
         <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
         <title> Queer-rar Friends </title>
         <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
         <script src="../../client/main.js"></script>
         <script src="../../client/dating.js"></script>
-        <script type="text/x-handlebars-template" id="friend-template"> 
+        <script type="text/x-handlebars-template" id="friend-template">
             <div class="friend-box">
                 {{#each friendsList}}
                     <div class="friend-frame" data-id="{{user_name}}">
                         <img src="{{profPic}}" alt="profile picture of {{user_name}}">
-                        <h2>{{user_name}}</h2>
-                        <h3>{{info}}</h3>
-                        <button onclick="sendMessage('{{user_name}}')">Send message</button>
+                        <span id="username">{{user_name}}</span>
+                        <span id="mysentence">{{info}}</span>
+                        <input class="buttonsressub" type="button"
+                                  id="msg" name="msg" onclick="sendMessage('{{user_name}}')">
                     </div>
                 {{/each}}
             </div>
