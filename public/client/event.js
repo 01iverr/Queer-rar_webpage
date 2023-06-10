@@ -121,7 +121,7 @@ function showEvents(list, comTemp, viewer, pageNumber, isOrg){
                 });
         }
     }
-    else{
+    else if(!isOrg){
         let popUp = document.getElementById("popup");
         popUp.classList.remove("overlayHidden");
         popUp.classList.add("overlay");

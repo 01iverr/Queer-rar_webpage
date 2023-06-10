@@ -35,6 +35,15 @@ window.addEventListener("load", () => {
             let content = compiledTemplate({});
             document.getElementById("footer").innerHTML = content;
 
+            let link = window.location.href;
+            if(link.includes("/login") || link.includes("/signupOrganization") || link.includes("/signup-user")){
+                document.querySelector(".dropdown").classList.add("hide");
+                document.getElementById("login-button-image").classList.add("hide");
+                if(link.includes("/login")){
+                    document.getElementById("messenger-button-image").classList.add("hide");
+                }
+            }
+
             fetch("/isOrganization?username=" + userName + "&session_id=" + sessionId)
                 .then((res) => {
                     let menuItems = document.querySelectorAll(".dropdown-submenu");

@@ -206,7 +206,7 @@ const MARIA_USER_CONTROLLER = {
     addOrganization: async function (nfirstName, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom) {
         try {
             checkInputs([nfirstName, nemail, ncountry, ncity, npostCode, nphone, nbirthDate, nusername, npassword, nsalt, nlearnUsFrom]);
-            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, country, city, post_code, phone, birth_date, learn_us_from, organization, locked) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            const insertQuery = "INSERT INTO users (user_name, email, password, salt, first_name, country, city, post_code, phone, birth_date, learn_us_from, organization, locked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             await db.pool.query(insertQuery, [nusername, nemail, npassword, nsalt, nfirstName, ncountry, ncity, npostCode, nphone, nbirthDate, nlearnUsFrom, 1, 1]);
         } catch (err) {
             console.log(err);

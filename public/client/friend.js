@@ -17,8 +17,10 @@ window.addEventListener("load", () => {
     fetch("/userFriends?username=" + username + "&session_id=" + session_id)
         .then((response) => response.json())
         .then((res) => {
-            friends = res.friends;
-            friendViewer.innerHTML = compTemp({'friendsList': friends});
+            if(res.friends !== 0){
+                friends = res.friends;
+                friendViewer.innerHTML = compTemp({'friendsList': friends});
+            }
         });
 
     codeButton.addEventListener("click", () => {
@@ -37,7 +39,7 @@ window.addEventListener("load", () => {
             method: 'post',
             headers: myHeaders,
             body: JSON.stringify({
-                "friend_code": inputFriendCode.value,
+                "friend_code": inputFriendCode.value.trim(),
             }),
         })
             .then((response) => response.json())

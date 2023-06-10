@@ -50,8 +50,7 @@ function sendMessage(duserName){
     })
         .then((res) => {
             if(res.status === 200){
-                console.log("message send")
-                // show that message send
+                window.location.href = `/chat/?username=${username}&session_id=${session_id}`;
             }
         });
 }

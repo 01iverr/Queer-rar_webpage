@@ -6,9 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../view/css_code/main.css">
   <link rel="stylesheet" href="../../view/css_code/forms.css">
+  <link rel="stylesheet" href="../../view/css_code/popup.css">
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
   <script src="../../client/main.js"></script>
   <script src="../../view/js_code/checkTheForm.js"></script>
+  <script src="../../client/signupOrg.js"></script>
 
   <title> Queer-rar </title>
   <link rel="icon" type="image/x-icon" href="../../view/media/header-footer/queerrar.ico">
@@ -440,7 +442,13 @@
       </form>
 
       <p class="importantmess">Please have in mind that you have to fullfill all the areas with star (*) </p>
-
+      <div id="popup" class="overlayHidden">
+        <div class="popup">
+          <img src="../../view/media/popup/info.png" alt="info icon">
+          <h2>Our team is processing your request. We will email you shortly with the progress of your application.</h2>
+          <button class="close" onClick="closePopUp()">&times;</button>
+        </div>
+      </div>
     </main>
 
     <!-- ========================== FOOTER ========================== -->

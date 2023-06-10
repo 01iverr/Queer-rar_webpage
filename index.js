@@ -656,14 +656,12 @@ app.post("/sendData", async function(req,res){
             salt = CryptoJS.SHA1(Math.random().toString()).toString().substring(0, 32);
         }
         password = hashPass(password, salt);
-
         email = encryptAES(email);
-        firstName = encryptAES(firstName);
-        surName = encryptAES(surName);
         phone = encryptAES(phone);
 
         if(typeof surName !== 'undefined'){
-
+            surName = encryptAES(surName);
+            firstName = encryptAES(firstName);
             await MARIA_USER_CONTROLLER.addUser(firstName, surName, pronouns, email, country, city, postCode, phone, birthDate, username, password, salt, learnUsFrom);
             let session_id = uuid.v4();
             await MARIA_USER_CONTROLLER.login(username, session_id);
@@ -675,10 +673,11 @@ app.post("/sendData", async function(req,res){
             }
 
             const file = req.files.id;
-            const save_path = __dirname + "/files/" + firstName + file.name;
+            const save_path = __dirname + "/files/" + firstName + "_" + file.name;
 
             await file.mv(save_path, (err) => {
                 if (err) {
+                    console.log(err)
                     return res.status(500).send(err);
                 }
             });
@@ -693,7 +692,7 @@ app.post("/sendData", async function(req,res){
                     "        <meta charset=\"UTF-8\">\n" +
                     "        <title>Title</title>\n" +
                     "    </head>\n" +
-                    "    <body><p>Name: " + firstName + ", <br>Email: " + email + ", <br>Phone: " + phone + ", " +
+                    "    <body><p>Name: " + firstName + ", <br>Email: " + decryptAES(email) + ", <br>Phone: " + decryptAES(phone) + ", " +
                     "               <br>Location: " + city + ", " + country + "</p>" +
                     "    </body>" +
                     "</html>",
@@ -714,8 +713,7 @@ app.post("/sendData", async function(req,res){
             });
 
             await MARIA_USER_CONTROLLER.addOrganization(firstName, email, country, city, postCode, phone, birthDate, username, password, salt, learnUsFrom);
-
-            res.send("Our team is processing your request. We will email you shortly with the progress of your application.");
+            res.sendStatus(202);
         }
     }
     else{
@@ -1152,7 +1150,7 @@ app.post("/startChat", async function(req, res){
 
     if (await MARIA_USER_CONTROLLER.validSessionId(username, session_id) && !await MARIA_USER_CONTROLLER.userIsOrganization(username)) {
         if(await MARIA_USER_CONTROLLER.userIsDating(newDate)){
-            await MARIA_USER_CONTROLLER.saveMessage(username, newDate, encryptAES("Hello"), Date.now(), null, false);
+            await MARIA_USER_CONTROLLER.saveMessage(username, newDate, encryptAES(username + " send you from dating page"), Date.now(), null, false);
             res.sendStatus(200);
         }
     }
