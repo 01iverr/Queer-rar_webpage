@@ -385,7 +385,7 @@
                 Password*:
               </label>
               <input class="custom_forms" type="password" id="PasswordVer" name="PasswordVeri" autocomplete="current-password" required placeholder="topsecret123"
-                onkeyup="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
+                onblur="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
                 onkeyup="PassValid(document.getElementById('Password1'))" oncopy="return false" onpaste="return false"
                 title=" Password validator. Write again your chosen password">
               <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('PasswordVer'))">

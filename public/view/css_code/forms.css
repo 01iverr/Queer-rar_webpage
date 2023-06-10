@@ -183,6 +183,18 @@
   }
 }
 
+
+@media screen and (min-width: 415px) and (max-width: 450px) {
+  #formsignup{
+    height: 950px;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  #formsignup{
+    height: 1050px;
+  }
+}
 /* Smartphone */
 @media screen and (max-width: 450px) {
   /* ---------- forms ---------- */
@@ -212,7 +224,6 @@
 /* signup */
   #formsignup{
     width: 90vw;
-    height: 72vh;
   }
     .goleftorright {
         flex-direction:column;
@@ -236,33 +247,6 @@
     }
 }
 
-@media screen and (max-width: 415px) {
-  /* signup */
-    #formsignup{
-      width: 90vw;
-      height: 78vh;
-    }
-      .goleftorright {
-          flex-direction:column;
-        }
-        .gl {
-          /* height: 120vh; */
-          margin-top: 10px;
-          width: 90%;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        .gri {
-          width: 90%;
-          text-align:center;
-          margin-top: 3vw;
-          margin-left: auto;
-          margin-right: auto;
-        }
-      .twobuttons{
-        height:3%;
-      }
-}
 
 @font-face {
   font-family: "CookieRegular";

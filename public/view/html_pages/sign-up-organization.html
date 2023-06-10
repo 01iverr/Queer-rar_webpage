@@ -22,7 +22,7 @@
     <div id="header">
       {{> header}}
     </div>
-      
+
     <!-- ========================== Main ========================== -->
 
     <main>
@@ -357,12 +357,9 @@
               </label>
               <input class="custom_forms dateinp" type="date" id="org_created_date" name="Birth_dateSU" required title="Please let us know when your Organisation created.It is a required field"
                 aria-label="Please let us know when your Organisation created.It is a required field"> <br>
-
-
-
             </fieldset>
-
           </div>
+
           <div class="gri">
             <fieldset class="custom_forms" id="userinfopart">
               <legend class="custom_forms">User identification informations:</legend>
@@ -370,71 +367,70 @@
                 <!-- letters (upper or lowercase) and/or numbers (0-9) and /or underscore (_) -->
                 Username*:
               </label>
-              <input class="custom_forms" type="text" id="Username" name="Username" required pattern="^[A-Za-z0-9_]{3,15}$" placeholder="user2001" title="Username must contain only letter and underscore minlength 3 characters and max 15" onsubmit="checkUserName(document.getElementById('Username'))"> <br>
+              <input class="custom_forms" type="text" id="Username" name="Username" required pattern="^[A-Za-z0-9_]{3,15}$" placeholder="user2001" title="Username must contain only letter and underscore minlength 3 characters and max 15"
+                onsubmit="checkUserName(document.getElementById('Username'))"> <br>
               <label for="Password1">
                 Password*:
               </label>
-              <input class="custom_forms" type="password" id="Password1" name="Password"
-                title=" Password must contain at least one uppercase and one lowercase letter and one number.The password must contains at least 8 characters and max 12" placeholder="topsecret123"
-                onchange="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
-                onkeyup="PassValid(document.getElementById('Password1'));"
-                oncopy="return false" onpaste="return false" required>
+              <input class="custom_forms" type="password" id="Password1" name="Password" title=" Password must contain at least one uppercase and one lowercase letter and one number.The password must contains at least 8 characters and max 12"
+                placeholder="topsecret123" onchange="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )" onkeyup="PassValid(document.getElementById('Password1'));" oncopy="return false"
+                onpaste="return false" required>
               <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('Password1'))">
               <br>
               <label for="PasswordVer">
                 Password*:
               </label>
-              <input class="custom_forms " type="password" id="PasswordVer" name="PasswordVeri"  required
-                placeholder="topsecret123"
-                onkeyup="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
+              <input class="custom_forms " type="password" id="PasswordVer" name="PasswordVeri" required placeholder="topsecret123" onkeyup="checkPasswords( document.forms['signupform']['Password1'] , document.forms['formsignup']['PasswordVer'] )"
                 title=" Password validator. Write again your chosen password">
               <input type="checkbox" class="showmypass" onclick="makepasswordsVisible(document.getElementById('PasswordVer'));">
               <br>
               <br>
-
-              <fieldset class="custom_forms" id="learnedaboutusinfo">
-                <legend class="radiochoices custom_forms">Learned about us by*:</legend>
-                <ul class="custom_forms ">
-                  <li>
-                    <label class="radiochoices" for="FB">
-                      <input type="radio" id="FB" name="wayoflearnedaboutus" value="Facebook" required>
-                      Facebook
-                    </label>
-                  </li>
-                  <li>
-                    <label class="radiochoices" for="IG">
-                      <input type="radio" id="IG" name="wayoflearnedaboutus" value="Instagram" required>
-                      Instagram
-                    </label>
-                  </li>
-                  <li>
-                    <label class="radiochoices" for="GA">
-                      <input type="radio" id="GA" name="wayoflearnedaboutus" value="GoogleAds" required>
-                      Google ads
-                    </label>
-                  </li>
-                  <li>
-                    <label class="radiochoices" for="BF">
-                      <input type="radio" id="BF" name="wayoflearnedaboutus" value="Friend" required>
-                      Friend
-                    </label>
-                  </li>
-                  <li>
-                    <label class="radiochoices" for="fam">
-                      <input type="radio" id="fam" name="wayoflearnedaboutus" value="family" required>
-                      Family
-                    </label>
-                  </li>
-                  <li>
-                    <label class="radiochoices" for="ot">
-                      <input type="radio" id="ot" name="wayoflearnedaboutus" value="other" required>
-                      Other
-                    </label>
-                  </li>
-                </ul>
-              </fieldset>
+            </fieldset>
+            <fieldset class="custom_forms" id="learnedaboutusinfo">
+              <legend class="radiochoices custom_forms">Learned about us by*:</legend>
+              <ul class="custom_forms ">
+                <li>
+                  <label class="radiochoices" for="FB">
+                    <input type="radio" id="FB" name="wayoflearnedaboutus" value="Facebook" required>
+                    Facebook
+                  </label>
+                </li>
+                <li>
+                  <label class="radiochoices" for="IG">
+                    <input type="radio" id="IG" name="wayoflearnedaboutus" value="Instagram" required>
+                    Instagram
+                  </label>
+                </li>
+                <li>
+                  <label class="radiochoices" for="GA">
+                    <input type="radio" id="GA" name="wayoflearnedaboutus" value="GoogleAds" required>
+                    Google ads
+                  </label>
+                </li>
+                <li>
+                  <label class="radiochoices" for="BF">
+                    <input type="radio" id="BF" name="wayoflearnedaboutus" value="Friend" required>
+                    Friend
+                  </label>
+                </li>
+                <li>
+                  <label class="radiochoices" for="fam">
+                    <input type="radio" id="fam" name="wayoflearnedaboutus" value="family" required>
+                    Family
+                  </label>
+                </li>
+                <li>
+                  <label class="radiochoices" for="ot">
+                    <input type="radio" id="ot" name="wayoflearnedaboutus" value="other" required>
+                    Other
+                  </label>
+                </li>
+              </ul>
+            </fieldset>
           </div>
+
         </div>
+
         <div class="twobuttons" id="buttonsresetandsubmit">
           <input class="buttonsressub" type="button" onclick="return wannareset();" aria-label="reset the form" value="Clear all">
           <input class="buttonsressub submitt" type="submit" aria-label="send the form" id="submitSUform" value="Submit"><br>
@@ -452,9 +448,9 @@
     </main>
 
     <!-- ========================== FOOTER ========================== -->
-      <div id="footer">
-          {{> footer}}
-      </div>
+    <div id="footer">
+      {{> footer}}
+    </div>
   </div>
 </body>
 
