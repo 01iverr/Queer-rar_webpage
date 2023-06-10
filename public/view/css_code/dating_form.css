@@ -3,6 +3,10 @@
   src: url("../fonts/Cookie-Regular.ttf");
 } */
 
+.hide {
+  visibility: hidden;
+}
+
 main{
   background-image: url('../media/background_photos/flags.png');
   background-repeat: no-repeat;

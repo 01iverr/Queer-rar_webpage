@@ -3,7 +3,6 @@ body{
   background-color: #f1fef1;
 }
 
-
 #button-login-forgot-pass{
   background-image: url(../media/signin/forgot-password.png);
   background-repeat: no-repeat;
@@ -12,6 +11,11 @@ body{
   height: 30px;
 }
 
+@media screen and (min-width: 1270px) {
+  #footer{
+    margin-top: -130px;
+  }
+}
 
 @media screen and (min-width: 1400px) {
   #index-page-components {
@@ -19,13 +23,41 @@ body{
   }
 }
 
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 1132px) {
   #index-page-components {
     margin: 70px 2% 50px 1%;
   }
 }
 
-@media screen (min-width:980) and (max-width: 1100px) {
+@media screen and (min-width: 990px) and (max-width:1132px) {
+    main{
+      padding-top: 150px !important;
+      padding-left: 150px !important;
+      padding-right: 150px !important;
+      padding-bottom: 10px !important;
+    }
+}
+
+@media screen and (min-width: 870px) and (max-width: 990px) {
+    main{
+      padding-top: 100px !important;
+      padding-left: 100px !important;
+      padding-right: 100px !important;
+      padding-bottom: 10px !important;
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 870px) {
+    main{
+      padding-top: 60px !important;
+      padding-left: 60px !important;
+      padding-right: 60px !important;
+      padding-bottom: 10px !important;
+    }
+}
+
+
+@media screen (min-width: 980px) and (max-width: 1100px) {
 
   figure#animated_rainbow {
     flex-direction: row;
@@ -38,10 +70,9 @@ body{
   #index-page-components {
     margin: 70px 2% 50px 1%;
   }
-
 }
 
-@media screen (min-width:950) and (max-width: 980px) {
+@media screen (min-width: 950px) and (max-width: 980px) {
 
   figure#animated_rainbow {
     flex-direction: row;
@@ -57,7 +88,7 @@ body{
 }
 
 
-@media screen (min-width:600) and (max-width: 950px) {
+@media screen (min-width: 600px) and (max-width: 950px) {
 
   figure#animated_rainbow {
     flex-direction: row;
@@ -73,45 +104,181 @@ body{
   }
 }
 
-
 @media screen and (max-width: 900px) {
-
 }
 
-@media screen and (min-width:800px) and (max-width:1100px) {}
-
-@media screen and (min-width: 800px) {}
-
-/* Tablet */
-@media screen and (max-width: 800px) {
-
-  /* ------------ Index ------------ */
-  /* figure#animated_rainbow {
-    margin-left: 2vw;
-    margin-right: 2vw;
-  } */
+@media screen and (min-width: 550px)  and (max-width: 800px) {
+  main{
+    padding-top: 80px !important;
+    padding-left: 0px;
+    padding-bottom: 10px;
+  }
 
   figure#animated_rainbow figcaption {
     font-size: 16.5px;
+  }
+
+  #signin-form{
+    margin-top: 50px;
+    width: 400px;
+    height:200px;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 750px) {
+  figure#animated_rainbow figcaption {
+    font-size: 16.5px;
+    margin-left: -80px;
     /* padding: 8px; */
   }
 }
 
-@media screen and (min-width: 650px) {}
+@media screen and (min-width: 650px) and (max-width: 700px) {
+  figure#animated_rainbow figcaption {
+    font-size: 16.5px;
+    margin-left: -50px;
+    /* padding: 8px; */
+  }
+}
 
-@media screen and (max-width: 650px) {}
+@media screen and (min-width: 600px) and (max-width: 650px) {
+  figure#animated_rainbow figcaption {
+    font-size: 16.5px;
+    margin-left: -80px;
+    /* padding: 8px; */
+  }
 
-@media screen and (min-width: 450px) {}
+  #signin-form{
+    margin-top: 50px;
+    width: 400px;
+    height:200px;
+  }
 
-/* Smartphone */
-@media screen and (max-width: 450px) {}
+}
 
-@media screen and (max-width: 337px) {}
+@media screen and (min-width: 550px) and (max-width: 650px) {
+  figure#animated_rainbow figcaption {
+    font-size: 16.5px;
+    margin-left: -80px;
+    /* padding: 8px; */
+  }
+
+  #signin-form{
+    margin-top: 50px;
+    width: 400px;
+    height:200px;
+  }
+
+  main{
+    margin-left: -50px;
+  }
+}
+
+
+@media screen and (min-width: 450px) and (max-width: 550px) {
+
+  #signin-form{
+    margin-top: 50px;
+    width: 400px;
+    height:200px;
+  }
+}
+
+@media screen and  (max-width: 550px){
+    main{
+      background-image: url('../../view/media/contact/p.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      padding-top: 60px !important;
+      padding-bottom: 40px;
+    }
+}
+
+@media screen and (min-width: 450px) and (max-width: 500px){
+  #animated_rainbow{
+    margin-left: 85px;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 550px){
+  #animated_rainbow{
+    margin-left: 140px;
+  }
+}
+
+@media screen and (min-width: 416px)  and (max-width: 450px) {
+  #signin-form{
+    margin-left: -40px;
+    margin-top: 50px;
+    width: 360px;
+    height:200px;
+  }
+  fieldset{
+    margin-left: -50px;
+  }
+
+  #welcomeBack{
+    padding-left: 80px;
+  }
+
+  #signin-buttons{
+    margin-left: -30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #button-login-forgot-pass,
+  #button-login-submit{
+    margin-left: 40px;
+  }
+}
+
+@media screen and (max-width: 416px) {
+
+  #signin-buttons{
+    margin-left: -10px;
+  }
+
+  #signin-form{
+    margin-top: 50px;
+    width: 280px;
+    height:200px;
+  }
+
+  label{
+    margin-left: -30px;
+  }
+
+  input.custom_forms{
+    margin-left: -20px;
+    width: 150px;
+  }
+
+  main{
+    padding-top: 80px !important;
+    overflow: hidden;
+  }
+
+}
+
+@media screen and (min-width: 355px) (max-width: 416px) {
+  #signin-form{
+    margin-left: -30px;
+  }
+}
+
+@media screen and (min-width: 315px) (max-width: 355px) {
+  #signin-form{
+    margin-left: -10px;
+  }
+}
+@media screen and (max-width: 350px) {
+  #signin-form{
+    margin-left: -40px;
+  }
+}
 
 #animated_rainbow {
   display: flex;
-}
-
-#footer{
-  margin-top: -100px;
 }
