@@ -53,3 +53,7 @@ window.addEventListener("load", () => {
             })
     });
 });
+
+function cancel(){
+    window.location.href = `/events/?username=${username}&session_id=${session_id}`;
+}
