@@ -1,6 +1,5 @@
 # Queer - rar
 
-
 Welcome to our inclusive online platform designed specifically for the queer community and organizations.  <br><br>
 Our website serves as a hub for both individuals and organizations, offering a range of features to enhance connections, engagement, and support.
 
@@ -12,4 +11,4 @@ In addition to event participation and networking, our website also offers datin
 
 We prioritize the safety and well-being of our users by implementing strict guidelines and measures. Any user found engaging in inappropriate or offensive behavior, including the use of offensive language, will face account suspension or deletion. Our dedicated team monitors user activity and promptly addresses any reported issues through our contact form, ensuring a supportive and respectful environment for all.
 
-Join our platform today and discover a welcoming space that celebrates the queer community, connects individuals and organizations, and fosters meaningful relationships.
+
